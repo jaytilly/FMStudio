@@ -1,0 +1,25 @@
+﻿<UserControl
+  x:Class="FMStudio.App.Controls.ProjectTreeViewers.ProjectViewer"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  mc:Ignorable="d">
+  <Grid Height="25">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="40" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <StackPanel VerticalAlignment="Center">
+      <TextBlock Text="&#xF1C0;" Foreground="DarkBlue" Style="{StaticResource IconStyle}"  Visibility="{Binding IsInitialized.Value, Converter={StaticResource BoolToVis}}" />
+      <TextBlock Text="&#xF1C0;" Foreground="{StaticResource FailRed}" Style="{StaticResource IconStyle}" Visibility="{Binding IsInitialized.Value, Converter={StaticResource InvertBoolToVis}}" />
+    </StackPanel>
+    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+      <TextBlock Text="{Binding Name.Value}" />
+      <TextBlock Text=" * " Visibility="{Binding IsNew.Value, Converter={StaticResource BoolToVis}}" />
+      <TextBlock Text=" (" />
+      <TextBlock Text="{Binding UnRunMigrationsCount.Value}" />
+      <TextBlock Text=")" />
+    </StackPanel>
+  </Grid>
+</UserControl>

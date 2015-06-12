@@ -52,7 +52,9 @@ namespace FMStudio.Lib.Utility
 
                     return true;
                 }
-                catch (Exception) { }
+                catch (Exception e)
+                {
+                }
             }
 
             return false;

@@ -32,6 +32,11 @@ namespace FMStudio.Lib
 
         public IOutputWriter Output { get; set; }
 
+        static ProjectInfo()
+        {
+            References.InitializeAssemblyBinding();
+        }
+
         public ProjectInfo(string pathToMigrationsDll, string connectionString, DatabaseType databaseType)
         {
             PathToMigrationsDll = pathToMigrationsDll;

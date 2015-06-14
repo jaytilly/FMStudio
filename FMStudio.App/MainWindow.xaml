@@ -19,50 +19,48 @@
 
   BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1"
   WindowStartupLocation="CenterScreen">
-  <Controls:MetroWindow.IconTemplate>
-    <DataTemplate>
-      <TextBlock Foreground="White" Text="&#xF01B;" Style="{StaticResource IconStyle}" />
-    </DataTemplate>
-  </Controls:MetroWindow.IconTemplate>
+    <Controls:MetroWindow.IconTemplate>
+        <DataTemplate>
+            <TextBlock Foreground="White" Text="&#xF01B;" Style="{StaticResource IconStyle}" />
+        </DataTemplate>
+    </Controls:MetroWindow.IconTemplate>
 
-  <Controls:MetroWindow.RightWindowCommands>
-    <Controls:WindowCommands>
-      <Button Command="{Binding EditPreferencesCommand}">
-        <StackPanel Orientation="Horizontal">
-          <TextBlock Text="&#xF013;" Margin="0,0,5,0" Style="{StaticResource IconStyle}" />
-          <TextBlock Text="Preferences" />
-        </StackPanel>
-      </Button>
-    </Controls:WindowCommands>
-  </Controls:MetroWindow.RightWindowCommands>
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button Command="{Binding EditPreferencesCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xF013;" Margin="0,0,5,0" Style="{StaticResource IconStyle}" />
+                    <TextBlock Text="Preferences" />
+                </StackPanel>
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
 
-  <Grid>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="400" MinWidth="200" />
-      <ColumnDefinition Width="5" />
-      <ColumnDefinition Width="*" MinWidth="200" />
-    </Grid.ColumnDefinitions>
-    <StackPanel>
-      <Border Height="40" BorderBrush="{StaticResource Border}" BorderThickness="0,0,0,1">
-        <StackPanel HorizontalAlignment="Left" Margin="0,4,0,4" Orientation="Horizontal" VerticalAlignment="Center">
-          <fmcontrols:IconButton Command="{Binding AddProjectCommand}" Icon="&#xF067;" IconColor="{StaticResource SuccessGreen}" Text="Add project" />
-          <fmcontrols:IconButton Command="{Binding FullUpdateCommand}" Icon="&#xF00C;" IconColor="{StaticResource SuccessGreen}" Text="Full update" ToolTip="Run all applicable migrations and profiles for all projects" />
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400" MinWidth="200" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="*" MinWidth="200" />
+        </Grid.ColumnDefinitions>
+        <StackPanel>
+            <Border Height="40" BorderBrush="{StaticResource Border}" BorderThickness="0,0,0,1">
+                <StackPanel HorizontalAlignment="Left" Margin="0,4,0,4" Orientation="Horizontal" VerticalAlignment="Center">
+                    <fmcontrols:IconButton Command="{Binding AddProjectCommand}" Icon="&#xF067;" IconColor="{StaticResource SuccessGreen}" Text="Add project" />
+                    <fmcontrols:IconButton Command="{Binding FullUpdateCommand}" Icon="&#xF00C;" IconColor="{StaticResource SuccessGreen}" Text="Full update" ToolTip="Run all applicable migrations and profiles for all projects" />
+                </StackPanel>
+            </Border>
+            <fmcontrols:ProjectTree Margin="0,4,0,0" />
         </StackPanel>
-      </Border>
-      <fmcontrols:ProjectTree Margin="0,4,0,0" />
-    </StackPanel>
-    <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></GridSplitter>
-    <Grid Grid.Column="2">
-      <Grid.RowDefinitions>
-        <RowDefinition Height="*" MinHeight="200" />
-        <RowDefinition Height="5" />
-        <RowDefinition Height="200" MinHeight="200" />
-      </Grid.RowDefinitions>
-      <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-        <fmcontrols:MainViewSelector />
-      </ScrollViewer>
-      <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></GridSplitter>
-      <fmviewers:OutputViewer Grid.Row="2" />
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></GridSplitter>
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" MinHeight="200" />
+                <RowDefinition Height="5" />
+                <RowDefinition Height="200" MinHeight="200" />
+            </Grid.RowDefinitions>
+            <fmcontrols:MainViewSelector />
+            <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></GridSplitter>
+            <fmviewers:OutputViewer Grid.Row="2" />
+        </Grid>
     </Grid>
-  </Grid>
 </Controls:MetroWindow>

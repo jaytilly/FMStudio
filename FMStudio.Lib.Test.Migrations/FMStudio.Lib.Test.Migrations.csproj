@@ -52,6 +52,7 @@
     <Compile Include="Migrations\0004_AlterTable.cs" />
     <Compile Include="Migrations\0005_AlterStoredProcedure.cs" />
     <Compile Include="Migrations\0006_InsertData.cs" />
+    <Compile Include="Migrations\0007_MigrationWithAReallyReallyLoooonngggName.cs" />
     <Compile Include="Profiles\DEV.cs" />
     <Compile Include="Profiles\TST.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -77,6 +78,7 @@
     <Content Include="Resources\0004_AlterTable.sql" />
     <Content Include="Resources\0005_AlterStoredProcedure.sql" />
     <Content Include="Resources\0006_InsertData.sql" />
+    <Content Include="Resources\0007_MigrationWithAReallyReallyLoooonngggName.sql" />
     <Content Include="Resources\Profile_DEV.sql" />
     <Content Include="Resources\Profile_TST.sql" />
   </ItemGroup>

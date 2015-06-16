@@ -5,10 +5,12 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:local="clr-namespace:FMStudio.App.Controls">
-  <Grid>
-    <TextBox
-      Text="{Binding Output.Value}"
-      IsReadOnly="True"
-      FontFamily="Consolas" />
-  </Grid>
+    <Grid>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <TextBox
+              Text="{Binding Output.Value}"
+              IsReadOnly="True"
+              FontFamily="Consolas" />
+        </ScrollViewer>
+    </Grid>
 </UserControl>

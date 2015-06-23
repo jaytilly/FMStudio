@@ -9,45 +9,43 @@
   xmlns:vm="clr-namespace:FMStudio.App.ViewModels"
   xmlns:project-tree-viewers="clr-namespace:FMStudio.App.Controls.ProjectTreeViewers"
   mc:Ignorable="d">
-  <Grid>
     <TreeView
         Name="trvProjects"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
         ItemsSource="{Binding Projects}">
-      <i:Interaction.Triggers>
-        <i:EventTrigger EventName="SelectedItemChanged">
-          <i:InvokeCommandAction
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="SelectedItemChanged">
+                <i:InvokeCommandAction
               Command="{Binding SelectActiveEntityCommand}"
               CommandParameter="{Binding SelectedItem, ElementName=trvProjects}" />
-        </i:EventTrigger>
-      </i:Interaction.Triggers>
-      <TreeView.ItemContainerStyle>
-        <Style TargetType="TreeViewItem" BasedOn="{StaticResource StretchedTreeView}">
-          <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        </Style>
-      </TreeView.ItemContainerStyle>
-      <TreeView.Resources>
-        <HierarchicalDataTemplate DataType="{x:Type vm:ProjectViewModel}" ItemsSource="{Binding Children}">
-          <project-tree-viewers:ProjectViewer />
-        </HierarchicalDataTemplate>
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+        <TreeView.ItemContainerStyle>
+            <Style TargetType="TreeViewItem" BasedOn="{StaticResource StretchedTreeView}">
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            </Style>
+        </TreeView.ItemContainerStyle>
+        <TreeView.Resources>
+            <HierarchicalDataTemplate DataType="{x:Type vm:ProjectViewModel}" ItemsSource="{Binding Children}">
+                <project-tree-viewers:ProjectViewer />
+            </HierarchicalDataTemplate>
 
-        <HierarchicalDataTemplate DataType="{x:Type vm:MigrationsViewModel}" ItemsSource="{Binding Migrations}">
-          <project-tree-viewers:MigrationsViewer />
-        </HierarchicalDataTemplate>
+            <HierarchicalDataTemplate DataType="{x:Type vm:MigrationsViewModel}" ItemsSource="{Binding Migrations}">
+                <project-tree-viewers:MigrationsViewer />
+            </HierarchicalDataTemplate>
 
-        <HierarchicalDataTemplate DataType="{x:Type vm:ProfilesViewModel}" ItemsSource="{Binding Profiles}">
-          <project-tree-viewers:ProfilesViewer />
-        </HierarchicalDataTemplate>
+            <HierarchicalDataTemplate DataType="{x:Type vm:ProfilesViewModel}" ItemsSource="{Binding Profiles}">
+                <project-tree-viewers:ProfilesViewer />
+            </HierarchicalDataTemplate>
 
-        <DataTemplate DataType="{x:Type vm:MigrationViewModel}">
-          <project-tree-viewers:MigrationViewer />
-        </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:MigrationViewModel}">
+                <project-tree-viewers:MigrationViewer />
+            </DataTemplate>
 
-        <DataTemplate DataType="{x:Type vm:ProfileViewModel}">
-          <project-tree-viewers:ProfileViewer />
-        </DataTemplate>
-      </TreeView.Resources>
+            <DataTemplate DataType="{x:Type vm:ProfileViewModel}">
+                <project-tree-viewers:ProfileViewer />
+            </DataTemplate>
+        </TreeView.Resources>
     </TreeView>
-  </Grid>
 </UserControl>

@@ -42,15 +42,19 @@
             <ColumnDefinition Width="5" />
             <ColumnDefinition Width="*" MinWidth="200" />
         </Grid.ColumnDefinitions>
-        <StackPanel>
-            <Border Height="40" BorderBrush="{StaticResource Border}" BorderThickness="0,0,0,1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Border BorderBrush="{StaticResource Border}" BorderThickness="0,0,0,1">
                 <StackPanel HorizontalAlignment="Left" Margin="0,4,0,4" Orientation="Horizontal" VerticalAlignment="Center">
                     <fmcontrols:IconButton Command="{Binding AddProjectCommand}" Icon="&#xF067;" IconColor="{StaticResource SuccessGreen}" Text="Add project" />
                     <fmcontrols:IconButton Command="{Binding FullUpdateCommand}" Icon="&#xF00C;" IconColor="{StaticResource SuccessGreen}" Text="Full update" ToolTip="Run all applicable migrations and profiles for all projects" />
                 </StackPanel>
             </Border>
-            <fmcontrols:ProjectTree Margin="0,4,0,0" />
-        </StackPanel>
+            <fmcontrols:ProjectTree Grid.Row="1" Margin="0,4,0,0" />
+        </Grid>
         <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></GridSplitter>
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>

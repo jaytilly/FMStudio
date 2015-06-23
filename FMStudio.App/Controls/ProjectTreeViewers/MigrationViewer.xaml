@@ -4,32 +4,33 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d">
-  <Grid Height="25" HorizontalAlignment="Stretch">
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="20" />
-      <ColumnDefinition Width="30" />
-      <ColumnDefinition Width="Auto" />
-      <ColumnDefinition Width="*" />
-    </Grid.ColumnDefinitions>
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-      <TextBlock Text="&#xF05D;" Foreground="{StaticResource SuccessGreen}" Style="{StaticResource IconStyle}" Visibility="{Binding HasRun.Value, Converter={StaticResource BoolToVis}}" />
-      <TextBlock Text="&#xF10C;" Foreground="{StaticResource FailRed}" Style="{StaticResource IconStyle}" Visibility="{Binding HasRun.Value, Converter={StaticResource InvertBoolToVis}}" />
-    </StackPanel>
-    <TextBlock Grid.Column="1" Text="{Binding Version.Value}" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center" />
-    <TextBlock Grid.Column="2" Text="{Binding Description.Value}" VerticalAlignment="Center" />
-    <ItemsControl Grid.Column="3" ItemsSource="{Binding Tags}" HorizontalAlignment="Right" VerticalAlignment="Center">
-      <ItemsControl.ItemsPanel>
-        <ItemsPanelTemplate>
-          <StackPanel Orientation="Horizontal" VerticalAlignment="Center" />
-        </ItemsPanelTemplate>
-      </ItemsControl.ItemsPanel>
-      <ItemsControl.ItemTemplate>
-        <DataTemplate>
-          <Border BorderBrush="{StaticResource NeutralBlue}" BorderThickness="1" Margin="2,0,2,0">
-            <TextBlock Text="{Binding Name}" Margin="2" FontWeight="Bold" FontSize="8pt" />
-          </Border>
-        </DataTemplate>
-      </ItemsControl.ItemTemplate>
-    </ItemsControl>
-  </Grid>
+    <Grid Height="25" HorizontalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="30" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="&#xF05D;" Foreground="{StaticResource SuccessGreen}" Style="{StaticResource IconStyle}" Visibility="{Binding HasRun.Value, Converter={StaticResource BoolToVis}}" />
+            <TextBlock Text="&#xF10C;" Foreground="{StaticResource FailRed}" Style="{StaticResource IconStyle}" Visibility="{Binding IsToBeRun.Value, Converter={StaticResource BoolToVis}}" />
+            <TextBlock Text="&#xF1DB;" Foreground="{StaticResource NeutralBlue}" Style="{StaticResource IconStyle}" Visibility="{Binding IsSkipped.Value, Converter={StaticResource BoolToVis}}" />
+        </StackPanel>
+        <TextBlock Grid.Column="1" Text="{Binding Version.Value}" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center" />
+        <TextBlock Grid.Column="2" Text="{Binding Description.Value}" VerticalAlignment="Center" />
+        <ItemsControl Grid.Column="3" ItemsSource="{Binding Tags}" HorizontalAlignment="Right" VerticalAlignment="Center">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="{StaticResource NeutralBlue}" BorderThickness="1" Margin="2,0,2,0">
+                        <TextBlock Text="{Binding Name}" Margin="2" FontWeight="Bold" FontSize="8pt" />
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
 </UserControl>

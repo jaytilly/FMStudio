@@ -4,6 +4,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Linq;
 
 namespace FMStudio.App.ViewModels
 {
@@ -21,6 +22,10 @@ namespace FMStudio.App.ViewModels
 
         public Binding<bool> HasRun { get; set; }
 
+        public Binding<bool> IsToBeRun { get; set; }
+
+        public Binding<bool> IsSkipped { get; set; }
+        
         public Binding<string> Sql { get; set; }
 
         public ICommand AddToDatabaseCommand { get; set; }
@@ -43,6 +48,8 @@ namespace FMStudio.App.ViewModels
             Version = new Binding<long>();
             Tags = new ObservableCollection<TagViewModel>();
             HasRun = new Binding<bool>();
+            IsToBeRun = new Binding<bool>();
+            IsSkipped = new Binding<bool>();
             Sql = new Binding<string>();
 
             AddToDatabaseCommand = new RelayCommand(async param => await AddToDatabaseAsync());
@@ -85,6 +92,10 @@ namespace FMStudio.App.ViewModels
                     });
                 }
             }
+
+            var tagIsIncluded = MigrationInfo.IsToBeRun;
+            IsToBeRun.Value = !HasRun.Value && tagIsIncluded;
+            IsSkipped.Value = !HasRun.Value && !tagIsIncluded;
         }
 
         private async Task AddToDatabaseAsync()

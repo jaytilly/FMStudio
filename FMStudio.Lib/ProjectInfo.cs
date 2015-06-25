@@ -32,6 +32,11 @@ namespace FMStudio.Lib
 
         public IOutputWriter Output { get; set; }
 
+        public int ToBeRunMigrationsCount
+        {
+            get { return Migrations.Count(m => m.IsToBeRun); }
+        }
+
         static ProjectInfo()
         {
             References.InitializeAssemblyBinding();

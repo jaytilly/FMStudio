@@ -139,7 +139,7 @@ namespace FMStudio.App.ViewModels
 
                 await ProfilesVM.InitializeAsync();
 
-                UnRunMigrationsCount.Value = MigrationsVM.Migrations.Count(m => !m.HasRun.Value);
+                UnRunMigrationsCount.Value = ProjectInfo.ToBeRunMigrationsCount;
 
                 IsInitialized.Value = true;
             }

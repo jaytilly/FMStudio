@@ -26,6 +26,16 @@ namespace FMStudio.Lib
 
         public bool HasRun { get; set; }
 
+        public bool IsToBeRun
+        {
+            get { return !HasRun && IsIncluded; }
+        }
+
+        public bool IsIncluded
+        {
+            get { return !Tags.Any() || _project.Tags.Any(pt => Tags.Contains(pt)); }
+        }
+        
         public string Sql { get; set; }
 
         private ProjectInfo _project;

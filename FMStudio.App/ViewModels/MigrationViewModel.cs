@@ -64,8 +64,6 @@ namespace FMStudio.App.ViewModels
             try
             {
                 await MigrationInfo.InitializeAsync();
-
-                Update();
             }
             catch (Exception e)
             {
@@ -103,8 +101,6 @@ namespace FMStudio.App.ViewModels
             try
             {
                 await MigrationInfo.AddToVersionInfoTableAsync();
-
-                await InitializeAsync();
             }
             catch (Exception e)
             {
@@ -117,8 +113,6 @@ namespace FMStudio.App.ViewModels
             try
             {
                 await MigrationInfo.DownAsync();
-
-                await InitializeAsync();
             }
             catch (Exception e)
             {
@@ -131,8 +125,6 @@ namespace FMStudio.App.ViewModels
             try
             {
                 await MigrationInfo.UpAsync(false);
-
-                await InitializeAsync();
             }
             catch (Exception e)
             {
@@ -145,8 +137,6 @@ namespace FMStudio.App.ViewModels
             try
             {
                 await MigrationInfo.DeleteFromVersionInfoTableAsync();
-
-                await InitializeAsync();
             }
             catch (Exception e)
             {
@@ -159,8 +149,6 @@ namespace FMStudio.App.ViewModels
             try
             {
                 await MigrationInfo.UpAsync(true);
-
-                await InitializeAsync();
             }
             catch (Exception e)
             {

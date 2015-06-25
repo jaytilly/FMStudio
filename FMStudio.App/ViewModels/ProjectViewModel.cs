@@ -156,8 +156,6 @@ namespace FMStudio.App.ViewModels
             try
             {
                 await ProjectInfo.FullUpdateAsync();
-
-                await InitializeAsync();
             }
             catch (Exception e)
             {
@@ -172,8 +170,6 @@ namespace FMStudio.App.ViewModels
             try
             {
                 await ProjectInfo.RunApplicableMigrationsAsync();
-
-                await InitializeAsync();
             }
             catch (Exception e)
             {

@@ -121,6 +121,7 @@
     <Compile Include="Controls\Viewers\ProjectViewer.xaml.cs">
       <DependentUpon>ProjectViewer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\BooleanToOpacityConverter.cs" />
     <Compile Include="Converters\InvertBooleanConverter.cs" />
     <Compile Include="Converters\ValueConverterGroup.cs" />
     <Compile Include="Utility\Binding.cs" />

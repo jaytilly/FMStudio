@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d">
-    <Grid Height="25" ToolTip="{Binding Description.Value}">
+    <Grid Height="25" ToolTip="{Binding Description.Value}" Opacity="{Binding IsSkipped.Value, Converter={StaticResource BoolToOpacity}}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
             <ColumnDefinition Width="30" />
@@ -14,7 +14,7 @@
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="&#xF05D;" Foreground="{StaticResource SuccessGreen}" Style="{StaticResource IconStyle}" Visibility="{Binding HasRun.Value, Converter={StaticResource BoolToVis}}" />
             <TextBlock Text="&#xF10C;" Foreground="{StaticResource FailRed}" Style="{StaticResource IconStyle}" Visibility="{Binding IsToBeRun.Value, Converter={StaticResource BoolToVis}}" />
-            <TextBlock Text="&#xF1DB;" Foreground="{StaticResource NeutralBlue}" Style="{StaticResource IconStyle}" Visibility="{Binding IsSkipped.Value, Converter={StaticResource BoolToVis}}" />
+            <TextBlock Text="&#xF10C;" Foreground="{StaticResource NeutralBlue}" Style="{StaticResource IconStyle}" Visibility="{Binding IsSkipped.Value, Converter={StaticResource BoolToVis}}" />
         </StackPanel>
         <TextBlock Grid.Column="1" Text="{Binding Version.Value}" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center" />
         <TextBlock Grid.Column="2" Text="{Binding Description.Value}" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />

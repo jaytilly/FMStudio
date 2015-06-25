@@ -8,7 +8,7 @@
   <Grid>
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="40" />
-      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="Auto" />
       <ColumnDefinition Width="40" />
       <ColumnDefinition Width="40" />
     </Grid.ColumnDefinitions>

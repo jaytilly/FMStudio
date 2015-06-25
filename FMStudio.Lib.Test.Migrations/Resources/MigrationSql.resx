@@ -142,4 +142,10 @@
   <data name="_0006_InsertData" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>0006_insertdata.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="_0008_SlowMigration1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>0008_slowmigration1.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="_0009_SlowMigration2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>0009_slowmigration2.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

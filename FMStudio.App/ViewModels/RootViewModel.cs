@@ -40,6 +40,8 @@ namespace FMStudio.App.ViewModels
 
             Configuration = configuration;
             Projects = new ObservableCollection<ProjectViewModel>();
+
+            AppendOutput("Loaded local FluentMigrator assembly version " + Lib.Utility.References.GetFluentMigratorAssemblyVersion());
         }
 
         public async Task InitializeAsync()

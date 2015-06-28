@@ -122,9 +122,10 @@ namespace FMStudio.Lib
         public async Task RunApplicableMigrationsAsync()
         {
             var applicableMigrations = Migrations
-                .Where(m =>
-                    m.Tags.Any(t1 => Tags.Any(t2 => t1 == t2))
-                    || !m.Tags.Any());
+                .Where(m => m.IsToBeRun)
+                .OrderBy(m => m.Version)
+                .ToList()
+            ;
 
             foreach (var migration in applicableMigrations)
             {

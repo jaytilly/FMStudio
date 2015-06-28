@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="FMStudio.App.Controls.Viewers.DefaultViewer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:FMStudio.App.Controls.Viewers"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <StackPanel HorizontalAlignment="Stretch">
+        <TextBlock
+            Text="&#xF01B;"
+            Foreground="Gray"
+            Style="{StaticResource IconStyle}"
+            FontSize="300pt"
+            Margin="0,20,0,0"
+            Opacity="0.1"
+            Visibility="{Binding HasRun.Value, Converter={StaticResource BoolToVis}}" />
+        <TextBlock
+            Text="FM Studio"
+            FontSize="30pt"
+            FontWeight="Bold"
+            Foreground="Gray"
+            HorizontalAlignment="Center"
+            Opacity="0.4" />
+        <TextBlock
+            Text="{Binding VersionString.Value}"
+            FontSize="10pt"
+            FontWeight="Bold"
+            Foreground="Gray"
+            HorizontalAlignment="Center"
+            Margin="0,10,0,0"
+            Opacity="0.3" />
+    </StackPanel>
+</UserControl>

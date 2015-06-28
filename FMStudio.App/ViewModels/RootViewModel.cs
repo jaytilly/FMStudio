@@ -32,7 +32,7 @@ namespace FMStudio.App.ViewModels
 
         public RootViewModel(FMConfiguration configuration)
         {
-            ActiveEntity = new Binding<BaseViewModel>();
+            ActiveEntity = new Binding<BaseViewModel>(new DefaultViewModel());
             Output = new Binding<string>();
 
             AddProjectCommand = new RelayCommand(param => AddProject());

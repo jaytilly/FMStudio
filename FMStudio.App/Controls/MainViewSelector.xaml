@@ -7,24 +7,27 @@
              xmlns:vm="clr-namespace:FMStudio.App.ViewModels"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
-  <UserControl.Resources>
-    <DataTemplate DataType="{x:Type vm:MigrationViewModel}">
-      <viewers:MigrationViewer />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type vm:MigrationsViewModel}">
-      <viewers:MigrationsViewer />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type vm:ProfileViewModel}">
-      <viewers:ProfileViewer />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type vm:ProfilesViewModel}">
-      <viewers:ProfilesViewer />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type vm:ProjectViewModel}">
-      <viewers:ProjectViewer />
-    </DataTemplate>
-  </UserControl.Resources>
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type vm:MigrationViewModel}">
+            <viewers:MigrationViewer />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:MigrationsViewModel}">
+            <viewers:MigrationsViewer />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ProfileViewModel}">
+            <viewers:ProfileViewer />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ProfilesViewModel}">
+            <viewers:ProfilesViewer />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ProjectViewModel}">
+            <viewers:ProjectViewer />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:DefaultViewModel}">
+            <viewers:DefaultViewer />
+        </DataTemplate>
+    </UserControl.Resources>
     <Grid>
-      <ContentPresenter Content="{Binding ActiveEntity.Value}" />
+        <ContentPresenter Content="{Binding ActiveEntity.Value}" />
     </Grid>
 </UserControl>

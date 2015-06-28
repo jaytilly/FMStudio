@@ -13,7 +13,7 @@
   xmlns:fmviewers="clr-namespace:FMStudio.App.Controls.Viewers"
   mc:Ignorable="d"
 
-  Title="FM-Studio"
+  Title="FM Studio"
 
   Width="1024" Height="768" MinWidth="1024" MinHeight="768"
 

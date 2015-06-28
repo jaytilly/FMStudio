@@ -2,6 +2,7 @@
 using FMStudio.Configuration;
 using FMStudio.Lib;
 using FMStudio.Lib.Exceptions;
+using FMStudio.Utility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -145,7 +146,7 @@ namespace FMStudio.App.ViewModels
             }
             catch (InitializeProjectException e)
             {
-                RootVM.AppendOutput("Could not initialize project '{0}': {1}", ProjectConfiguration.Name, e.Message);
+                RootVM.AppendOutput("Could not initialize project '{0}': {1}", ProjectConfiguration.Name, e.GetFullMessage());
             }
         }
 
@@ -159,7 +160,7 @@ namespace FMStudio.App.ViewModels
             }
             catch (Exception e)
             {
-                RootVM.AppendOutput("Could not run a full update on project '{0}': {1}", ProjectConfiguration.Name, e.Message);
+                RootVM.AppendOutput("Could not run a full update on project '{0}': {1}", ProjectConfiguration.Name, e.GetFullMessage());
             }
         }
 
@@ -173,7 +174,7 @@ namespace FMStudio.App.ViewModels
             }
             catch (Exception e)
             {
-                RootVM.AppendOutput("Could not run migrations on project '{0}': {1}", ProjectConfiguration.Name, e.Message);
+                RootVM.AppendOutput("Could not run migrations on project '{0}': {1}", ProjectConfiguration.Name, e.GetFullMessage());
             }
         }
 
@@ -187,7 +188,7 @@ namespace FMStudio.App.ViewModels
             }
             catch (Exception e)
             {
-                RootVM.AppendOutput("Could not run profiles on project '{0}': {1}", ProjectConfiguration.Name, e.Message);
+                RootVM.AppendOutput("Could not run profiles on project '{0}': {1}", ProjectConfiguration.Name, e.GetFullMessage());
             }
         }
 

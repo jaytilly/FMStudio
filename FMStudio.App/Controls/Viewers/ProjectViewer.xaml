@@ -14,6 +14,7 @@
       <RowDefinition Height="*" />
       <RowDefinition Height="40" />
     </Grid.RowDefinitions>
+    <!-- Header -->
     <Border BorderBrush="Gray" BorderThickness="0,0,0,1">
       <Grid>
         <Grid.ColumnDefinitions>
@@ -30,6 +31,7 @@
         </StackPanel>
       </Grid>
     </Border>
+    <!-- Toolbar -->
     <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="0,0,0,1">
       <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
         <local:IconButton Command="{Binding FullUpdateCommand}" Icon="&#xF00C;" IconColor="{StaticResource SuccessGreen}" Text="Full update" ToolTip="Run all applicable migrations and profiles" />
@@ -39,6 +41,7 @@
         <local:IconButton Command="{Binding ProfilesOnlyCommand}" Icon="P" IconColor="{StaticResource SuccessGreen}" Text="Profiles only" ToolTip="Run all applicable profiles only" />
       </StackPanel>
     </Border>
+    <!-- Content -->
     <StackPanel Grid.Row="2" Orientation="Vertical" Margin="10">
       <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
         <TextBlock Text="Name" Width="200" />
@@ -68,6 +71,7 @@
         <TextBox Width="300" Text="{Binding Profile.Value}" />
       </StackPanel>
     </StackPanel>
+    <!-- Bottom Toolbar -->
     <Border Grid.Row="3" BorderBrush="{StaticResource Border}" BorderThickness="0,1,0,0">
       <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
         <local:IconButton Command="{Binding SaveProjectCommand}" Icon="&#xF0C7;" IconColor="{StaticResource SuccessGreen}" Text="Save" ToolTip="Saves the project to the configuration file" />

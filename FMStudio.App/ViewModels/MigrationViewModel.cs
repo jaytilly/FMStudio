@@ -1,10 +1,10 @@
 ﻿using FMStudio.App.Utility;
 using FMStudio.Lib;
+using FMStudio.Utility;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Linq;
 
 namespace FMStudio.App.ViewModels
 {
@@ -25,7 +25,9 @@ namespace FMStudio.App.ViewModels
         public Binding<bool> IsToBeRun { get; set; }
 
         public Binding<bool> IsSkipped { get; set; }
-        
+
+        public Binding<DateTime?> AppliedOn { get; set; }
+
         public Binding<string> Sql { get; set; }
 
         public ICommand AddToDatabaseCommand { get; set; }
@@ -50,6 +52,7 @@ namespace FMStudio.App.ViewModels
             HasRun = new Binding<bool>();
             IsToBeRun = new Binding<bool>();
             IsSkipped = new Binding<bool>();
+            AppliedOn = new Binding<DateTime?>();
             Sql = new Binding<string>();
 
             AddToDatabaseCommand = new RelayCommand(async param => await AddToDatabaseAsync());
@@ -67,7 +70,7 @@ namespace FMStudio.App.ViewModels
             }
             catch (Exception e)
             {
-                MigrationsVM.ProjectVM.RootVM.AppendOutput("Could not initialized migration {0} '{1}': ", Version.Value, Description.Value, e.Message);
+                MigrationsVM.ProjectVM.RootVM.AppendOutput("Could not initialized migration {0} '{1}': ", Version.Value, Description.Value, e.GetFullMessage());
             }
         }
 
@@ -75,6 +78,10 @@ namespace FMStudio.App.ViewModels
         {
             Version.Value = MigrationInfo.Version;
             Description.Value = MigrationInfo.Description;
+
+            if (MigrationInfo.AppliedOn.HasValue)
+                AppliedOn.Value = MigrationInfo.AppliedOn.Value;
+
             Sql.Value = MigrationInfo.Sql;
             HasRun.Value = MigrationInfo.HasRun;
 
@@ -104,7 +111,7 @@ namespace FMStudio.App.ViewModels
             }
             catch (Exception e)
             {
-                MigrationsVM.ProjectVM.RootVM.AppendOutput("Could not add migration to database without running it: {0}", e.Message);
+                MigrationsVM.ProjectVM.RootVM.AppendOutput("Could not add migration to database without running it: {0}", e.GetFullMessage());
             }
         }
 
@@ -116,7 +123,7 @@ namespace FMStudio.App.ViewModels
             }
             catch (Exception e)
             {
-                MigrationsVM.ProjectVM.RootVM.AppendOutput("Could not run migration Down-operation: {0}", e.Message);
+                MigrationsVM.ProjectVM.RootVM.AppendOutput("Could not run migration Down-operation: {0}", e.GetFullMessage());
             }
         }
 
@@ -128,7 +135,7 @@ namespace FMStudio.App.ViewModels
             }
             catch (Exception e)
             {
-                MigrationsVM.ProjectVM.RootVM.AppendOutput("Could not run migration Up-operation: {0}", e.Message);
+                MigrationsVM.ProjectVM.RootVM.AppendOutput("Could not run migration Up-operation: {0}", e.GetFullMessage());
             }
         }
 
@@ -140,7 +147,7 @@ namespace FMStudio.App.ViewModels
             }
             catch (Exception e)
             {
-                MigrationsVM.ProjectVM.RootVM.AppendOutput("Could not remove migration from database: {0}", e.Message);
+                MigrationsVM.ProjectVM.RootVM.AppendOutput("Could not remove migration from database: {0}", e.GetFullMessage());
             }
         }
 
@@ -152,7 +159,7 @@ namespace FMStudio.App.ViewModels
             }
             catch (Exception e)
             {
-                MigrationsVM.ProjectVM.RootVM.AppendOutput("Could not re-run migration: {0}", e.Message);
+                MigrationsVM.ProjectVM.RootVM.AppendOutput("Could not re-run migration: {0}", e.GetFullMessage());
             }
         }
     }

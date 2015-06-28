@@ -7,7 +7,7 @@
   xmlns:local="clr-namespace:FMStudio.App.Controls"
   xmlns:utility="clr-namespace:FMStudio.App.Utility">
   <Grid>
-    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" utility:AutoScroll.AutoScroll="{Binding Output.IsChanged}">
+    <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" utility:AutoScroll.AutoScroll="{Binding Output.IsChanged}">
       <TextBox
         BorderThickness="0"
         Text="{Binding Output.Value}"

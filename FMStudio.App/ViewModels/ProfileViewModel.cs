@@ -1,5 +1,6 @@
 ﻿using FMStudio.App.Utility;
 using FMStudio.Lib;
+using FMStudio.Utility;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -40,7 +41,7 @@ namespace FMStudio.App.ViewModels
             }
             catch (Exception e)
             {
-                ProfilesVM.ProjectVM.RootVM.AppendOutput("Could not load profile '{0}': {1}", ProfileInfo.Name, e.Message);
+                ProfilesVM.ProjectVM.RootVM.AppendOutput("Could not load profile '{0}': {1}", ProfileInfo.Name, e.GetFullMessage());
             }
         }
 
@@ -54,7 +55,7 @@ namespace FMStudio.App.ViewModels
             }
             catch (Exception e)
             {
-                ProfilesVM.ProjectVM.RootVM.AppendOutput("Could not run profile '{0}': {1}", ProfileInfo.Name, e.Message);
+                ProfilesVM.ProjectVM.RootVM.AppendOutput("Could not run profile '{0}': {1}", ProfileInfo.Name, e.GetFullMessage());
             }
         }
     }

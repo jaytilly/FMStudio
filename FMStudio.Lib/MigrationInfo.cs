@@ -35,7 +35,9 @@ namespace FMStudio.Lib
         {
             get { return !Tags.Any() || _project.Tags.Any(pt => Tags.Contains(pt)); }
         }
-        
+
+        public DateTime? AppliedOn { get; private set; }
+
         public string Sql { get; set; }
 
         private ProjectInfo _project;
@@ -71,7 +73,9 @@ namespace FMStudio.Lib
         {
             await Task.Run(() =>
             {
-                var announcer = new TextWriterAnnouncer(s => _project.Output.Write(s));
+                _project.Output.Write(string.Format("Running migration {0}: '{1}'", Version, Description));
+
+                var announcer = new TextWriterAnnouncer(s => { });
 
                 var migrationContext = new RunnerContext(announcer)
                 {
@@ -219,6 +223,10 @@ namespace FMStudio.Lib
                 }
 
                 HasRun = MigrationHelper.CheckIfMigrationHasRun(_project, Version);
+                
+                if (HasRun)
+                    AppliedOn = MigrationHelper.GetAppliedOnDate(_project, Version);
+
                 Sql = MigrationHelper.GetMigrationSql(_project, _typeInfo.FullName);
             });
 

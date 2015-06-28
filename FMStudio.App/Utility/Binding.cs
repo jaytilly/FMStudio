@@ -2,18 +2,9 @@
 {
     public class Binding<T> : NotifyPropertyChanged
     {
-        private T _value;
-
-        public T Value
+        public bool HasValue
         {
-            get { return _value; }
-            set
-            {
-                _value = value;
-                Notify(() => Value);
-
-                IsChanged = true;
-            }
+            get { return _value != null; }
         }
 
         private bool _isChanged;
@@ -25,6 +16,21 @@
             {
                 _isChanged = value;
                 Notify(() => IsChanged);
+            }
+        }
+
+        private T _value;
+
+        public T Value
+        {
+            get { return _value; }
+            set
+            {
+                _value = value;
+                Notify(() => Value);
+                Notify(() => HasValue);
+
+                IsChanged = true;
             }
         }
 

@@ -7,6 +7,7 @@ using FluentMigrator.Runner.Processors;
 using FluentMigrator.Runner.Processors.SQLite;
 using FluentMigrator.Runner.Processors.SqlServer;
 using System;
+using System.Data;
 using System.Linq;
 using System.Reflection;
 
@@ -58,6 +59,51 @@ namespace FMStudio.Lib.Utility
             }
 
             return false;
+        }
+
+        public static DateTime? GetAppliedOnDate(ProjectInfo project, long version)
+        {
+            var announcer = new TextWriterAnnouncer(s => { });
+
+            var migrationContext = new RunnerContext(announcer)
+            {
+                Tags = new string[0],
+                PreviewOnly = true
+            };
+
+            try
+            {
+                var factory = CreateFactory(project.DatabaseType);
+                using (var processor = factory.Create(project.ConnectionString, announcer, new MigrationProcessorOptions(migrationContext)))
+                {
+                    var runner = new MigrationRunner(project.Assembly, migrationContext, processor);
+
+                    var schemaName = runner.VersionLoader.VersionTableMetaData.SchemaName;
+                    var tableName = runner.VersionLoader.VersionTableMetaData.TableName;
+                    var versionColumnName = runner.VersionLoader.VersionTableMetaData.ColumnName;
+                    var appliedOnColumnName = runner.VersionLoader.VersionTableMetaData.AppliedOnColumnName;
+
+                    var dataSet = processor.ReadTableData(schemaName, tableName);
+
+                    var table = dataSet.Tables[0];
+                    foreach (DataRow row in table.Rows)
+                    {
+                        var versionColumn = (long)row[versionColumnName];
+
+                        if (versionColumn == version)
+                        {
+                            var appliedOnColumn = (DateTime)row[appliedOnColumnName];
+
+                            return appliedOnColumn;
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+
+            return null;
         }
 
         public static string GetMigrationSql(ProjectInfo project, string typeName)

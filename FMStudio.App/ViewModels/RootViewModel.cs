@@ -1,5 +1,6 @@
 ﻿using FMStudio.App.Utility;
 using FMStudio.Configuration;
+using FMStudio.Utility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -93,7 +94,7 @@ namespace FMStudio.App.ViewModels
                 }
                 catch (Exception e)
                 {
-                    AppendOutput("Could not run a full update on project '{0}': {1}", project.Name.Value, e.Message);
+                    AppendOutput("Could not run a full update on project '{0}': {1}", project.Name.Value, e.GetFullMessage());
                 }
             }
         }

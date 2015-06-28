@@ -4,13 +4,16 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:local="clr-namespace:FMStudio.App.Controls">
-    <Grid>
-        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <TextBox
-              Text="{Binding Output.Value}"
-              IsReadOnly="True"
-              FontFamily="Consolas" />
-        </ScrollViewer>
-    </Grid>
+  xmlns:local="clr-namespace:FMStudio.App.Controls"
+  xmlns:utility="clr-namespace:FMStudio.App.Utility">
+  <Grid>
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" utility:AutoScroll.AutoScroll="{Binding Output.IsChanged}">
+      <TextBox
+        BorderThickness="0"
+        Text="{Binding Output.Value}"
+        IsReadOnly="True"
+        FontFamily="Consolas">
+      </TextBox>
+    </ScrollViewer>
+  </Grid>
 </UserControl>

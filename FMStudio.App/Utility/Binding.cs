@@ -11,6 +11,20 @@
             {
                 _value = value;
                 Notify(() => Value);
+
+                IsChanged = true;
+            }
+        }
+
+        private bool _isChanged;
+
+        public bool IsChanged
+        {
+            get { return _isChanged; }
+            set
+            {
+                _isChanged = value;
+                Notify(() => IsChanged);
             }
         }
 

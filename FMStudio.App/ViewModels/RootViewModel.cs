@@ -28,6 +28,8 @@ namespace FMStudio.App.ViewModels
 
         public Binding<string> Output { get; set; }
 
+        public OutputLogViewModel OutputLogVM { get; set; }
+
         public RootViewModel(FMConfiguration configuration)
         {
             ActiveEntity = new Binding<BaseViewModel>();
@@ -40,6 +42,9 @@ namespace FMStudio.App.ViewModels
 
             Configuration = configuration;
             Projects = new ObservableCollection<ProjectViewModel>();
+
+            OutputLogVM = new OutputLogViewModel();
+            OutputLogVM.OnOutputChanged += OutputLogVM_OnOutputChanged;
 
             AppendOutput("Loaded local FluentMigrator assembly version " + Lib.Utility.References.GetFluentMigratorAssemblyVersion());
         }
@@ -59,14 +64,9 @@ namespace FMStudio.App.ViewModels
             }
         }
 
-        public void AppendOutput(string output)
-        {
-            Output.Value = output + Environment.NewLine + Output.Value;
-        }
-
         public void AppendOutput(string format, params object[] args)
         {
-            Output.Value = string.Format(format, args) + Environment.NewLine + Output.Value;
+            OutputLogVM.Write(format, args);
         }
 
         private void AddProject()
@@ -105,6 +105,11 @@ namespace FMStudio.App.ViewModels
             {
                 ActiveEntity.Value = migrationEntity;
             }
+        }
+
+        private void OutputLogVM_OnOutputChanged(object sender, EventArgs e)
+        {
+            Output.Value = OutputLogVM.Output;
         }
     }
 }

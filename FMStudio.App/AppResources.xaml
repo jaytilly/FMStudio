@@ -122,6 +122,8 @@
     
     <BooleanToVisibilityConverter x:Key="BoolToVis" />
 
+    <converters:AddToDoubleConverter x:Key="AddToDouble" />
+    
     <converters:ValueConverterGroup x:Key="InvertBoolToVis">
         <converters:InvertBooleanConverter />
         <BooleanToVisibilityConverter />

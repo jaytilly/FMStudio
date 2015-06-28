@@ -8,45 +8,58 @@
   xmlns:local="clr-namespace:FMStudio.App.Controls"
   xmlns:vm="clr-namespace:FMStudio.App.ViewModels"
   xmlns:project-tree-viewers="clr-namespace:FMStudio.App.Controls.ProjectTreeViewers"
+  xmlns:utility="clr-namespace:FMStudio.App.Utility"
   mc:Ignorable="d">
-    <TreeView
-        Name="trvProjects"
-        HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch"
-        ItemsSource="{Binding Projects}">
-        <i:Interaction.Triggers>
-            <i:EventTrigger EventName="SelectedItemChanged">
-                <i:InvokeCommandAction
-              Command="{Binding SelectActiveEntityCommand}"
-              CommandParameter="{Binding SelectedItem, ElementName=trvProjects}" />
-            </i:EventTrigger>
-        </i:Interaction.Triggers>
-        <TreeView.ItemContainerStyle>
-            <Style TargetType="TreeViewItem" BasedOn="{StaticResource StretchedTreeView}">
-                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                <Setter Property="MaxWidth" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeView}}, Path=ActualWidth}" />
-            </Style>
-        </TreeView.ItemContainerStyle>
-        <TreeView.Resources>
-            <HierarchicalDataTemplate DataType="{x:Type vm:ProjectViewModel}" ItemsSource="{Binding Children}">
-                <project-tree-viewers:ProjectViewer />
-            </HierarchicalDataTemplate>
+  <TreeView
+      Name="trvProjects"
+      HorizontalAlignment="Stretch"
+      VerticalAlignment="Stretch"
+      ItemsSource="{Binding Projects}">
+    <TreeView.Template>
+      <ControlTemplate TargetType="TreeView">
+        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                SnapsToDevicePixels="true">
+          <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Hidden">
+            <ItemsPresenter />
+          </ScrollViewer>
+        </Border>
+      </ControlTemplate>
+    </TreeView.Template>
+    <i:Interaction.Triggers>
+      <i:EventTrigger EventName="SelectedItemChanged">
+        <i:InvokeCommandAction
+      Command="{Binding SelectActiveEntityCommand}"
+      CommandParameter="{Binding SelectedItem, ElementName=trvProjects}" />
+      </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <TreeView.ItemContainerStyle>
+      <Style TargetType="TreeViewItem" BasedOn="{StaticResource StretchedTreeView}">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <!-- Fit to actual size of the TreeView, compensate for scroll bar -->
+        <Setter Property="MaxWidth" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeView}}, Path=ActualWidth, Converter={StaticResource AddToDouble}, ConverterParameter=-16}" />
+      </Style>
+    </TreeView.ItemContainerStyle>
+    <TreeView.Resources>
+      <HierarchicalDataTemplate DataType="{x:Type vm:ProjectViewModel}" ItemsSource="{Binding Children}">
+        <project-tree-viewers:ProjectViewer />
+      </HierarchicalDataTemplate>
 
-            <HierarchicalDataTemplate DataType="{x:Type vm:MigrationsViewModel}" ItemsSource="{Binding Migrations}">
-                <project-tree-viewers:MigrationsViewer />
-            </HierarchicalDataTemplate>
+      <HierarchicalDataTemplate DataType="{x:Type vm:MigrationsViewModel}" ItemsSource="{Binding Migrations}">
+        <project-tree-viewers:MigrationsViewer />
+      </HierarchicalDataTemplate>
 
-            <HierarchicalDataTemplate DataType="{x:Type vm:ProfilesViewModel}" ItemsSource="{Binding Profiles}">
-                <project-tree-viewers:ProfilesViewer />
-            </HierarchicalDataTemplate>
+      <HierarchicalDataTemplate DataType="{x:Type vm:ProfilesViewModel}" ItemsSource="{Binding Profiles}">
+        <project-tree-viewers:ProfilesViewer />
+      </HierarchicalDataTemplate>
 
-            <DataTemplate DataType="{x:Type vm:MigrationViewModel}">
-                <project-tree-viewers:MigrationViewer />
-            </DataTemplate>
+      <DataTemplate DataType="{x:Type vm:MigrationViewModel}">
+        <project-tree-viewers:MigrationViewer />
+      </DataTemplate>
 
-            <DataTemplate DataType="{x:Type vm:ProfileViewModel}">
-                <project-tree-viewers:ProfileViewer />
-            </DataTemplate>
-        </TreeView.Resources>
-    </TreeView>
+      <DataTemplate DataType="{x:Type vm:ProfileViewModel}">
+        <project-tree-viewers:ProfileViewer />
+      </DataTemplate>
+    </TreeView.Resources>
+  </TreeView>
 </UserControl>

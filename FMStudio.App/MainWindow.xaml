@@ -39,7 +39,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="400" MinWidth="200" />
-            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="1" />
             <ColumnDefinition Width="*" MinWidth="200" />
         </Grid.ColumnDefinitions>
         <Grid>
@@ -55,15 +55,15 @@
             </Border>
             <fmcontrols:ProjectTree Grid.Row="1" Margin="0,4,0,0" />
         </Grid>
-        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></GridSplitter>
+        <GridSplitter Grid.Column="1" Background="{StaticResource Border}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></GridSplitter>
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" MinHeight="200" />
-                <RowDefinition Height="5" />
+                <RowDefinition Height="1" />
                 <RowDefinition Height="200" MinHeight="200" />
             </Grid.RowDefinitions>
             <fmcontrols:MainViewSelector />
-            <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></GridSplitter>
+            <GridSplitter Grid.Row="1" Background="{StaticResource Border}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></GridSplitter>
             <fmviewers:OutputViewer Grid.Row="2" />
         </Grid>
     </Grid>

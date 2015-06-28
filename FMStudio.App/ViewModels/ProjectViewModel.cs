@@ -2,7 +2,6 @@
 using FMStudio.Configuration;
 using FMStudio.Lib;
 using FMStudio.Lib.Exceptions;
-using FMStudio.Utility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -77,7 +76,7 @@ namespace FMStudio.App.ViewModels
 
             IsNew = new Binding<bool>();
             IsInitialized = new Binding<bool>();
-            Name = new Binding<string>();
+            Name = new Binding<string>(configProject.Name);
             UnRunMigrationsCount = new Binding<int>();
             PathToMigrationsDll = new Binding<string>();
             DatabaseTypes = new Binding<List<DatabaseTypeViewModel>>();

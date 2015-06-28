@@ -1,7 +1,6 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 
-namespace FMStudio.Utility
+namespace System
 {
     public static class ExceptionExtensions
     {

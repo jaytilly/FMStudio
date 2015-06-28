@@ -1,6 +1,5 @@
 ﻿using FMStudio.App.Utility;
 using FMStudio.Configuration;
-using FMStudio.Utility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -60,6 +59,7 @@ namespace FMStudio.App.ViewModels
 
                 var projectVM = new ProjectViewModel(this, project);
                 Projects.Add(projectVM);
+                Projects.SortBy(p => p.Name.Value);
 
                 await projectVM.InitializeAsync();
             }

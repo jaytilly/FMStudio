@@ -1,7 +1,11 @@
-﻿namespace FMStudio.App.Utility
+﻿using System;
+namespace FMStudio.App.Utility
 {
     public class Binding<T> : NotifyPropertyChanged
     {
+        private bool _isInitialized;
+        private Func<T> _factory;
+
         public bool HasValue
         {
             get { return _value != null; }
@@ -23,7 +27,15 @@
 
         public T Value
         {
-            get { return _value; }
+            get
+            {
+                if(!_isInitialized && _factory != null)
+                {
+                    _value = _factory();
+                }
+
+                return _value;
+            }
             set
             {
                 _value = value;
@@ -42,6 +54,11 @@
         public Binding()
         {
             _value = default(T);
+        }
+
+        public Binding(Func<T> factory)
+        {
+            _factory = factory;
         }
     }
 }

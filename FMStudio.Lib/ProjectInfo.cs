@@ -65,7 +65,6 @@ namespace FMStudio.Lib
                     var bytes = File.ReadAllBytes(PathToMigrationsDll);
 
                     Assembly = Assembly.Load(bytes);
-                    Output.Write("Loading migrations from assembly " + Assembly.FullName.ToString());
                 }
                 catch (Exception e)
                 {
@@ -74,7 +73,6 @@ namespace FMStudio.Lib
 
                 // Load references Fluent Migrator assembly
                 FMAssembly = Assembly.GetReferencedAssemblies().FirstOrDefault(a => a.Name.Equals("FluentMigrator", StringComparison.OrdinalIgnoreCase));
-                Output.Write("Found FluentMigrator assembly version " + FMAssembly.Version.ToString());
 
                 if (FMAssembly == null)
                     throw new InitializeProjectException(ExceptionType.CouldNotFindFluentMigratorDllReference);

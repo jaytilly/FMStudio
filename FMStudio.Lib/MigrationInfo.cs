@@ -38,7 +38,21 @@ namespace FMStudio.Lib
 
         public DateTime? AppliedOn { get; private set; }
 
-        public string Sql { get; set; }
+        private string _sql;
+
+        public string Sql
+        {
+            get
+            {
+                if (_sql == null)
+                {
+                    _project.Output.Write(string.Format("Loading SQL for migration {0}: '{1}'", Version, Description));
+                    _sql = MigrationHelper.GetMigrationSql(_project, _typeInfo.FullName);
+                }
+
+                return _sql;
+            }
+        }
 
         private ProjectInfo _project;
 
@@ -226,8 +240,6 @@ namespace FMStudio.Lib
                 
                 if (HasRun)
                     AppliedOn = MigrationHelper.GetAppliedOnDate(_project, Version);
-
-                Sql = MigrationHelper.GetMigrationSql(_project, _typeInfo.FullName);
             });
 
             OnUpdate(this, EventArgs.Empty);

@@ -55,8 +55,6 @@ namespace FMStudio.App.ViewModels
 
             foreach (var project in Configuration.Projects)
             {
-                AppendOutput("Loading project '{0}'", project.Name);
-
                 var projectVM = new ProjectViewModel(this, project);
                 Projects.Add(projectVM);
                 Projects.SortBy(p => p.Name.Value);

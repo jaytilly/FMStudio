@@ -52,7 +52,7 @@ namespace FMStudio.App.ViewModels
             IsToBeRun = new Binding<bool>();
             IsSkipped = new Binding<bool>();
             AppliedOn = new Binding<DateTime?>();
-            Sql = new Binding<string>();
+            Sql = new Binding<string>(() => MigrationInfo.Sql);
 
             AddToDatabaseCommand = new RelayCommand(async param => await AddToDatabaseAsync());
             MigrateDownCommand = new RelayCommand(async param => await MigrateDownAsync());
@@ -81,7 +81,6 @@ namespace FMStudio.App.ViewModels
             if (MigrationInfo.AppliedOn.HasValue)
                 AppliedOn.Value = MigrationInfo.AppliedOn.Value;
 
-            Sql.Value = MigrationInfo.Sql;
             HasRun.Value = MigrationInfo.HasRun;
 
             Tags.Clear();

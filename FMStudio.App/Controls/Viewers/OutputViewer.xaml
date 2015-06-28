@@ -6,14 +6,24 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:local="clr-namespace:FMStudio.App.Controls"
   xmlns:utility="clr-namespace:FMStudio.App.Utility">
-  <Grid>
-    <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" utility:AutoScroll.AutoScroll="{Binding Output.IsChanged}">
-      <TextBox
-        BorderThickness="0"
-        Text="{Binding Output.Value}"
-        IsReadOnly="True"
-        FontFamily="Consolas">
-      </TextBox>
-    </ScrollViewer>
-  </Grid>
+    <Grid DataContext="{Binding OutputVM}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Visible" utility:AutoScroll.AutoScroll="{Binding Output.IsChanged}">
+            <TextBox
+                BorderThickness="0"
+                TextWrapping="WrapWithOverflow"
+                Text="{Binding Output.Value}"
+                IsReadOnly="True"
+                FontFamily="Consolas" Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Border}}, Path=ActualWidth}">
+            </TextBox>
+        </ScrollViewer>
+        <Border Grid.Row="1" BorderBrush="{StaticResource Border}" BorderThickness="0,1,0,0">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <local:IconButton Command="{Binding ClearOutputCommand}" Icon="&#xF014;" IconColor="{StaticResource FailRed}" Text="Clear" ToolTip="Clears the contents of the output viewer" />
+            </StackPanel>
+        </Border>
+    </Grid>
 </UserControl>

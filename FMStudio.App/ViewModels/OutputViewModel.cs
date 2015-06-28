@@ -1,33 +1,38 @@
-﻿using System;
+﻿using FMStudio.App.Utility;
+using System;
 using System.Collections.Concurrent;
+using System.Windows.Input;
 using System.Windows.Threading;
 
 namespace FMStudio.App.ViewModels
 {
-    public class OutputLogViewModel
+    public class OutputViewModel
     {
-        public event EventHandler OnOutputChanged = delegate { };
-
         public int MaxLines { get; set; }
 
-        public string Output { get; private set; }
+        public Binding<string> Output { get; private set; }
+
+        public ICommand ClearOutputCommand { get; private set; }
 
         private ConcurrentQueue<string> _rows;
 
         private DispatcherTimer _timer;
 
-        public OutputLogViewModel(int maxLines)
+        public OutputViewModel(int maxLines)
         {
             MaxLines = maxLines;
+            Output = new Binding<string>();
 
             _rows = new ConcurrentQueue<string>();
 
             _timer = new DispatcherTimer();
             _timer.Interval = TimeSpan.FromMilliseconds(200);
             _timer.Tick += (s, e) => UpdateOutput();
+
+            ClearOutputCommand = new RelayCommand(param => ClearOutput());
         }
 
-        public OutputLogViewModel()
+        public OutputViewModel()
             : this(100)
         {
         }
@@ -35,7 +40,7 @@ namespace FMStudio.App.ViewModels
         public void Write(string message, params object[] args)
         {
             var text = string.Format(message, args);
-            
+
             if (!string.IsNullOrWhiteSpace(text))
             {
                 var line = string.Format("{0} {1}", DateTime.Now.ToString(), text);
@@ -46,6 +51,15 @@ namespace FMStudio.App.ViewModels
             }
         }
 
+        private void ClearOutput()
+        {
+            string dequeue;
+
+            while (_rows.Count > 0) _rows.TryDequeue(out dequeue);
+
+            Output.Value = string.Empty;
+        }
+
         private void UpdateOutput()
         {
             _timer.Stop();
@@ -54,9 +68,7 @@ namespace FMStudio.App.ViewModels
 
             while (_rows.Count > MaxLines) _rows.TryDequeue(out dequeue);
 
-            Output = string.Join(Environment.NewLine, _rows);
-
-            OnOutputChanged(this, EventArgs.Empty);
+            Output.Value = string.Join(Environment.NewLine, _rows);
         }
     }
 }

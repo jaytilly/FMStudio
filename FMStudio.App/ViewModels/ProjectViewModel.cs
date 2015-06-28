@@ -143,7 +143,7 @@ namespace FMStudio.App.ViewModels
 
                 IsInitialized.Value = true;
 
-                RootVM.OutputLogVM.Write("Loaded project '{0}', from assembly {1}, which uses FluentMigrator {2}", ProjectConfiguration.Name, ProjectInfo.Assembly.GetName().Name, ProjectInfo.FMAssembly.Version.ToString());
+                RootVM.OutputVM.Write("Loaded project '{0}', from assembly {1}, which uses FluentMigrator {2}", ProjectConfiguration.Name, ProjectInfo.Assembly.GetName().Name, ProjectInfo.FMAssembly.Version.ToString());
             }
             catch (InitializeProjectException e)
             {

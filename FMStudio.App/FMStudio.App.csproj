@@ -135,7 +135,7 @@
     <Compile Include="ViewModels\DatabaseTypeViewModel.cs" />
     <Compile Include="ViewModels\MigrationsViewModel.cs" />
     <Compile Include="ViewModels\MigrationViewModel.cs" />
-    <Compile Include="ViewModels\OutputLogViewModel.cs" />
+    <Compile Include="ViewModels\OutputViewModel.cs" />
     <Compile Include="ViewModels\PreferencesViewModel.cs" />
     <Compile Include="ViewModels\ProfilesViewModel.cs" />
     <Compile Include="ViewModels\ProfileViewModel.cs" />

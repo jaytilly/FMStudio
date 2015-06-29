@@ -59,17 +59,11 @@ namespace FMStudio.Lib
                 if (!File.Exists(PathToMigrationsDll))
                     throw new InitializeProjectException(ExceptionType.CouldNotFindMigrationsDll, "Path to migrations dll '{0}' does not exist.", PathToMigrationsDll);
 
-                try
-                {
-                    // Load migrations assembly
-                    var bytes = File.ReadAllBytes(PathToMigrationsDll);
+                // Load migrations assembly
+                Assembly = MigrationsAssemblyLoader.Load(PathToMigrationsDll);
 
-                    Assembly = Assembly.Load(bytes);
-                }
-                catch (Exception e)
-                {
-                    throw new InitializeProjectException(ExceptionMessages.InitializeProject_CouldNotLoadDll, e);
-                }
+                if (Assembly == null)
+                    throw new InitializeProjectException(ExceptionMessages.InitializeProject_CouldNotLoadDll);
 
                 // Load references Fluent Migrator assembly
                 FMAssembly = Assembly.GetReferencedAssemblies().FirstOrDefault(a => a.Name.Equals("FluentMigrator", StringComparison.OrdinalIgnoreCase));

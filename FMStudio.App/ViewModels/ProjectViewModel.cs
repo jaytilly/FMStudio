@@ -207,7 +207,7 @@ namespace FMStudio.App.ViewModels
             var dialog = new Microsoft.Win32.OpenFileDialog();
 
             dialog.DefaultExt = ".dll";
-            dialog.Filter = "Dynamic Link Library Files (*.dll)|*.dll";
+            dialog.Filter = "Dynamic Link Library Files (*.dll)|*.dll|Other Files (*.*)|*.*";
 
             var result = dialog.ShowDialog();
 

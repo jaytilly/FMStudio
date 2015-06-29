@@ -16,6 +16,13 @@
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
 
+    <Style x:Key="IconStyleLabel" TargetType="Label">
+        <Setter Property="FontFamily" Value="pack://application:,,,/Fonts/#fontawesome" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
     <Style x:Key="StretchedTreeView" TargetType="TreeViewItem" BasedOn="{StaticResource {x:Type TreeViewItem}}">
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="Template">

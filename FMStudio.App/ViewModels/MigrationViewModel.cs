@@ -99,6 +99,8 @@ namespace FMStudio.App.ViewModels
             var tagIsIncluded = MigrationInfo.IsToBeRun;
             IsToBeRun.Value = !HasRun.Value && tagIsIncluded;
             IsSkipped.Value = !HasRun.Value && !tagIsIncluded;
+
+            MigrationsVM.ProjectVM.Update();
         }
 
         private async Task AddToDatabaseAsync()

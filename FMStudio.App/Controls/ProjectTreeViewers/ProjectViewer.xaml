@@ -5,21 +5,37 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   mc:Ignorable="d">
-  <Grid Height="25">
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="40" />
-      <ColumnDefinition Width="*" />
-    </Grid.ColumnDefinitions>
-    <StackPanel VerticalAlignment="Center">
-      <TextBlock Text="&#xF1C0;" Foreground="DarkBlue" Style="{StaticResource IconStyle}"  Visibility="{Binding IsInitialized.Value, Converter={StaticResource BoolToVis}}" />
-      <TextBlock Text="&#xF1C0;" Foreground="{StaticResource FailRed}" Style="{StaticResource IconStyle}" Visibility="{Binding IsInitialized.Value, Converter={StaticResource InvertBoolToVis}}" />
-    </StackPanel>
-    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-      <TextBlock Text="{Binding Name.Value}" />
-      <TextBlock Text=" * " Visibility="{Binding IsNew.Value, Converter={StaticResource BoolToVis}}" />
-      <TextBlock Text=" (" />
-      <TextBlock Text="{Binding UnRunMigrationsCount.Value}" />
-      <TextBlock Text=")" />
-    </StackPanel>
-  </Grid>
+    <Grid Height="25">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Canvas VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Label
+                HorizontalContentAlignment="Center"
+                Content="&#xF1C0;"
+                Foreground="DarkBlue"
+                Style="{StaticResource IconStyleLabel}"
+                Visibility="{Binding IsInitialized.Value, Converter={StaticResource BoolToVis}}" />
+            <Label
+                HorizontalContentAlignment="Center"
+                Content="&#xF1C0;"
+                Foreground="{StaticResource FailRed}"
+                Style="{StaticResource IconStyleLabel}"
+                Visibility="{Binding IsInitialized.Value, Converter={StaticResource InvertBoolToVis}}" />
+
+            <Label
+                Canvas.Bottom="-5"
+                Canvas.Right="0"
+                Content="&#xF12A;"
+                FontSize="10pt"
+                Foreground="{StaticResource WarningOrange}"
+                Style="{StaticResource IconStyleLabel}"
+                Visibility="{Binding HasPendingMigrations.Value, Converter={StaticResource BoolToVis}}" />
+        </Canvas>
+        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+            <TextBlock Text="{Binding Name.Value}" />
+            <TextBlock Text=" * " Visibility="{Binding IsNew.Value, Converter={StaticResource BoolToVis}}" />
+        </StackPanel>
+    </Grid>
 </UserControl>

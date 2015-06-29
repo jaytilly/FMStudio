@@ -35,6 +35,8 @@ namespace FMStudio.App.ViewModels
 
         public Binding<int> UnRunMigrationsCount { get; private set; }
 
+        public Binding<bool> HasPendingMigrations { get; private set; }
+
         public Binding<string> PathToMigrationsDll { get; private set; }
 
         public Binding<List<DatabaseTypeViewModel>> DatabaseTypes { get; private set; }
@@ -78,6 +80,7 @@ namespace FMStudio.App.ViewModels
             IsInitialized = new Binding<bool>();
             Name = new Binding<string>(configProject.Name);
             UnRunMigrationsCount = new Binding<int>();
+            HasPendingMigrations = new Binding<bool>();
             PathToMigrationsDll = new Binding<string>();
             DatabaseTypes = new Binding<List<DatabaseTypeViewModel>>();
             DatabaseType = new Binding<DatabaseTypeViewModel>();
@@ -139,7 +142,7 @@ namespace FMStudio.App.ViewModels
 
                 await ProfilesVM.InitializeAsync();
 
-                UnRunMigrationsCount.Value = ProjectInfo.ToBeRunMigrationsCount;
+                Update();
 
                 IsInitialized.Value = true;
 
@@ -149,6 +152,12 @@ namespace FMStudio.App.ViewModels
             {
                 RootVM.AppendOutput("Could not initialize project '{0}': {1}", ProjectConfiguration.Name, e.GetFullMessage());
             }
+        }
+
+        public void Update()
+        {
+            UnRunMigrationsCount.Value = ProjectInfo.ToBeRunMigrationsCount;
+            HasPendingMigrations.Value = ProjectInfo.ToBeRunMigrationsCount > 0;
         }
 
         private async Task FullUpdateAsync()

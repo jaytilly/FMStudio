@@ -87,7 +87,7 @@ namespace FMStudio.Lib
         {
             await Task.Run(() =>
             {
-                _project.Output.Write(string.Format("Running migration {0}: '{1}'", Version, Description));
+                _project.Output.Write(string.Format("Running migration {0}: '{1}'...", Version, Description));
 
                 var announcer = new TextWriterAnnouncer(s => { });
 
@@ -149,6 +149,8 @@ namespace FMStudio.Lib
             });
 
             await InitializeAsync();
+
+            _project.Output.Write(string.Format("Done"));
         }
 
         public async Task AddToVersionInfoTableAsync()

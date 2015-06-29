@@ -33,7 +33,11 @@ namespace FMStudio.Lib
 
         public async Task Run()
         {
+            _project.Output.Write(string.Format("Running profile '{0}'...", Name));
+
             await Task.Run(() => MigrationHelper.Run(_project, this));
+
+            _project.Output.Write("Done");
         }
 
         public override string ToString()

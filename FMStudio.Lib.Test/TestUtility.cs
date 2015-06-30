@@ -3,7 +3,7 @@ using System;
 
 namespace FMStudio.Lib.Test
 {
-    public static class Utility
+    public static class TestUtility
     {
         public static void AssertExceptionThrown<T>(Action action) where T : Exception
         {

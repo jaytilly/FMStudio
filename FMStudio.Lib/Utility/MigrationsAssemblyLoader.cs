@@ -1,5 +1,6 @@
 ﻿using ICSharpCode.SharpZipLib.Zip;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -96,6 +97,23 @@ namespace FMStudio.Lib.Utility
             }
 
             return null;
+        }
+
+        public static IEnumerable<FileInfo> GetPathMatchingGlob(string fullPath)
+        {
+            var path = Path.GetDirectoryName(fullPath);
+            var glob = Path.GetFileName(fullPath);
+            
+            var files = Directory.GetFiles(path);
+
+            var result = files
+                .Where(f => Path.GetFileName(f).Like(glob))
+                .Select(f => new FileInfo(f))
+                .OrderBy(f => f.LastWriteTime)
+                .ToList()
+            ;
+
+            return result;
         }
     }
 }

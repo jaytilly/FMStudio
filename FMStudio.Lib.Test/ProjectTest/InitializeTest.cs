@@ -89,7 +89,7 @@ namespace FMStudio.Lib.Test.ProjectTest
         {
             var project = new ProjectInfo(@"no/such/file", _db.ConnectionString, DatabaseType.Sqlite);
 
-            Utility.AssertExceptionThrown<InitializeProjectException>(() => project.InitializeAsync().Wait());
+            TestUtility.AssertExceptionThrown<InitializeProjectException>(() => project.InitializeAsync().Wait());
         }
 
         [TestMethod]
@@ -97,7 +97,7 @@ namespace FMStudio.Lib.Test.ProjectTest
         {
             var project = new ProjectInfo(Constants.FMTestMigrationsPath, @"no/such/connection", DatabaseType.Sqlite);
 
-            Utility.AssertExceptionThrown<InitializeProjectException>(() => project.InitializeAsync().Wait());
+            TestUtility.AssertExceptionThrown<InitializeProjectException>(() => project.InitializeAsync().Wait());
         }
 
         [TestMethod]
@@ -105,7 +105,7 @@ namespace FMStudio.Lib.Test.ProjectTest
         {
             var project = new ProjectInfo(Constants.FMUtilityDllPath, _db.ConnectionString, DatabaseType.Sqlite);
 
-            Utility.AssertExceptionThrown<InitializeProjectException>(
+            TestUtility.AssertExceptionThrown<InitializeProjectException>(
                 () => project.InitializeAsync().Wait(),
                 (e) => Assert.AreEqual(ExceptionType.CouldNotFindFluentMigratorDllReference, e.ExceptionType)
             );

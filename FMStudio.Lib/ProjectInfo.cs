@@ -3,7 +3,6 @@ using FMStudio.Lib.Exceptions;
 using FMStudio.Lib.Utility;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -56,11 +55,16 @@ namespace FMStudio.Lib
         {
             await Task.Run(() =>
             {
-                if (!File.Exists(PathToMigrationsDll))
+                // Find files based on the specified glob
+                var files = MigrationsAssemblyLoader.GetPathMatchingGlob(PathToMigrationsDll);
+                if (!files.Any())
                     throw new InitializeProjectException(ExceptionType.CouldNotFindMigrationsDll, "Path to migrations dll '{0}' does not exist.", PathToMigrationsDll);
 
+                // Get the file that has been written to the most recently 
+                var path = files.OrderByDescending(f => f.LastWriteTime).First().FullName;
+
                 // Load migrations assembly
-                Assembly = MigrationsAssemblyLoader.Load(PathToMigrationsDll);
+                Assembly = MigrationsAssemblyLoader.Load(path);
 
                 if (Assembly == null)
                     throw new InitializeProjectException(ExceptionMessages.InitializeProject_CouldNotLoadDll);

@@ -94,6 +94,12 @@
       <LastGenOutput>ExceptionMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FMStudio.Utility\FMStudio.Utility.csproj">
+      <Project>{aeed1aba-1e29-4dab-a107-5850e5602f99}</Project>
+      <Name>FMStudio.Utility</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

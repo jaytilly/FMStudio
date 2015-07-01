@@ -60,7 +60,10 @@ namespace FMStudio.App.ViewModels
                 Children.Add(LoadCategory(categoryConfiguration));
             }
 
-            //await projectVM.InitializeAsync();
+            foreach(CategoryViewModel category in Children)
+            {
+                //await category.InitializeAsync();
+            }
         }
 
         private CategoryViewModel LoadCategory(CategoryConfiguration categoryConfiguration)
@@ -69,17 +72,14 @@ namespace FMStudio.App.ViewModels
 
             foreach (var subCategoryConfiguration in categoryConfiguration.Categories)
             {
-                categoryVM.Children.Add(LoadCategory(subCategoryConfiguration));
+                categoryVM.Add(LoadCategory(subCategoryConfiguration));
             }
 
             foreach (var projectConfiguration in categoryConfiguration.Projects)
             {
                 var projectVM = new ProjectViewModel(this, projectConfiguration);
-                categoryVM.Children.Add(projectVM);
+                categoryVM.Add(projectVM);
 
-                projectVM.Category = categoryVM;
-
-                categoryVM.Children.Add(projectVM);
                 categoryVM.Children.SortBy(p => p.Name.Value);
             }
 
@@ -107,11 +107,16 @@ namespace FMStudio.App.ViewModels
 
         private void AddProject()
         {
-            var projectVM = new ProjectViewModel(this, new ProjectConfiguration());
-            projectVM.IsNew.Value = true;
-            Children.Add(projectVM);
+            var categoryVM = ActiveEntity.Value as CategoryViewModel;
+            if (categoryVM != null)
+            {
+                var projectVM = new ProjectViewModel(this, new ProjectConfiguration());
+                projectVM.IsNew.Value = true;
 
-            ActiveEntity.Value = projectVM;
+                projectVM.MoveTo(categoryVM);
+
+                ActiveEntity.Value = projectVM;
+            }
         }
 
         private void EditPreferences()

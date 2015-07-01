@@ -10,10 +10,8 @@ namespace FMStudio.Configuration
         public const string DefaultPath = "config.json";
 
         public int Version { get; set; }
-        
-        public List<CategoryConfiguration> Categories { get; set; }
 
-        public List<ProjectConfiguration> Projects { get; set; }
+        public List<CategoryConfiguration> Categories { get; set; }
 
         public Preferences Preferences { get; set; }
 
@@ -21,7 +19,6 @@ namespace FMStudio.Configuration
         {
             Version = 1;
             Categories = new List<CategoryConfiguration>();
-            Projects = new List<ProjectConfiguration>();
             Preferences = new Preferences();
         }
 
@@ -58,6 +55,8 @@ namespace FMStudio.Configuration
 
                 var config = JsonConvert.DeserializeObject<FMConfiguration>(file);
 
+                config.Link();
+
                 return config;
             }
             catch (Exception e)
@@ -77,6 +76,31 @@ namespace FMStudio.Configuration
             }
 
             return new FMConfiguration();
+        }
+
+        public void Link()
+        {
+            foreach(var category in Categories)
+            {
+                Link(category);
+            }
+        }
+
+        private void Link(CategoryConfiguration categoryConfiguration)
+        {
+            categoryConfiguration.RootConfiguration = this;
+
+            foreach (var subCategoryConfiguration in categoryConfiguration.Categories)
+            {
+                Link(subCategoryConfiguration);
+            }
+
+            foreach (var projectConfiguration in categoryConfiguration.Projects)
+            {
+                projectConfiguration.RootConfiguration = this;
+
+                projectConfiguration.ParentCategory = categoryConfiguration;
+            }
         }
     }
 }

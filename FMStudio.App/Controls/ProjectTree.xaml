@@ -15,17 +15,18 @@
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
         ItemsSource="{Binding Children}"
-        
+
         AllowDrop="True"
-        
+
         PreviewMouseMove="trvProjects_PreviewMouseMove"
         Drop="trvProjects_Drop"
         PreviewMouseRightButtonDown="trvProjects_PreviewMouseRightButtonDown">
         <TreeView.Template>
             <ControlTemplate TargetType="TreeView">
-                <Border BorderBrush="{TemplateBinding BorderBrush}"
-                BorderThickness="{TemplateBinding BorderThickness}"
-                SnapsToDevicePixels="true">
+                <Border
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    SnapsToDevicePixels="true">
                     <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Hidden">
                         <ItemsPresenter />
                     </ScrollViewer>
@@ -35,8 +36,8 @@
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="SelectedItemChanged">
                 <i:InvokeCommandAction
-      Command="{Binding SelectActiveEntityCommand}"
-      CommandParameter="{Binding SelectedItem, ElementName=trvProjects}" />
+                  Command="{Binding SelectActiveEntityCommand}"
+                  CommandParameter="{Binding SelectedItem, ElementName=trvProjects}" />
             </i:EventTrigger>
         </i:Interaction.Triggers>
         <TreeView.ItemContainerStyle>

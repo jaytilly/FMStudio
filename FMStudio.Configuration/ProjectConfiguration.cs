@@ -7,10 +7,16 @@ namespace FMStudio.Configuration
 {
     public class ProjectConfiguration
     {
+        [JsonIgnore]
+        public FMConfiguration RootConfiguration { get; set; }
+
+        [JsonIgnore]
+        public CategoryConfiguration ParentCategory { get; set; }
+
         public Guid Id { get; set; }
 
         public string Name { get; set; }
-        
+
         public string DllPath { get; set; }
 
         public string ConnectionString { get; set; }
@@ -26,6 +32,14 @@ namespace FMStudio.Configuration
         {
             Id = Guid.NewGuid();
             Tags = new List<string>();
+        }
+
+        public void MoveTo(CategoryConfiguration category)
+        {
+            if (ParentCategory != null)
+                ParentCategory.Remove(this);
+
+            ParentCategory.Add(this);
         }
     }
 }

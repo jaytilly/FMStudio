@@ -16,7 +16,7 @@ namespace FMStudio.App.ViewModels
     {
         public RootViewModel RootVM { get; private set; }
 
-        public CategoryViewModel Category { get; set; }
+        public CategoryViewModel ParentCategory { get; set; }
 
         public MigrationsViewModel MigrationsVM { get; private set; }
 
@@ -35,7 +35,7 @@ namespace FMStudio.App.ViewModels
         public Binding<bool> IsInitialized { get; private set; }
 
         public Binding<string> Name { get; private set; }
-        
+
         public Binding<int> UnRunMigrationsCount { get; private set; }
 
         public Binding<bool> HasPendingMigrations { get; private set; }
@@ -157,6 +157,16 @@ namespace FMStudio.App.ViewModels
             }
         }
 
+        public void MoveTo(CategoryViewModel category)
+        {
+            if (ParentCategory != null)
+                ParentCategory.Remove(this);
+
+            category.Add(this);
+            
+            RootVM.Configuration.Save();
+        }
+
         public void Update()
         {
             UnRunMigrationsCount.Value = ProjectInfo.ToBeRunMigrationsCount;
@@ -241,8 +251,8 @@ namespace FMStudio.App.ViewModels
                         ProjectConfiguration.Tags = new List<string>();
                 });
 
-                if (!RootVM.Configuration.Projects.Contains(ProjectConfiguration))
-                    RootVM.Configuration.Projects.Add(ProjectConfiguration);
+                //if (!ProjectConfiguration..Contains(ProjectConfiguration))
+                //    RootVM.Configuration.Projects.Add(ProjectConfiguration);
 
                 RootVM.Configuration.Save();
 
@@ -263,11 +273,9 @@ namespace FMStudio.App.ViewModels
             {
                 RootVM.AppendOutput("Deleting project...");
 
-                RootVM.Configuration.Projects.Remove(ProjectConfiguration);
-                RootVM.Configuration.Save();
+                ParentCategory.Children.Remove(this);
             });
-
-            RootVM.Children.Remove(this);
+            
             RootVM.ActiveEntity.Value = null;
         }
 

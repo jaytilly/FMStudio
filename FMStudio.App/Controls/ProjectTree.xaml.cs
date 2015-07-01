@@ -1,5 +1,4 @@
 ﻿using FMStudio.App.Interfaces;
-using FMStudio.App.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -17,23 +16,11 @@ namespace FMStudio.App.Controls
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
-                //var listView = sender as ListView;
                 var dependencyObject = (DependencyObject)e.OriginalSource;
                 var treeViewItem = dependencyObject.FindAncestor<TreeViewItem>();
 
                 if (treeViewItem != null)
                 {
-                    //var itemsToMove = new List<Message>();
-                    //foreach (var item in lstContents.SelectedItems)
-                    //{
-                    //    var message = item as Message;
-
-                    //    if (message != null)
-                    //    {
-                    //        itemsToMove.Add(message);
-                    //    }
-                    //}
-
                     var projectItem = treeViewItem.Header as ICanBeDragged;
 
                     if (projectItem != null)
@@ -49,26 +36,15 @@ namespace FMStudio.App.Controls
         {
             if (e.Data.GetDataPresent(EventConstants.DRAGDROP_DATA))
             {
-                var itemsToMove = e.Data.GetData(EventConstants.DRAGDROP_DATA) as ICanBeDragged;
-                
-                var treeView = (TreeView)sender;
+                var draggable = e.Data.GetData(EventConstants.DRAGDROP_DATA) as ICanBeDragged;
                 var dependencyObject = (DependencyObject)e.OriginalSource;
                 var treeViewItem = dependencyObject.FindAncestor<TreeViewItem>();
 
                 if (treeViewItem != null)
                 {
                     var dropTarget = treeViewItem.Header as ICanBeDroppedUpon;
-                    if(dropTarget != null)
-                    {
-                        dropTarget.Drop(itemsToMove);
-                    }
-
-                    //var targetQueue = treeViewItem.Header as Queue;
-
-                    //if (targetQueue != null)
-                    //{
-                    //    QueueModel.ActiveQueue.MoveMessages(itemsToMove, targetQueue);
-                    //}
+                    if (dropTarget != null)
+                        dropTarget.Drop(draggable);
                 }
             }
         }

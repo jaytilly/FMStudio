@@ -127,14 +127,15 @@ namespace FMStudio.Lib.Utility
             }).ToList());
         }
 
-        public static void Run(ProjectInfo project, ProfileInfo profileInfo)
+        public static void RunProfile(ProjectInfo project, ProfileInfo profileInfo)
         {
             var announcer = new TextWriterAnnouncer(s => { });
 
             var migrationContext = new RunnerContext(announcer)
             {
+                PreviewOnly = false,
+                Profile = profileInfo.Name,
                 Tags = profileInfo.Tags.ToArray(),
-                PreviewOnly = false
             };
 
             var factory = CreateFactory(project.DatabaseType);
@@ -143,8 +144,6 @@ namespace FMStudio.Lib.Utility
                 var runner = new MigrationRunner(project.Assembly, migrationContext, processor);
 
                 runner.ApplyProfiles();
-
-                Console.WriteLine("Running profiles");
             }
         }
 

@@ -35,7 +35,7 @@ namespace FMStudio.Lib
         {
             _project.Output.Write(string.Format("Running profile '{0}'...", Name));
 
-            await Task.Run(() => MigrationHelper.Run(_project, this));
+            await Task.Run(() => MigrationHelper.RunProfile(_project, this));
 
             _project.Output.Write("Done");
         }

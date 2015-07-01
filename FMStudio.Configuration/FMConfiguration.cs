@@ -10,6 +10,8 @@ namespace FMStudio.Configuration
         public const string DefaultPath = "config.json";
 
         public int Version { get; set; }
+        
+        public List<CategoryConfiguration> Categories { get; set; }
 
         public List<ProjectConfiguration> Projects { get; set; }
 
@@ -18,6 +20,7 @@ namespace FMStudio.Configuration
         public FMConfiguration()
         {
             Version = 1;
+            Categories = new List<CategoryConfiguration>();
             Projects = new List<ProjectConfiguration>();
             Preferences = new Preferences();
         }

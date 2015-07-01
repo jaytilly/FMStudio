@@ -60,5 +60,10 @@ namespace FMStudio.App.Utility
         {
             _factory = factory;
         }
+
+        public override string ToString()
+        {
+            return _value != null ? _value.ToString() : "<Empty>";
+        }
     }
 }

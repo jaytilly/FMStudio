@@ -1,4 +1,5 @@
-﻿using FMStudio.App.Utility;
+﻿using FMStudio.App.Interfaces;
+using FMStudio.App.Utility;
 using FMStudio.Configuration;
 using FMStudio.Lib;
 using FMStudio.Lib.Exceptions;
@@ -11,9 +12,11 @@ using System.Windows.Input;
 
 namespace FMStudio.App.ViewModels
 {
-    public class ProjectViewModel : BaseViewModel
+    public class ProjectViewModel : BaseViewModel, IHaveAName, ICanBeDragged
     {
         public RootViewModel RootVM { get; private set; }
+
+        public CategoryViewModel Category { get; set; }
 
         public MigrationsViewModel MigrationsVM { get; private set; }
 
@@ -32,7 +35,7 @@ namespace FMStudio.App.ViewModels
         public Binding<bool> IsInitialized { get; private set; }
 
         public Binding<string> Name { get; private set; }
-
+        
         public Binding<int> UnRunMigrationsCount { get; private set; }
 
         public Binding<bool> HasPendingMigrations { get; private set; }
@@ -264,7 +267,7 @@ namespace FMStudio.App.ViewModels
                 RootVM.Configuration.Save();
             });
 
-            RootVM.Projects.Remove(this);
+            RootVM.Children.Remove(this);
             RootVM.ActiveEntity.Value = null;
         }
 

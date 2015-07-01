@@ -49,6 +49,7 @@
             </Grid.RowDefinitions>
             <Border BorderBrush="{StaticResource Border}" BorderThickness="0,0,0,1">
                 <StackPanel HorizontalAlignment="Left" Margin="0,4,0,4" Orientation="Horizontal" VerticalAlignment="Center">
+                    <fmcontrols:IconButton Command="{Binding AddCategoryCommand}" Icon="&#xF196;" IconColor="{StaticResource NeutralBlue}" Text="Add category" />
                     <fmcontrols:IconButton Command="{Binding AddProjectCommand}" Icon="&#xF067;" IconColor="{StaticResource SuccessGreen}" Text="Add project" />
                     <fmcontrols:IconButton Command="{Binding FullUpdateCommand}" Icon="&#xF00C;" IconColor="{StaticResource SuccessGreen}" Text="Full update" ToolTip="Run all applicable migrations and profiles for all projects" />
                 </StackPanel>

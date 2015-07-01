@@ -10,9 +10,11 @@ namespace FMStudio.App.ViewModels
 {
     public class RootViewModel : NotifyPropertyChanged
     {
-        public ObservableCollection<ProjectViewModel> Projects { get; set; }
+        public ObservableCollection<IHaveAName> Children { get; private set; }
 
         public Binding<BaseViewModel> ActiveEntity { get; set; }
+
+        public ICommand AddCategoryCommand { get; private set; }
 
         public ICommand AddProjectCommand { get; private set; }
 
@@ -21,7 +23,7 @@ namespace FMStudio.App.ViewModels
         public ICommand FullUpdateCommand { get; private set; }
 
         public ICommand SelectActiveEntityCommand { get; private set; }
-        
+
         public FMConfiguration Configuration { get; set; }
 
         public List<FMStudio.Lib.ProjectInfo> LibProjects { get; set; }
@@ -35,13 +37,14 @@ namespace FMStudio.App.ViewModels
             ActiveEntity = new Binding<BaseViewModel>(new DefaultViewModel());
             Output = new Binding<string>();
 
+            AddCategoryCommand = new RelayCommand(param => AddCategory());
             AddProjectCommand = new RelayCommand(param => AddProject());
             EditPreferencesCommand = new RelayCommand(param => EditPreferences());
             FullUpdateCommand = new RelayCommand(async param => await FullUpdateAsync());
             SelectActiveEntityCommand = new RelayCommand(param => SelectActiveEntity(param));
 
             Configuration = configuration;
-            Projects = new ObservableCollection<ProjectViewModel>();
+            Children = new ObservableCollection<IHaveAName>();
 
             OutputVM = new OutputViewModel();
 
@@ -50,16 +53,37 @@ namespace FMStudio.App.ViewModels
 
         public async Task InitializeAsync()
         {
-            Projects.Clear();
+            Children.Clear();
 
-            foreach (var project in Configuration.Projects)
+            foreach (var categoryConfiguration in Configuration.Categories)
             {
-                var projectVM = new ProjectViewModel(this, project);
-                Projects.Add(projectVM);
-                Projects.SortBy(p => p.Name.Value);
-
-                await projectVM.InitializeAsync();
+                Children.Add(LoadCategory(categoryConfiguration));
             }
+
+            //await projectVM.InitializeAsync();
+        }
+
+        private CategoryViewModel LoadCategory(CategoryConfiguration categoryConfiguration)
+        {
+            var categoryVM = new CategoryViewModel(this, categoryConfiguration);
+
+            foreach (var subCategoryConfiguration in categoryConfiguration.Categories)
+            {
+                categoryVM.Children.Add(LoadCategory(subCategoryConfiguration));
+            }
+
+            foreach (var projectConfiguration in categoryConfiguration.Projects)
+            {
+                var projectVM = new ProjectViewModel(this, projectConfiguration);
+                categoryVM.Children.Add(projectVM);
+
+                projectVM.Category = categoryVM;
+
+                categoryVM.Children.Add(projectVM);
+                categoryVM.Children.SortBy(p => p.Name.Value);
+            }
+
+            return categoryVM;
         }
 
         public void AppendOutput(string format, params object[] args)
@@ -67,11 +91,25 @@ namespace FMStudio.App.ViewModels
             OutputVM.Write(format, args);
         }
 
+        private void AddCategory()
+        {
+            var categoryVM = new CategoryViewModel(this, new CategoryConfiguration());
+
+            var activeCategoryVM = ActiveEntity.Value as CategoryViewModel;
+
+            if (activeCategoryVM != null)
+                activeCategoryVM.Children.Add(categoryVM);
+            else
+                Children.Add(categoryVM);
+
+            ActiveEntity.Value = categoryVM;
+        }
+
         private void AddProject()
         {
             var projectVM = new ProjectViewModel(this, new ProjectConfiguration());
             projectVM.IsNew.Value = true;
-            Projects.Add(projectVM);
+            Children.Add(projectVM);
 
             ActiveEntity.Value = projectVM;
         }
@@ -83,7 +121,7 @@ namespace FMStudio.App.ViewModels
 
         private async Task FullUpdateAsync()
         {
-            foreach (var project in Projects)
+            foreach (ProjectViewModel project in Children)
             {
                 try
                 {

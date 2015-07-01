@@ -10,7 +10,7 @@ namespace FMStudio.Configuration
         public Guid Id { get; set; }
 
         public string Name { get; set; }
-
+        
         public string DllPath { get; set; }
 
         public string ConnectionString { get; set; }

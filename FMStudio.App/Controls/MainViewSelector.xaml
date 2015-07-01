@@ -8,6 +8,9 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
+        <DataTemplate DataType="{x:Type vm:CategoryViewModel}">
+            <viewers:CategoryViewer />
+        </DataTemplate>
         <DataTemplate DataType="{x:Type vm:MigrationViewModel}">
             <viewers:MigrationViewer />
         </DataTemplate>

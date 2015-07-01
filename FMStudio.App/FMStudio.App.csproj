@@ -85,6 +85,9 @@
     <Compile Include="Controls\MainViewSelector.xaml.cs">
       <DependentUpon>MainViewSelector.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ProjectTreeViewers\CategoryViewer.xaml.cs">
+      <DependentUpon>CategoryViewer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ProjectTreeViewers\MigrationsViewer.xaml.cs">
       <DependentUpon>MigrationsViewer.xaml</DependentUpon>
     </Compile>
@@ -102,6 +105,9 @@
     </Compile>
     <Compile Include="Controls\SqlViewer.xaml.cs">
       <DependentUpon>SqlViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Viewers\CategoryViewer.xaml.cs">
+      <DependentUpon>CategoryViewer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Viewers\DefaultViewer.xaml.cs">
       <DependentUpon>DefaultViewer.xaml</DependentUpon>
@@ -128,15 +134,21 @@
     <Compile Include="Converters\InvertBooleanConverter.cs" />
     <Compile Include="Converters\AddToDoubleConverter.cs" />
     <Compile Include="Converters\ValueConverterGroup.cs" />
+    <Compile Include="EventConstants.cs" />
+    <Compile Include="Interfaces\ICanBeDragged.cs" />
+    <Compile Include="Interfaces\ICanBeDroppedUpon.cs" />
     <Compile Include="Utility\AutoScroll.cs" />
     <Compile Include="Utility\Binding.cs" />
+    <Compile Include="Utility\DependencyObjectExtensions.cs" />
     <Compile Include="Utility\Extensions.cs" />
     <Compile Include="Utility\NotifyingOutputWriter.cs" />
     <Compile Include="Utility\NotifyPropertyChanged.cs" />
     <Compile Include="Utility\RelayCommand.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\CategoryViewModel.cs" />
     <Compile Include="ViewModels\DatabaseTypeViewModel.cs" />
     <Compile Include="ViewModels\DefaultViewModel.cs" />
+    <Compile Include="ViewModels\IHaveAName.cs" />
     <Compile Include="ViewModels\MigrationsViewModel.cs" />
     <Compile Include="ViewModels\MigrationViewModel.cs" />
     <Compile Include="ViewModels\OutputViewModel.cs" />
@@ -155,6 +167,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\MainViewSelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ProjectTreeViewers\CategoryViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -179,6 +195,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\SqlViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Viewers\CategoryViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

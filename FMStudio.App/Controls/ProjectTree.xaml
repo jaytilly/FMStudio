@@ -56,11 +56,11 @@
                 <project-tree-viewers:ProjectViewer />
             </HierarchicalDataTemplate>
 
-            <HierarchicalDataTemplate DataType="{x:Type vm:MigrationsViewModel}" ItemsSource="{Binding Migrations}">
+            <HierarchicalDataTemplate DataType="{x:Type vm:MigrationsViewModel}" ItemsSource="{Binding Children}">
                 <project-tree-viewers:MigrationsViewer />
             </HierarchicalDataTemplate>
 
-            <HierarchicalDataTemplate DataType="{x:Type vm:ProfilesViewModel}" ItemsSource="{Binding Profiles}">
+            <HierarchicalDataTemplate DataType="{x:Type vm:ProfilesViewModel}" ItemsSource="{Binding Children}">
                 <project-tree-viewers:ProfilesViewer />
             </HierarchicalDataTemplate>
 

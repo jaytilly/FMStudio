@@ -22,7 +22,7 @@ namespace FMStudio.Configuration
         public string ConnectionString { get; set; }
 
         [JsonConverter(typeof(StringEnumConverter))]
-        public DatabaseType DatabaseType { get; set; }
+        public DatabaseType? DatabaseType { get; set; }
 
         public List<string> Tags { get; set; }
 

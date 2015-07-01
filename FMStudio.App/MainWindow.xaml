@@ -27,6 +27,12 @@
 
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
+            <Button Command="{Binding SaveConfigurationCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xF0C7;" Margin="0,0,5,0" Style="{StaticResource IconStyle}" />
+                    <TextBlock Text="Save" />
+                </StackPanel>
+            </Button>
             <Button Command="{Binding EditPreferencesCommand}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="&#xF013;" Margin="0,0,5,0" Style="{StaticResource IconStyle}" />

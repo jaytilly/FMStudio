@@ -22,6 +22,14 @@ namespace FMStudio.App.Utility
             }
         }
 
+        public static Lib.DatabaseType? ToLib(this Configuration.DatabaseType? configDatabaseType)
+        {
+            if (configDatabaseType.HasValue)
+                configDatabaseType.Value.ToLib();
+
+            return null;
+        }
+
         public static Lib.DatabaseType ToLib(this Configuration.DatabaseType configDatabaseType)
         {
             switch (configDatabaseType)

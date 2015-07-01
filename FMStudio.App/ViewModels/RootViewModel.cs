@@ -1,17 +1,16 @@
-﻿using FMStudio.App.Utility;
+﻿using FMStudio.App.Interfaces;
+using FMStudio.App.Utility;
 using FMStudio.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace FMStudio.App.ViewModels
 {
-    public class RootViewModel : NotifyPropertyChanged
+    public class RootViewModel : HierarchicalBaseViewModel, ICanBeDroppedUpon
     {
-        public ObservableCollection<IHaveAName> Children { get; private set; }
-
         public Binding<BaseViewModel> ActiveEntity { get; set; }
 
         public ICommand AddCategoryCommand { get; private set; }
@@ -21,6 +20,8 @@ namespace FMStudio.App.ViewModels
         public ICommand EditPreferencesCommand { get; private set; }
 
         public ICommand FullUpdateCommand { get; private set; }
+
+        public ICommand SaveConfigurationCommand { get; private set; }
 
         public ICommand SelectActiveEntityCommand { get; private set; }
 
@@ -41,49 +42,27 @@ namespace FMStudio.App.ViewModels
             AddProjectCommand = new RelayCommand(param => AddProject());
             EditPreferencesCommand = new RelayCommand(param => EditPreferences());
             FullUpdateCommand = new RelayCommand(async param => await FullUpdateAsync());
+            SaveConfigurationCommand = new RelayCommand(param => SaveConfiguration());
             SelectActiveEntityCommand = new RelayCommand(param => SelectActiveEntity(param));
 
             Configuration = configuration;
-            Children = new ObservableCollection<IHaveAName>();
 
             OutputVM = new OutputViewModel();
 
             AppendOutput("Loaded local FluentMigrator assembly version " + Lib.Utility.References.GetFluentMigratorAssemblyVersion());
         }
 
-        public async Task InitializeAsync()
+        public override async Task InitializeAsync()
         {
             Children.Clear();
 
             foreach (var categoryConfiguration in Configuration.Categories)
-            {
-                Children.Add(LoadCategory(categoryConfiguration));
-            }
+                Add(new CategoryViewModel(this, categoryConfiguration));
 
-            foreach(CategoryViewModel category in Children)
-            {
-                //await category.InitializeAsync();
-            }
-        }
+            foreach (var projectConfiguration in Configuration.Projects)
+                Add(new ProjectViewModel(this, projectConfiguration));
 
-        private CategoryViewModel LoadCategory(CategoryConfiguration categoryConfiguration)
-        {
-            var categoryVM = new CategoryViewModel(this, categoryConfiguration);
-
-            foreach (var subCategoryConfiguration in categoryConfiguration.Categories)
-            {
-                categoryVM.Add(LoadCategory(subCategoryConfiguration));
-            }
-
-            foreach (var projectConfiguration in categoryConfiguration.Projects)
-            {
-                var projectVM = new ProjectViewModel(this, projectConfiguration);
-                categoryVM.Add(projectVM);
-
-                categoryVM.Children.SortBy(p => p.Name.Value);
-            }
-
-            return categoryVM;
+            await base.InitializeAsync();
         }
 
         public void AppendOutput(string format, params object[] args)
@@ -91,32 +70,62 @@ namespace FMStudio.App.ViewModels
             OutputVM.Write(format, args);
         }
 
+        public void Drop(ICanBeDragged draggable)
+        {
+            var childVM = draggable as HierarchicalBaseViewModel;
+            if (childVM != null)
+                Add(childVM);
+        }
+
+        public void SaveConfiguration()
+        {
+            Configuration.Categories.Clear();
+            Configuration.Categories.AddRange(Children.OfType<CategoryViewModel>().Select(c => c.ToConfiguration()));
+
+            Configuration.Projects.Clear();
+            Configuration.Projects.AddRange(Children.OfType<ProjectViewModel>().Select(c => c.ToConfiguration()));
+
+            Configuration.Save();
+        }
+
         private void AddCategory()
         {
-            var categoryVM = new CategoryViewModel(this, new CategoryConfiguration());
+            var categoryVM = new CategoryViewModel(this, new CategoryConfiguration() { Name = "New category" });
 
-            var activeCategoryVM = ActiveEntity.Value as CategoryViewModel;
-
-            if (activeCategoryVM != null)
-                activeCategoryVM.Children.Add(categoryVM);
+            var selectedCategoryVM = ActiveEntity.Value as CategoryViewModel;
+            if (selectedCategoryVM != null)
+                selectedCategoryVM.Add(categoryVM);
             else
-                Children.Add(categoryVM);
+                Add(categoryVM);
 
             ActiveEntity.Value = categoryVM;
         }
 
         private void AddProject()
         {
-            var categoryVM = ActiveEntity.Value as CategoryViewModel;
-            if (categoryVM != null)
+            var projectVM = new ProjectViewModel(this, new ProjectConfiguration());
+            projectVM.IsNew.Value = true;
+
+            var currentCategoryVM = ActiveEntity.Value as CategoryViewModel;
+            var currentProjectVM = ActiveEntity.Value as ProjectViewModel;
+
+            if (currentCategoryVM != null)
             {
-                var projectVM = new ProjectViewModel(this, new ProjectConfiguration());
-                projectVM.IsNew.Value = true;
-
-                projectVM.MoveTo(categoryVM);
-
-                ActiveEntity.Value = projectVM;
+                currentCategoryVM.IsNodeExpanded.Value = true;
+                currentCategoryVM.Add(projectVM);
             }
+            else if (currentProjectVM != null)
+            {
+                currentProjectVM.Parent.IsNodeExpanded.Value = true;
+                currentProjectVM.Parent.Add(projectVM);
+            }
+            else
+            {
+                IsNodeExpanded.Value = true;
+                Add(projectVM);
+            }
+
+            ActiveEntity.Value = projectVM;
         }
 
         private void EditPreferences()

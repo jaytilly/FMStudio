@@ -6,14 +6,12 @@ using System.Windows.Input;
 
 namespace FMStudio.App.ViewModels
 {
-    public class ProfileViewModel : BaseViewModel
+    public class ProfileViewModel : HierarchicalBaseViewModel
     {
         public ProfilesViewModel ProfilesVM { get; set; }
 
         public ProfileInfo ProfileInfo { get; set; }
-
-        public Binding<string> Name { get; private set; }
-
+        
         public Binding<string> Sql { get; private set; }
 
         public ICommand RunProfileCommand { get; set; }
@@ -22,8 +20,7 @@ namespace FMStudio.App.ViewModels
         {
             ProfilesVM = profilesVM;
             ProfileInfo = profileInfo;
-
-            Name = new Binding<string>();
+            
             Sql = new Binding<string>();
 
             RunProfileCommand = new RelayCommand(async param => await RunProfileAsync());

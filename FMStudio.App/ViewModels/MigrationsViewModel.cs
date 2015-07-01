@@ -5,33 +5,31 @@ using System.Threading.Tasks;
 
 namespace FMStudio.App.ViewModels
 {
-    public class MigrationsViewModel : BaseViewModel
+    public class MigrationsViewModel : HierarchicalBaseViewModel
     {
         public ProjectInfo ProjectInfo { get; set; }
 
         public ProjectViewModel ProjectVM { get; set; }
-
-        public ObservableCollection<MigrationViewModel> Migrations { get; private set; }
-
+        
         public MigrationsViewModel(ProjectViewModel projectVM, ProjectInfo project)
         {
             ProjectVM = projectVM;
             ProjectInfo = project;
-
-            Migrations = new ObservableCollection<MigrationViewModel>();
         }
 
-        public async Task InitializeAsync()
+        public override async Task InitializeAsync()
         {
-            Migrations.Clear();
+            Children.Clear();
 
             foreach (var migration in ProjectInfo.Migrations.OrderByDescending(m => m.Version))
             {
                 var migrationVM = new MigrationViewModel(this, migration);
-                Migrations.Add(migrationVM);
+                Add(migrationVM);
 
                 await migrationVM.InitializeAsync();
             }
+
+            await base.InitializeAsync();
         }
     }
 }

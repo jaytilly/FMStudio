@@ -19,6 +19,8 @@ namespace FMStudio.App
             LoadPreferences(config.Preferences);
 
             DataContext = _root;
+
+            Closing += (s, e) => _root.SaveConfiguration();
         }
 
         private void LoadPreferences(Preferences preferences)

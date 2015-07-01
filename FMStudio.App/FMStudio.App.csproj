@@ -148,6 +148,7 @@
     <Compile Include="ViewModels\CategoryViewModel.cs" />
     <Compile Include="ViewModels\DatabaseTypeViewModel.cs" />
     <Compile Include="ViewModels\DefaultViewModel.cs" />
+    <Compile Include="ViewModels\HierarchicalBaseViewModel.cs" />
     <Compile Include="ViewModels\IHaveAName.cs" />
     <Compile Include="ViewModels\MigrationsViewModel.cs" />
     <Compile Include="ViewModels\MigrationViewModel.cs" />

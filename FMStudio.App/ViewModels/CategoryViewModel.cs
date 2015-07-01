@@ -1,25 +1,19 @@
 ﻿using FMStudio.App.Interfaces;
 using FMStudio.App.Utility;
 using FMStudio.Configuration;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Linq;
 
 namespace FMStudio.App.ViewModels
 {
-    public class CategoryViewModel : BaseViewModel, IHaveAName, ICanBeDragged, ICanBeDroppedUpon
+    public class CategoryViewModel : HierarchicalBaseViewModel, IHaveAName, ICanBeDragged, ICanBeDroppedUpon
     {
-        public CategoryViewModel ParentCategory { get; private set; }
-
         public RootViewModel RootVM { get; private set; }
 
         public CategoryConfiguration CategoryConfiguration { get; private set; }
 
-        public Binding<string> Name { get; set; }
-
-        public Binding<bool> IsNodeExpanded { get; set; }
-
-        public ObservableCollection<IHaveAName> Children { get; set; }
+        public ICommand RemoveCategoryCommand { get; private set; }
 
         public ICommand SaveCategoryCommand { get; private set; }
 
@@ -28,99 +22,47 @@ namespace FMStudio.App.ViewModels
             RootVM = root;
             CategoryConfiguration = categoryConfiguration;
 
-            Name = new Binding<string>(categoryConfiguration.Name);
-            IsNodeExpanded = new Binding<bool>(true);
+            Name.Value = categoryConfiguration.Name;
 
-            Children = new ObservableCollection<IHaveAName>();
-
+            RemoveCategoryCommand = new RelayCommand(param => Remove());
             SaveCategoryCommand = new RelayCommand(param => Save());
+        }
+
+        public override int CompareTo(object obj)
+        {
+            var projectVM = obj as ProjectViewModel;
+            if (projectVM != null)
+                return -1;
+
+            return base.CompareTo(obj);
         }
 
         public void Drop(ICanBeDragged draggable)
         {
-            var projectVM = draggable as ProjectViewModel;
-            if (projectVM != null && !Children.Contains(projectVM))
-            {
-                projectVM.MoveTo(this);
-                RootVM.Configuration.Save();
-            }
-
-            var categoryVM = draggable as CategoryViewModel;
-            if (categoryVM != null)
-            {
-                categoryVM.MoveTo(this);
-                RootVM.Configuration.Save();
-            }
+            var childVM = draggable as HierarchicalBaseViewModel;
+            if (childVM != null && !Children.Contains(childVM))
+                Add(childVM);
         }
 
-        public async Task InitializeAsync()
+        public override async Task InitializeAsync()
         {
-            foreach (CategoryViewModel category in Children)
-            {
-                await category.InitializeAsync();
-            }
+            Children.Clear();
 
-            foreach (ProjectViewModel project in Children)
-            {
-                await project.InitializeAsync();
-            }
+            foreach (var subCategory in CategoryConfiguration.Categories)
+                Add(new CategoryViewModel(RootVM, subCategory));
+
+            foreach (var project in CategoryConfiguration.Projects)
+                Add(new ProjectViewModel(RootVM, project));
+
+            await base.InitializeAsync();
         }
 
-        #region Collection
+        #region Command implementations
 
-        public void Add(CategoryViewModel category)
+        private void Remove()
         {
-            category.ParentCategory = this;
-
-            if (!Children.Contains(category))
-                Children.Add(category);
-
-            CategoryConfiguration.Add(category.CategoryConfiguration);
-
-            RootVM.Configuration.Save();
+            Parent.Remove(this);
         }
-
-        public void Add(ProjectViewModel project)
-        {
-            project.ParentCategory = this;
-
-            if (!Children.Contains(project))
-                Children.Add(project);
-
-            CategoryConfiguration.Add(project.ProjectConfiguration);
-
-            RootVM.Configuration.Save();
-        }
-
-        public void MoveTo(CategoryViewModel category)
-        {
-            ParentCategory.Remove(this);
-            category.Add(this);
-
-            RootVM.Configuration.Save();
-        }
-
-        public void Remove(CategoryViewModel category)
-        {
-            category.ParentCategory = null;
-            Children.Remove(category);
-
-            CategoryConfiguration.Remove(category.CategoryConfiguration);
-
-            RootVM.Configuration.Save();
-        }
-
-        public void Remove(ProjectViewModel project)
-        {
-            project.ParentCategory = null;
-            Children.Remove(project);
-
-            CategoryConfiguration.Remove(project.ProjectConfiguration);
-
-            RootVM.Configuration.Save();
-        }
-
-        #endregion
 
         private void Save()
         {
@@ -129,8 +71,18 @@ namespace FMStudio.App.ViewModels
 
             CategoryConfiguration.Name = Name.Value;
             RootVM.Configuration.Save();
+        }
 
-            RootVM.Configuration.Save();
+        #endregion Command implementations
+
+        public CategoryConfiguration ToConfiguration()
+        {
+            return new CategoryConfiguration()
+            {
+                Categories = Children.OfType<CategoryViewModel>().Select(c => c.ToConfiguration()).ToList(),
+                Name = Name.Value,
+                Projects = Children.OfType<ProjectViewModel>().Select(c => c.ToConfiguration()).ToList()
+            };
         }
     }
 }

@@ -43,12 +43,18 @@ namespace FMStudio.App.Controls
                 if (treeViewItem != null)
                 {
                     var dropTarget = treeViewItem.Header as ICanBeDroppedUpon;
-                    if (dropTarget != null)
+                    if (dropTarget != null && dropTarget != draggable)
                         dropTarget.Drop(draggable);
+                }
+                else
+                {
+                    var root = DataContext as ICanBeDroppedUpon;
+                    if (root != null)
+                        root.Drop(draggable);
                 }
             }
         }
-
+        
         private void trvProjects_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             var treeViewItem = ((DependencyObject)e.OriginalSource).FindAncestor<TreeViewItem>();

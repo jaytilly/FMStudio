@@ -16,7 +16,7 @@
     <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
       <TextBlock Text="Migrations" />
       <TextBlock Text=" (" />
-      <TextBlock Text="{Binding Migrations.Count}" />
+      <TextBlock Text="{Binding Children.Count}" />
       <TextBlock Text=")" />
     </StackPanel>
   </Grid>

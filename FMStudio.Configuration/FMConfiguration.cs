@@ -13,12 +13,15 @@ namespace FMStudio.Configuration
 
         public List<CategoryConfiguration> Categories { get; set; }
 
+        public List<ProjectConfiguration> Projects { get; set; }
+
         public Preferences Preferences { get; set; }
 
         public FMConfiguration()
         {
             Version = 1;
             Categories = new List<CategoryConfiguration>();
+            Projects = new List<ProjectConfiguration>();
             Preferences = new Preferences();
         }
 
@@ -80,7 +83,7 @@ namespace FMStudio.Configuration
 
         public void Link()
         {
-            foreach(var category in Categories)
+            foreach (var category in Categories)
             {
                 Link(category);
             }

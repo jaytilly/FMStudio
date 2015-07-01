@@ -43,7 +43,8 @@
         <!-- Bottom Toolbar -->
         <Border Grid.Row="3" BorderBrush="{StaticResource Border}" BorderThickness="0,1,0,0">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <local:IconButton Command="{Binding SaveCategoryCommand}" Icon="&#xF0C7;" IconColor="{StaticResource SuccessGreen}" Text="Save" />
+                <!--<local:IconButton Command="{Binding SaveCategoryCommand}" Icon="&#xF0C7;" IconColor="{StaticResource SuccessGreen}" Text="Save" />-->
+                <local:IconButton Command="{Binding RemoveCategoryCommand}" Icon="&#xF00D;" IconColor="{StaticResource FailRed}" Text="Remove" />
             </StackPanel>
         </Border>
     </Grid>

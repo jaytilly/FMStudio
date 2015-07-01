@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace FMStudio.App.ViewModels
 {
-    public class MigrationViewModel : BaseViewModel
+    public class MigrationViewModel : HierarchicalBaseViewModel
     {
         public MigrationsViewModel MigrationsVM { get; set; }
 

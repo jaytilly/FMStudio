@@ -50,7 +50,7 @@ namespace FMStudio.Lib
             Profile = string.Empty;
             Output = new NotifyingOutputWriter();
         }
-
+        
         public async Task InitializeAsync()
         {
             await Task.Run(() =>

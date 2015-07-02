@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading.Tasks;
+
 namespace FMStudio.App.Utility
 {
     public class Binding<T> : NotifyPropertyChanged
@@ -29,9 +31,13 @@ namespace FMStudio.App.Utility
         {
             get
             {
-                if(!_isInitialized && _factory != null)
+                if (!_isInitialized && _factory != null)
                 {
-                    _value = _factory();
+                    Task.Run(() =>
+                    {
+                        _value = _factory();
+                        Notify(() => Value);
+                    });
                 }
 
                 return _value;

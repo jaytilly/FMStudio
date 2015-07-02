@@ -23,6 +23,8 @@ namespace FMStudio.App.ViewModels
         
         #region Properties
 
+        public Guid Id { get; private set; }
+
         public Binding<bool> IsNew { get; private set; }
 
         public Binding<bool> IsInitialized { get; private set; }
@@ -68,6 +70,8 @@ namespace FMStudio.App.ViewModels
             RootVM = root;
 
             DatabaseTypes = new ObservableCollection<DatabaseTypeViewModel>(DatabaseTypeViewModel.GetDatabaseTypes());
+
+            Id = configProject.Id;
 
             IsNew = new Binding<bool>();
             IsInitialized = new Binding<bool>();
@@ -131,14 +135,6 @@ namespace FMStudio.App.ViewModels
                 return;
             }
 
-            //ProjectInfo = new Lib.ProjectInfo(
-            //    PathToMigrationsDll.Value,
-            //    ConnectionString.Value,
-            //    DatabaseType.Value.Value.ToLib())
-            //{
-            //    Profile = Profile.Value
-            //};
-
             ProjectInfo.PathToMigrationsDll = PathToMigrationsDll.Value;
             ProjectInfo.ConnectionString = ConnectionString.Value;
             ProjectInfo.DatabaseType = DatabaseType.Value.Value.ToLib();
@@ -154,6 +150,10 @@ namespace FMStudio.App.ViewModels
             try
             {
                 await ProjectInfo.InitializeAsync();
+
+                await MigrationsVM.InitializeAsync();
+
+                await ProfilesVM.InitializeAsync();
                 
                 Update();
 
@@ -165,8 +165,6 @@ namespace FMStudio.App.ViewModels
             {
                 RootVM.AppendOutput("Could not initialize project '{0}': {1}", Name.Value, e.GetFullMessage());
             }
-
-            await base.InitializeAsync();
         }
 
         public override int CompareTo(object obj)
@@ -258,6 +256,7 @@ namespace FMStudio.App.ViewModels
         {
             var result = new ProjectConfiguration()
             {
+                Id = Id,
                 ConnectionString = ConnectionString.Value,
                 DllPath = PathToMigrationsDll.Value,
                 IsExpanded = IsNodeExpanded.Value,

@@ -17,7 +17,7 @@ namespace FMStudio.Lib
         {
             get
             {
-                if(_sql == null)
+                if (_sql == null)
                 {
                     _project.Output.Write(string.Format("Loading SQL for profile '{0}'", Name));
                     _sql = MigrationHelper.GetMigrationSql(_project, _typeInfo.FullName);

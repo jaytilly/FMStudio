@@ -10,7 +10,13 @@ namespace FMStudio.App.Utility
         {
             var propertyInfo = GetMemberInfo(property);
 
-            PropertyChanged(this, new PropertyChangedEventArgs(propertyInfo.Member.Name));
+            if (System.Windows.Application.Current != null)
+            {
+                System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs(propertyInfo.Member.Name));
+                });
+            }
         }
 
         private static MemberExpression GetMemberInfo(Expression method)

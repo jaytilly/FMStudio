@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 
 namespace FMStudio.App.ViewModels
 {
@@ -13,12 +13,15 @@ namespace FMStudio.App.ViewModels
             ProjectVM = projectVM;
         }
 
-        public override Task InitializeAsync()
+        public override async Task InitializeAsync()
         {
             Children.ClearOnDispatcher();
-            ProjectVM.ProjectInfo.Migrations.OrderByDescending(m => m.Version).ToList().ForEach(m => Add(new MigrationViewModel(this, m)));
-
-            return base.InitializeAsync();
+            foreach (var migration in ProjectVM.ProjectInfo.Migrations.OrderByDescending(m => m.Version))
+            {
+                var migrationVM = new MigrationViewModel(this, migration);
+                Add(migrationVM);
+                await migrationVM.InitializeAsync();
+            }
         }
     }
 }

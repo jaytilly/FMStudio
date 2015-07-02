@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 
 namespace FMStudio.App.ViewModels
 {
@@ -16,9 +16,12 @@ namespace FMStudio.App.ViewModels
         public override async Task InitializeAsync()
         {
             Children.ClearOnDispatcher();
-            ProjectVM.ProjectInfo.Profiles.OrderBy(p => p.Name).ToList().ForEach(p => Add(new ProfileViewModel(this, p)));
-
-            await base.InitializeAsync();
+            foreach (var profile in ProjectVM.ProjectInfo.Profiles.OrderBy(p => p.Name))
+            {
+                var profileVM = new ProfileViewModel(this, profile);
+                Add(profileVM);
+                await profileVM.InitializeAsync();
+            }
         }
     }
 }

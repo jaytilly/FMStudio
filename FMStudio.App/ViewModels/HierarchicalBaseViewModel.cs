@@ -1,9 +1,9 @@
 ﻿using FMStudio.App.Utility;
 using System;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using System.Linq;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace FMStudio.App.ViewModels
 {
@@ -24,6 +24,13 @@ namespace FMStudio.App.ViewModels
             Children = new ObservableCollection<HierarchicalBaseViewModel>();
         }
 
+        public virtual async Task InitializeAsync()
+        {
+            await Task.WhenAll(Children.Select(c => c.InitializeAsync()));
+        }
+
+        #region Collection
+
         public virtual void Add(HierarchicalBaseViewModel child)
         {
             if (child.Parent != null)
@@ -33,19 +40,19 @@ namespace FMStudio.App.ViewModels
 
             if (!Children.Contains(child))
                 Children.AddOnDispatcher(child);
-            
-            Children.SortBy(c => c);
-        }
 
-        public virtual async Task InitializeAsync()
-        {
-            Children.AsParallel().ForAll(async c => await c.InitializeAsync());
+            Children.SortBy(c => c);
         }
 
         public virtual void Remove(HierarchicalBaseViewModel child)
         {
             child.Parent = null;
             Children.RemoveOnDispatcher(child);
+        }
+
+        public virtual void Sort()
+        {
+            Children.SortBy(a => a);
         }
 
         public virtual int CompareTo(object obj)
@@ -57,5 +64,7 @@ namespace FMStudio.App.ViewModels
 
             return 0;
         }
+
+        #endregion Collection
     }
 }

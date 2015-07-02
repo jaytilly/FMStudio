@@ -139,6 +139,7 @@
     <Compile Include="Interfaces\ICanBeDroppedUpon.cs" />
     <Compile Include="Utility\AutoScroll.cs" />
     <Compile Include="Utility\Binding.cs" />
+    <Compile Include="Utility\CollectionExtensions.cs" />
     <Compile Include="Utility\DependencyObjectExtensions.cs" />
     <Compile Include="Utility\Extensions.cs" />
     <Compile Include="Utility\NotifyingOutputWriter.cs" />

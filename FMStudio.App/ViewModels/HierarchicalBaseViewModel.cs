@@ -2,6 +2,8 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace FMStudio.App.ViewModels
 {
@@ -30,23 +32,20 @@ namespace FMStudio.App.ViewModels
             child.Parent = this;
 
             if (!Children.Contains(child))
-                Children.Add(child);
-
+                Children.AddOnDispatcher(child);
+            
             Children.SortBy(c => c);
         }
 
         public virtual async Task InitializeAsync()
         {
-            foreach(var child in Children)
-            {
-                await child.InitializeAsync();
-            }
+            Children.AsParallel().ForAll(async c => await c.InitializeAsync());
         }
 
         public virtual void Remove(HierarchicalBaseViewModel child)
         {
             child.Parent = null;
-            Children.Remove(child);
+            Children.RemoveOnDispatcher(child);
         }
 
         public virtual int CompareTo(object obj)

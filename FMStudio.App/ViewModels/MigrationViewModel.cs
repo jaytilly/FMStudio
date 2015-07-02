@@ -61,7 +61,7 @@ namespace FMStudio.App.ViewModels
             RemoveFromDatabaseCommand = new RelayCommand(async param => await RemoveFromDatabaseAsync());
         }
 
-        public async Task InitializeAsync()
+        public override async Task InitializeAsync()
         {
             try
             {

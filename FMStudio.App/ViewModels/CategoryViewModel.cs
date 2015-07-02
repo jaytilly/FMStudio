@@ -1,17 +1,14 @@
 ﻿using FMStudio.App.Interfaces;
 using FMStudio.App.Utility;
 using FMStudio.Configuration;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using System.Linq;
+using System.Windows.Input;
 
 namespace FMStudio.App.ViewModels
 {
     public class CategoryViewModel : HierarchicalBaseViewModel, IHaveAName, ICanBeDragged, ICanBeDroppedUpon
     {
         public RootViewModel RootVM { get; private set; }
-
-        public CategoryConfiguration CategoryConfiguration { get; private set; }
 
         public ICommand RemoveCategoryCommand { get; private set; }
 
@@ -20,12 +17,14 @@ namespace FMStudio.App.ViewModels
         public CategoryViewModel(RootViewModel root, CategoryConfiguration categoryConfiguration)
         {
             RootVM = root;
-            CategoryConfiguration = categoryConfiguration;
 
             Name.Value = categoryConfiguration.Name;
+            IsNodeExpanded.Value = categoryConfiguration.IsExpanded;
 
-            RemoveCategoryCommand = new RelayCommand(param => Remove());
-            SaveCategoryCommand = new RelayCommand(param => Save());
+            RemoveCategoryCommand = new RelayCommand(param => RemoveCategory());
+
+            categoryConfiguration.Categories.ForEach(c => Add(new CategoryViewModel(RootVM, c)));
+            categoryConfiguration.Projects.ForEach(p => Add(new ProjectViewModel(RootVM, p)));
         }
 
         public override int CompareTo(object obj)
@@ -44,36 +43,10 @@ namespace FMStudio.App.ViewModels
                 Add(childVM);
         }
 
-        public override async Task InitializeAsync()
-        {
-            Children.Clear();
-
-            foreach (var subCategory in CategoryConfiguration.Categories)
-                Add(new CategoryViewModel(RootVM, subCategory));
-
-            foreach (var project in CategoryConfiguration.Projects)
-                Add(new ProjectViewModel(RootVM, project));
-
-            await base.InitializeAsync();
-        }
-
-        #region Command implementations
-
-        private void Remove()
+        private void RemoveCategory()
         {
             Parent.Remove(this);
         }
-
-        private void Save()
-        {
-            if (!RootVM.Configuration.Categories.Contains(CategoryConfiguration))
-                RootVM.Configuration.Categories.Add(CategoryConfiguration);
-
-            CategoryConfiguration.Name = Name.Value;
-            RootVM.Configuration.Save();
-        }
-
-        #endregion Command implementations
 
         public CategoryConfiguration ToConfiguration()
         {
@@ -81,6 +54,7 @@ namespace FMStudio.App.ViewModels
             {
                 Categories = Children.OfType<CategoryViewModel>().Select(c => c.ToConfiguration()).ToList(),
                 Name = Name.Value,
+                IsExpanded = IsNodeExpanded.Value,
                 Projects = Children.OfType<ProjectViewModel>().Select(c => c.ToConfiguration()).ToList()
             };
         }

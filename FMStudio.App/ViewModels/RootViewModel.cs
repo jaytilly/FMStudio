@@ -50,21 +50,11 @@ namespace FMStudio.App.ViewModels
             OutputVM = new OutputViewModel();
 
             AppendOutput("Loaded local FluentMigrator assembly version " + Lib.Utility.References.GetFluentMigratorAssemblyVersion());
+
+            Configuration.Categories.ForEach(c => Add(new CategoryViewModel(this, c)));
+            Configuration.Projects.ForEach(p => Add(new ProjectViewModel(this, p)));
         }
-
-        public override async Task InitializeAsync()
-        {
-            Children.Clear();
-
-            foreach (var categoryConfiguration in Configuration.Categories)
-                Add(new CategoryViewModel(this, categoryConfiguration));
-
-            foreach (var projectConfiguration in Configuration.Projects)
-                Add(new ProjectViewModel(this, projectConfiguration));
-
-            await base.InitializeAsync();
-        }
-
+        
         public void AppendOutput(string format, params object[] args)
         {
             OutputVM.Write(format, args);

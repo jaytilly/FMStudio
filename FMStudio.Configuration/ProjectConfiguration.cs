@@ -28,6 +28,12 @@ namespace FMStudio.Configuration
 
         public string Profile { get; set; }
 
+        public bool IsExpanded { get; set; }
+
+        public bool IsMigrationsExpanded { get; set; }
+
+        public bool IsProfilesExpanded { get; set; }
+
         public ProjectConfiguration()
         {
             Id = Guid.NewGuid();

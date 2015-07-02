@@ -21,19 +21,18 @@ namespace FMStudio.App.ViewModels
             ProfilesVM = profilesVM;
             ProfileInfo = profileInfo;
             
-            Sql = new Binding<string>();
+            Sql = new Binding<string>(() => ProfileInfo.Sql);
 
             RunProfileCommand = new RelayCommand(async param => await RunProfileAsync());
         }
 
-        public async Task InitializeAsync()
+        public override async Task InitializeAsync()
         {
             try
             {
                 await ProfileInfo.InitializeAsync();
 
                 Name.Value = ProfileInfo.Name;
-                Sql.Value = ProfileInfo.Sql;
             }
             catch (Exception e)
             {

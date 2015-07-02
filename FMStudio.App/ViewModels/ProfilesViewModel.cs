@@ -1,6 +1,6 @@
-﻿using FMStudio.Lib;
-using System.Collections.ObjectModel;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace FMStudio.App.ViewModels
 {
@@ -8,25 +8,17 @@ namespace FMStudio.App.ViewModels
     {
         public ProjectViewModel ProjectVM { get; private set; }
 
-        public ProjectInfo ProjectInfo { get; private set; }
-        
-        public ProfilesViewModel(ProjectViewModel projectVM, ProjectInfo projectInfo)
+        public ProfilesViewModel(ProjectViewModel projectVM)
         {
             ProjectVM = projectVM;
-            ProjectInfo = projectInfo;
         }
 
-        public async Task InitializeAsync()
+        public override async Task InitializeAsync()
         {
-            Children.Clear();
+            Children.ClearOnDispatcher();
+            ProjectVM.ProjectInfo.Profiles.OrderBy(p => p.Name).ToList().ForEach(p => Add(new ProfileViewModel(this, p)));
 
-            foreach (var profile in ProjectInfo.Profiles)
-            {
-                var profileVM = new ProfileViewModel(this, profile);
-                Children.Add(profileVM);
-
-                await profileVM.InitializeAsync();
-            }
+            await base.InitializeAsync();
         }
     }
 }

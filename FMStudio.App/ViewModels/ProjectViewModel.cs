@@ -26,7 +26,7 @@ namespace FMStudio.App.ViewModels
         public Binding<bool> IsNew { get; private set; }
 
         public Binding<bool> IsInitialized { get; private set; }
-
+        
         public Binding<int> UnRunMigrationsCount { get; private set; }
 
         public Binding<bool> HasPendingMigrations { get; private set; }
@@ -47,11 +47,11 @@ namespace FMStudio.App.ViewModels
 
         #region Commands
 
-        public ICommand FullUpdateCommand { get; set; }
+        public ICommand FullUpdateCommand { get; private set; }
 
-        public ICommand MigrationsOnlyCommand { get; set; }
+        public ICommand MigrationsOnlyCommand { get; private set; }
 
-        public ICommand ProfilesOnlyCommand { get; set; }
+        public ICommand ProfilesOnlyCommand { get; private set; }
 
         public ICommand BrowsePathToMigrationsDllCommand { get; private set; }
 
@@ -71,6 +71,7 @@ namespace FMStudio.App.ViewModels
 
             IsNew = new Binding<bool>();
             IsInitialized = new Binding<bool>();
+            IsNodeExpanded.Value = configProject.IsExpanded;
             UnRunMigrationsCount = new Binding<int>();
             HasPendingMigrations = new Binding<bool>();
 
@@ -97,7 +98,17 @@ namespace FMStudio.App.ViewModels
             CloneProjectCommand = new RelayCommand(param => Clone());
             DeleteProjectCommand = new RelayCommand(param => Delete());
 
-            Children.Add(new HierarchicalBaseViewModel()); // Hack to make the toggle button visible // TODO
+            ProjectInfo = new ProjectInfo();
+
+            // Migrations
+            MigrationsVM = new MigrationsViewModel(this);
+            MigrationsVM.IsNodeExpanded.Value = configProject.IsMigrationsExpanded;
+            Add(MigrationsVM);
+
+            // Profiles
+            ProfilesVM = new ProfilesViewModel(this);
+            ProfilesVM.IsNodeExpanded.Value = configProject.IsProfilesExpanded;
+            Add(ProfilesVM);
         }
 
         public override async Task InitializeAsync()
@@ -120,13 +131,18 @@ namespace FMStudio.App.ViewModels
                 return;
             }
 
-            ProjectInfo = new Lib.ProjectInfo(
-                PathToMigrationsDll.Value,
-                ConnectionString.Value,
-                DatabaseType.Value.Value.ToLib())
-            {
-                Profile = Profile.Value
-            };
+            //ProjectInfo = new Lib.ProjectInfo(
+            //    PathToMigrationsDll.Value,
+            //    ConnectionString.Value,
+            //    DatabaseType.Value.Value.ToLib())
+            //{
+            //    Profile = Profile.Value
+            //};
+
+            ProjectInfo.PathToMigrationsDll = PathToMigrationsDll.Value;
+            ProjectInfo.ConnectionString = ConnectionString.Value;
+            ProjectInfo.DatabaseType = DatabaseType.Value.Value.ToLib();
+            ProjectInfo.Profile = Profile.Value;
 
             if (Tags.HasValue)
                 ProjectInfo.Tags = Tags.Value.Split(new char[] { ' ' }).ToList();
@@ -134,25 +150,11 @@ namespace FMStudio.App.ViewModels
             var outputWriter = new FMStudio.App.Utility.NotifyingOutputWriter();
             outputWriter.OnOutput(output => RootVM.AppendOutput(output));
             ProjectInfo.Output = outputWriter;
-
-            Children.Clear();
-
-            // Migrations
-            MigrationsVM = new MigrationsViewModel(this, ProjectInfo);
-            Children.Add(MigrationsVM);
-
-            // Profiles
-            ProfilesVM = new ProfilesViewModel(this, ProjectInfo);
-            Children.Add(ProfilesVM);
-
+            
             try
             {
                 await ProjectInfo.InitializeAsync();
-
-                await MigrationsVM.InitializeAsync();
-
-                await ProfilesVM.InitializeAsync();
-
+                
                 Update();
 
                 IsInitialized.Value = true;
@@ -258,6 +260,9 @@ namespace FMStudio.App.ViewModels
             {
                 ConnectionString = ConnectionString.Value,
                 DllPath = PathToMigrationsDll.Value,
+                IsExpanded = IsNodeExpanded.Value,
+                IsMigrationsExpanded = MigrationsVM.IsNodeExpanded.Value,
+                IsProfilesExpanded = ProfilesVM.IsNodeExpanded.Value,
                 Name = Name.Value,
                 Profile = Profile.Value
             };

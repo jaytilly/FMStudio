@@ -13,6 +13,8 @@ namespace FMStudio.Configuration
 
         public string Name { get; set; }
 
+        public bool IsExpanded { get; set; }
+
         public List<CategoryConfiguration> Categories { get; set; }
 
         public List<ProjectConfiguration> Projects { get; set; }

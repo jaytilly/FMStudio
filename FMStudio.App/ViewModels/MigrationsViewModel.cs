@@ -1,35 +1,24 @@
-﻿using FMStudio.Lib;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace FMStudio.App.ViewModels
 {
     public class MigrationsViewModel : HierarchicalBaseViewModel
     {
-        public ProjectInfo ProjectInfo { get; set; }
-
         public ProjectViewModel ProjectVM { get; set; }
-        
-        public MigrationsViewModel(ProjectViewModel projectVM, ProjectInfo project)
+
+        public MigrationsViewModel(ProjectViewModel projectVM)
         {
             ProjectVM = projectVM;
-            ProjectInfo = project;
         }
 
-        public override async Task InitializeAsync()
+        public override Task InitializeAsync()
         {
-            Children.Clear();
+            Children.ClearOnDispatcher();
+            ProjectVM.ProjectInfo.Migrations.OrderByDescending(m => m.Version).ToList().ForEach(m => Add(new MigrationViewModel(this, m)));
 
-            foreach (var migration in ProjectInfo.Migrations.OrderByDescending(m => m.Version))
-            {
-                var migrationVM = new MigrationViewModel(this, migration);
-                Add(migrationVM);
-
-                await migrationVM.InitializeAsync();
-            }
-
-            await base.InitializeAsync();
+            return base.InitializeAsync();
         }
     }
 }

@@ -1,13 +1,14 @@
 ﻿using FMStudio.App.Utility;
 using FMStudio.Lib;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace FMStudio.App.ViewModels
 {
-    public class MigrationViewModel : BaseViewModel
+    public class MigrationViewModel : HierarchicalBaseViewModel
     {
         public MigrationsViewModel MigrationsVM { get; set; }
 
@@ -61,7 +62,7 @@ namespace FMStudio.App.ViewModels
             RemoveFromDatabaseCommand = new RelayCommand(async param => await RemoveFromDatabaseAsync());
         }
 
-        public async Task InitializeAsync()
+        public override async Task InitializeAsync()
         {
             try
             {
@@ -83,18 +84,10 @@ namespace FMStudio.App.ViewModels
 
             HasRun.Value = MigrationInfo.HasRun;
 
-            Tags.Clear();
+            Tags.ClearOnDispatcher();
 
             if (MigrationInfo.Tags != null)
-            {
-                foreach (var tag in MigrationInfo.Tags)
-                {
-                    Tags.Add(new TagViewModel()
-                    {
-                        Name = tag
-                    });
-                }
-            }
+                MigrationInfo.Tags.ForEach(t => Tags.AddOnDispatcher(new TagViewModel() { Name = t }));
 
             var tagIsIncluded = MigrationInfo.IsToBeRun;
             IsToBeRun.Value = !HasRun.Value && tagIsIncluded;

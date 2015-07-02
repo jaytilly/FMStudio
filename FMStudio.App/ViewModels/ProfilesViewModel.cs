@@ -1,34 +1,25 @@
-﻿using FMStudio.Lib;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FMStudio.App.ViewModels
 {
-    public class ProfilesViewModel : BaseViewModel
+    public class ProfilesViewModel : HierarchicalBaseViewModel
     {
         public ProjectViewModel ProjectVM { get; private set; }
 
-        public ProjectInfo ProjectInfo { get; private set; }
-
-        public ObservableCollection<ProfileViewModel> Profiles { get; private set; }
-
-        public ProfilesViewModel(ProjectViewModel projectVM, ProjectInfo projectInfo)
+        public ProfilesViewModel(ProjectViewModel projectVM)
         {
             ProjectVM = projectVM;
-            ProjectInfo = projectInfo;
-
-            Profiles = new ObservableCollection<ProfileViewModel>();
         }
 
-        public async Task InitializeAsync()
+        public override async Task InitializeAsync()
         {
-            Profiles.Clear();
-
-            foreach (var profile in ProjectInfo.Profiles)
+            Children.ClearOnDispatcher();
+            foreach (var profile in ProjectVM.ProjectInfo.Profiles.OrderBy(p => p.Name))
             {
                 var profileVM = new ProfileViewModel(this, profile);
-                Profiles.Add(profileVM);
-
+                Add(profileVM);
                 await profileVM.InitializeAsync();
             }
         }

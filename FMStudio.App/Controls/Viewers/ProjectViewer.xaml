@@ -7,79 +7,79 @@
   xmlns:converters="clr-namespace:FMStudio.App.Converters"
   xmlns:local="clr-namespace:FMStudio.App.Controls"
   mc:Ignorable="d">
-  <Grid>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="60" />
-      <RowDefinition Height="40" />
-      <RowDefinition Height="*" />
-      <RowDefinition Height="40" />
-    </Grid.RowDefinitions>
-    <!-- Header -->
-    <Border BorderBrush="Gray" BorderThickness="0,0,0,1">
-      <Grid>
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="60" />
-          <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-          <TextBlock Text="&#xF1C0;" Style="{StaticResource IconStyle}" FontSize="20pt" Foreground="DarkBlue" Visibility="{Binding IsInitialized.Value, Converter={StaticResource BoolToVis}}" />
-          <TextBlock Text="&#xF1C0;" Style="{StaticResource IconStyle}" FontSize="20pt" Foreground="{StaticResource FailRed}" Visibility="{Binding IsInitialized.Value, Converter={StaticResource InvertBoolToVis}}" />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+        <!-- Header -->
+        <Border BorderBrush="Gray" BorderThickness="0,0,0,1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="&#xF1C0;" Style="{StaticResource IconStyle}" FontSize="20pt" Foreground="DarkBlue" Visibility="{Binding IsInitialized.Value, Converter={StaticResource BoolToVis}}" />
+                    <TextBlock Text="&#xF1C0;" Style="{StaticResource IconStyle}" FontSize="20pt" Foreground="{StaticResource FailRed}" Visibility="{Binding IsInitialized.Value, Converter={StaticResource InvertBoolToVis}}" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Name.Value}" FontSize="20pt" />
+                    <TextBlock Text=" * " FontSize="20pt" Visibility="{Binding IsNew.Value, Converter={StaticResource BoolToVis}}" />
+                </StackPanel>
+            </Grid>
+        </Border>
+        <!-- Toolbar -->
+        <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="0,0,0,1">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <local:IconButton Command="{Binding FullUpdateCommand}" Icon="&#xF00C;" IconColor="{StaticResource SuccessGreen}" Text="Full update" ToolTip="Run all applicable migrations and profiles" />
+
+                <local:IconButton Command="{Binding MigrationsOnlyCommand}" Icon="M" IconColor="{StaticResource SuccessGreen}" Text="Migrations only" ToolTip="Run all applicable migrations only" />
+
+                <local:IconButton Command="{Binding ProfilesOnlyCommand}" Icon="P" IconColor="{StaticResource SuccessGreen}" Text="Profiles only" ToolTip="Run all applicable profiles only" />
+            </StackPanel>
+        </Border>
+        <!-- Content -->
+        <StackPanel Grid.Row="2" Orientation="Vertical" Margin="10">
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <TextBlock Text="Name" Width="200" />
+                <TextBox Width="300">
+                    <Binding Path="Name.Value" UpdateSourceTrigger="PropertyChanged" />
+                </TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <TextBlock Text="Path to migrations dll" Width="200" />
+                <TextBox Width="300" Text="{Binding PathToMigrationsDll.Value}" />
+                <Button Command="{Binding BrowsePathToMigrationsDllCommand}" Content="Browse..." Margin="10,0,0,0" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <TextBlock Text="Connection string" Width="200" />
+                <TextBox Width="300" Text="{Binding ConnectionString.Value}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <TextBlock Text="Database type" Width="200" />
+                <ComboBox ItemsSource="{Binding DatabaseTypes}" SelectedValue="{Binding DatabaseType.Value}" DisplayMemberPath="Name" Width="300" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <TextBlock Text="Tags" Width="200" />
+                <TextBox Width="300" Text="{Binding Tags.Value}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <TextBlock Text="Profile" Width="200" />
+                <TextBox Width="300" Text="{Binding Profile.Value}" />
+            </StackPanel>
         </StackPanel>
-        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-          <TextBlock Text="{Binding Name.Value}" FontSize="20pt" />
-          <TextBlock Text=" * " FontSize="20pt" Visibility="{Binding IsNew.Value, Converter={StaticResource BoolToVis}}" />
-        </StackPanel>
-      </Grid>
-    </Border>
-    <!-- Toolbar -->
-    <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="0,0,0,1">
-      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-        <local:IconButton Command="{Binding FullUpdateCommand}" Icon="&#xF00C;" IconColor="{StaticResource SuccessGreen}" Text="Full update" ToolTip="Run all applicable migrations and profiles" />
+        <!-- Bottom Toolbar -->
+        <Border Grid.Row="3" BorderBrush="{StaticResource Border}" BorderThickness="0,1,0,0">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <local:IconButton Command="{Binding InitializeProjectCommand}" Icon="&#xF0E7;" IconColor="{StaticResource SuccessGreen}" Text="Initialize" ToolTip="Initializes the project" />
 
-        <local:IconButton Command="{Binding MigrationsOnlyCommand}" Icon="M" IconColor="{StaticResource SuccessGreen}" Text="Migrations only" ToolTip="Run all applicable migrations only" />
+                <local:IconButton Command="{Binding CloneProjectCommand}" Icon="&#xF0C5;" IconColor="{StaticResource NeutralBlue}" Text="Clone" ToolTip="Clones the project to a second one" />
 
-        <local:IconButton Command="{Binding ProfilesOnlyCommand}" Icon="P" IconColor="{StaticResource SuccessGreen}" Text="Profiles only" ToolTip="Run all applicable profiles only" />
-      </StackPanel>
-    </Border>
-    <!-- Content -->
-    <StackPanel Grid.Row="2" Orientation="Vertical" Margin="10">
-      <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-        <TextBlock Text="Name" Width="200" />
-        <TextBox Width="300">
-          <Binding Path="Name.Value" UpdateSourceTrigger="PropertyChanged" />
-        </TextBox>
-      </StackPanel>
-      <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-        <TextBlock Text="Path to migrations dll" Width="200" />
-        <TextBox Width="300" Text="{Binding PathToMigrationsDll.Value}" />
-        <Button Command="{Binding BrowsePathToMigrationsDllCommand}" Content="Browse..." Margin="10,0,0,0" />
-      </StackPanel>
-      <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-        <TextBlock Text="Connection string" Width="200" />
-        <TextBox Width="300" Text="{Binding ConnectionString.Value}" />
-      </StackPanel>
-      <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-        <TextBlock Text="Database type" Width="200" />
-        <ComboBox ItemsSource="{Binding DatabaseTypes.Value}" SelectedValue="{Binding DatabaseType.Value}" DisplayMemberPath="Name" Width="300" />
-      </StackPanel>
-      <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-        <TextBlock Text="Tags" Width="200" />
-        <TextBox Width="300" Text="{Binding Tags.Value}" />
-      </StackPanel>
-      <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-        <TextBlock Text="Profile" Width="200" />
-        <TextBox Width="300" Text="{Binding Profile.Value}" />
-      </StackPanel>
-    </StackPanel>
-    <!-- Bottom Toolbar -->
-    <Border Grid.Row="3" BorderBrush="{StaticResource Border}" BorderThickness="0,1,0,0">
-      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-        <local:IconButton Command="{Binding SaveProjectCommand}" Icon="&#xF0C7;" IconColor="{StaticResource SuccessGreen}" Text="Save" ToolTip="Saves the project to the configuration file" />
-
-        <local:IconButton Command="{Binding VerifyProjectCommand}" Icon="&#xF00C;" IconColor="{StaticResource SuccessGreen}" Text="Verify" ToolTip="Checks that the dll contains migrations and a connection to the database can be made" />
-
-        <local:IconButton Command="{Binding DeleteProjectCommand}" Icon="&#xF00D;" IconColor="{StaticResource FailRed}" Text="Delete" ToolTip="Deletes the project from the configuration file" />
-      </StackPanel>
-    </Border>
-  </Grid>
+                <local:IconButton Command="{Binding DeleteProjectCommand}" Icon="&#xF00D;" IconColor="{StaticResource FailRed}" Text="Delete" ToolTip="Deletes the project from the configuration file" />
+            </StackPanel>
+        </Border>
+    </Grid>
 </UserControl>

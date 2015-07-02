@@ -1,18 +1,19 @@
-﻿using FMStudio.App.Utility;
+﻿using FMStudio.App.Interfaces;
+using FMStudio.App.Utility;
 using FMStudio.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace FMStudio.App.ViewModels
 {
-    public class RootViewModel : NotifyPropertyChanged
+    public class RootViewModel : HierarchicalBaseViewModel, ICanBeDroppedUpon
     {
-        public ObservableCollection<ProjectViewModel> Projects { get; set; }
-
         public Binding<BaseViewModel> ActiveEntity { get; set; }
+
+        public ICommand AddCategoryCommand { get; private set; }
 
         public ICommand AddProjectCommand { get; private set; }
 
@@ -20,8 +21,10 @@ namespace FMStudio.App.ViewModels
 
         public ICommand FullUpdateCommand { get; private set; }
 
+        public ICommand SaveConfigurationCommand { get; private set; }
+
         public ICommand SelectActiveEntityCommand { get; private set; }
-        
+
         public FMConfiguration Configuration { get; set; }
 
         public List<FMStudio.Lib.ProjectInfo> LibProjects { get; set; }
@@ -35,43 +38,82 @@ namespace FMStudio.App.ViewModels
             ActiveEntity = new Binding<BaseViewModel>(new DefaultViewModel());
             Output = new Binding<string>();
 
+            AddCategoryCommand = new RelayCommand(param => AddCategory());
             AddProjectCommand = new RelayCommand(param => AddProject());
             EditPreferencesCommand = new RelayCommand(param => EditPreferences());
             FullUpdateCommand = new RelayCommand(async param => await FullUpdateAsync());
+            SaveConfigurationCommand = new RelayCommand(param => SaveConfiguration());
             SelectActiveEntityCommand = new RelayCommand(param => SelectActiveEntity(param));
 
             Configuration = configuration;
-            Projects = new ObservableCollection<ProjectViewModel>();
 
             OutputVM = new OutputViewModel();
 
             AppendOutput("Loaded local FluentMigrator assembly version " + Lib.Utility.References.GetFluentMigratorAssemblyVersion());
+
+            Configuration.Categories.ForEach(c => Add(new CategoryViewModel(this, c)));
+            Configuration.Projects.ForEach(p => Add(new ProjectViewModel(this, p)));
         }
-
-        public async Task InitializeAsync()
-        {
-            Projects.Clear();
-
-            foreach (var project in Configuration.Projects)
-            {
-                var projectVM = new ProjectViewModel(this, project);
-                Projects.Add(projectVM);
-                Projects.SortBy(p => p.Name.Value);
-
-                await projectVM.InitializeAsync();
-            }
-        }
-
+        
         public void AppendOutput(string format, params object[] args)
         {
             OutputVM.Write(format, args);
+        }
+
+        public void Drop(ICanBeDragged draggable)
+        {
+            var childVM = draggable as HierarchicalBaseViewModel;
+            if (childVM != null)
+                Add(childVM);
+        }
+
+        public void SaveConfiguration()
+        {
+            Configuration.Categories.Clear();
+            Configuration.Categories.AddRange(Children.OfType<CategoryViewModel>().Select(c => c.ToConfiguration()));
+
+            Configuration.Projects.Clear();
+            Configuration.Projects.AddRange(Children.OfType<ProjectViewModel>().Select(c => c.ToConfiguration()));
+
+            Configuration.Save();
+        }
+
+        private void AddCategory()
+        {
+            var categoryVM = new CategoryViewModel(this, new CategoryConfiguration() { Name = "New category" });
+
+            var selectedCategoryVM = ActiveEntity.Value as CategoryViewModel;
+            if (selectedCategoryVM != null)
+                selectedCategoryVM.Add(categoryVM);
+            else
+                Add(categoryVM);
+
+            ActiveEntity.Value = categoryVM;
         }
 
         private void AddProject()
         {
             var projectVM = new ProjectViewModel(this, new ProjectConfiguration());
             projectVM.IsNew.Value = true;
-            Projects.Add(projectVM);
+
+            var currentCategoryVM = ActiveEntity.Value as CategoryViewModel;
+            var currentProjectVM = ActiveEntity.Value as ProjectViewModel;
+
+            if (currentCategoryVM != null)
+            {
+                currentCategoryVM.IsNodeExpanded.Value = true;
+                currentCategoryVM.Add(projectVM);
+            }
+            else if (currentProjectVM != null)
+            {
+                currentProjectVM.Parent.IsNodeExpanded.Value = true;
+                currentProjectVM.Parent.Add(projectVM);
+            }
+            else
+            {
+                IsNodeExpanded.Value = true;
+                Add(projectVM);
+            }
 
             ActiveEntity.Value = projectVM;
         }
@@ -83,7 +125,7 @@ namespace FMStudio.App.ViewModels
 
         private async Task FullUpdateAsync()
         {
-            foreach (var project in Projects)
+            foreach (ProjectViewModel project in Children)
             {
                 try
                 {

@@ -41,6 +41,11 @@ namespace FMStudio.Lib
             References.InitializeAssemblyBinding();
         }
 
+        public ProjectInfo()
+        {
+            Output = new NotifyingOutputWriter();
+        }
+
         public ProjectInfo(string pathToMigrationsDll, string connectionString, DatabaseType databaseType)
         {
             PathToMigrationsDll = pathToMigrationsDll;
@@ -50,7 +55,7 @@ namespace FMStudio.Lib
             Profile = string.Empty;
             Output = new NotifyingOutputWriter();
         }
-
+        
         public async Task InitializeAsync()
         {
             await Task.Run(() =>

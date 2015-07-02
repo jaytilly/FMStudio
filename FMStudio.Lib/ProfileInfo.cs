@@ -11,7 +11,21 @@ namespace FMStudio.Lib
     {
         public string Name { get; set; }
 
-        public string Sql { get; set; }
+        private string _sql;
+
+        public string Sql
+        {
+            get
+            {
+                if (_sql == null)
+                {
+                    _project.Output.Write(string.Format("Loading SQL for profile '{0}'", Name));
+                    _sql = MigrationHelper.GetMigrationSql(_project, _typeInfo.FullName);
+                }
+
+                return _sql;
+            }
+        }
 
         public List<string> Tags { get; set; }
 
@@ -65,7 +79,6 @@ namespace FMStudio.Lib
             }
 
             Name = _profileAttribute.ProfileName;
-            Sql = MigrationHelper.GetMigrationSql(_project, _typeInfo.FullName);
         }
     }
 }

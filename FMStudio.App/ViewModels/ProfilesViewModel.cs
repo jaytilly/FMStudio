@@ -22,6 +22,8 @@ namespace FMStudio.App.ViewModels
                 Add(profileVM);
                 await profileVM.InitializeAsync();
             }
+
+            Sort();
         }
     }
 }

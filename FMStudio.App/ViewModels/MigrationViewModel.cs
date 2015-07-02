@@ -3,6 +3,7 @@ using FMStudio.Lib;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -30,15 +31,17 @@ namespace FMStudio.App.ViewModels
 
         public Binding<string> Sql { get; set; }
 
-        public ICommand AddToDatabaseCommand { get; set; }
+        public ICommand AddToDatabaseCommand { get; private set; }
 
-        public ICommand MigrateDownCommand { get; set; }
+        public ICommand MigrateDownCommand { get; private set; }
 
-        public ICommand MigrateUpCommand { get; set; }
+        public ICommand MigrateUpCommand { get; private set; }
 
-        public ICommand RemoveFromDatabaseCommand { get; set; }
+        public ICommand RemoveFromDatabaseCommand { get; private set; }
 
-        public ICommand ReRunCommand { get; set; }
+        public ICommand ReRunCommand { get; private set; }
+
+        public ICommand SaveToFileCommand { get; private set; }
 
         public MigrationViewModel(MigrationsViewModel migrationsVM, MigrationInfo migrationInfo)
         {
@@ -60,6 +63,7 @@ namespace FMStudio.App.ViewModels
             MigrateUpCommand = new RelayCommand(async param => await MigrateUpAsync());
             ReRunCommand = new RelayCommand(async param => await ReRunMigrateUpAsync());
             RemoveFromDatabaseCommand = new RelayCommand(async param => await RemoveFromDatabaseAsync());
+            SaveToFileCommand = new RelayCommand(param => SaveToFile());
         }
 
         public override async Task InitializeAsync()
@@ -153,6 +157,28 @@ namespace FMStudio.App.ViewModels
             catch (Exception e)
             {
                 MigrationsVM.ProjectVM.RootVM.AppendOutput("Could not re-run migration: {0}", e.GetFullMessage());
+            }
+        }
+
+        private void SaveToFile()
+        {
+            var dialog = new Microsoft.Win32.SaveFileDialog();
+
+            dialog.DefaultExt = ".sql";
+            dialog.Filter = "SQL files (*.sql)|*.sql|All Files (*.*)|*.*";
+
+            var result = dialog.ShowDialog();
+
+            if (result == true)
+            {
+                try
+                {
+                    File.WriteAllText(dialog.FileName, Sql.Value);
+                }
+                catch (Exception e)
+                {
+                    MigrationsVM.ProjectVM.RootVM.AppendOutput("Error while writing to file: {0}", e.GetFullMessage());
+                }
             }
         }
     }

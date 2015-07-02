@@ -12,10 +12,14 @@ namespace FMStudio.App.Utility
 
             if (System.Windows.Application.Current != null)
             {
-                System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                try
                 {
-                    PropertyChanged(this, new PropertyChangedEventArgs(propertyInfo.Member.Name));
-                });
+                    System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        PropertyChanged(this, new PropertyChangedEventArgs(propertyInfo.Member.Name));
+                    });
+                }
+                catch { }
             }
         }
 

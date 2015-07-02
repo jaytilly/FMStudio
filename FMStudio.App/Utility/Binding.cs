@@ -36,6 +36,7 @@ namespace FMStudio.App.Utility
                     Task.Run(() =>
                     {
                         _value = _factory();
+                        Notify(() => HasValue);
                         Notify(() => Value);
                     });
                 }

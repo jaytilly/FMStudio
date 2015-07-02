@@ -82,6 +82,8 @@
                 <local:IconButton Command="{Binding RemoveFromDatabaseCommand}" Icon="&#xF00D;" IconColor="{StaticResource FailRed}" Text="Remove from database" ToolTip="Removes this migration from the version info table" Visibility="{Binding HasRun.Value, Converter={StaticResource BoolToVis}}" />
 
                 <local:IconButton Command="{Binding AddToDatabaseCommand}" Icon="&#xF067;" IconColor="{StaticResource WarningOrange}" Text="Add to database" ToolTip="Adds this migration to the version info table, without running it" Visibility="{Binding HasRun.Value, Converter={StaticResource InvertBoolToVis}}" />
+
+                <local:IconButton Command="{Binding SaveToFileCommand}" Icon="&#xF0C7;" IconColor="{StaticResource SuccessGreen}" Text="Save to file..." ToolTip="Saves the SQL to the specified file" Visibility="{Binding Sql.HasValue, Converter={StaticResource BoolToVis}}" />
             </StackPanel>
         </Border>
         <!-- Content -->

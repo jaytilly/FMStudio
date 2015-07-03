@@ -41,8 +41,6 @@ namespace FMStudio.Lib
         {
             _project = project;
             _typeInfo = typeInfo;
-
-            Initialize();
         }
 
         public async Task Run()

@@ -62,15 +62,12 @@ namespace FMStudio.Lib
 
         private List<TagsAttribute> _tagsAttribute;
 
-        public MigrationInfo(ProjectInfo project, TypeInfo typeInfo, bool initialize)
+        public MigrationInfo(ProjectInfo project, TypeInfo typeInfo)
         {
             _project = project;
             _typeInfo = typeInfo;
 
-            if (initialize)
-            {
-                InitializeAsync().Wait();
-            }
+            Tags = new List<string>();
         }
 
         public override string ToString()

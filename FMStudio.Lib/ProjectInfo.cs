@@ -55,7 +55,7 @@ namespace FMStudio.Lib
             Profile = string.Empty;
             Output = new NotifyingOutputWriter();
         }
-        
+
         public async Task InitializeAsync()
         {
             await Task.Run(() =>
@@ -65,7 +65,7 @@ namespace FMStudio.Lib
                 if (!files.Any())
                     throw new InitializeProjectException(ExceptionType.CouldNotFindMigrationsDll, "Path to migrations dll '{0}' does not exist.", PathToMigrationsDll);
 
-                // Get the file that has been written to the most recently 
+                // Get the file that has been written to the most recently
                 var path = files.OrderByDescending(f => f.LastWriteTime).First().FullName;
 
                 // Load migrations assembly
@@ -93,13 +93,12 @@ namespace FMStudio.Lib
                 // Find migrations
                 Migrations = migrationEntities
                     .Where(t => t.GetCustomAttribute<MigrationAttribute>() != null)
-                    .Select(migration => new MigrationInfo(this, migration, true))
+                    .Select(migration => new MigrationInfo(this, migration))
                     .ToList()
                 ;
 
                 // Find profiles
-                Profiles = Assembly
-                    .DefinedTypes
+                Profiles = migrationEntities
                     .Where(t => t.GetCustomAttribute<ProfileAttribute>() != null)
                     .Select(profile => new ProfileInfo(this, profile))
                     .ToList()

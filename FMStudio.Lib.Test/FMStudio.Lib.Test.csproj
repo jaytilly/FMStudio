@@ -72,19 +72,18 @@
     <Compile Include="AssemblyInitializer.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Database.cs" />
-    <Compile Include="MigrationTest\AddVersionToInfoTableTest.cs" />
-    <Compile Include="MigrationTest\DeleteVersionFromInfoTableTest.cs" />
-    <Compile Include="MigrationTest\MigrateDownTest.cs" />
-    <Compile Include="MigrationTest\MigrateUpTest.cs" />
-    <Compile Include="MigrationTest\RerunMigrationTest.cs" />
-    <Compile Include="ProfileTest\RunProfileTest.cs" />
-    <Compile Include="ProjectTest\FullUpdateTest.cs" />
-    <Compile Include="ProjectTest\InitializeTest.cs" />
-    <Compile Include="ProjectTest\RunAllRelevantMigrationsTest.cs" />
-    <Compile Include="ProjectTest\RunRelevantProfileTest.cs" />
+    <Compile Include="MigrationInfoTest\AddVersionToInfoTableTest.cs" />
+    <Compile Include="MigrationInfoTest\DeleteVersionFromInfoTableTest.cs" />
+    <Compile Include="MigrationInfoTest\DownTest.cs" />
+    <Compile Include="MigrationInfoTest\UpTest.cs" />
+    <Compile Include="ProfileInfoTest\RunProfileTest.cs" />
+    <Compile Include="ProjectInfoTest\FullUpdateTest.cs" />
+    <Compile Include="ProjectInfoTest\InitializeTest.cs" />
+    <Compile Include="ProjectInfoTest\RunAllRelevantMigrationsTest.cs" />
+    <Compile Include="ProjectInfoTest\RunRelevantProfileTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestUtility.cs" />
-    <Compile Include="Utility\MigrationsAssemblyLoaderTest.cs" />
+    <Compile Include="RepositoriesTest\FilesRepositoryTest\GetMatchingFilesTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FMStudio.Lib.Test.Migrations\FMStudio.Lib.Test.Migrations.csproj">
@@ -127,6 +126,10 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="RepositoriesTest\AssemblyRepositoryTest\" />
+    <Folder Include="RepositoriesTest\MigrationsRepositoryTest\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

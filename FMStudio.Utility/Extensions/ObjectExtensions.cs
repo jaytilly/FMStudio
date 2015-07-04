@@ -1,9 +1,8 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 
-namespace FMStudio.Lib.Utility
+namespace System
 {
-    public static class ReflectionHelper
+    public static class ObjectExtensions
     {
         private static FieldInfo GetFieldInfo(Type type, string fieldName)
         {

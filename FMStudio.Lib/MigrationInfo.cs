@@ -1,9 +1,7 @@
 ﻿using FluentMigrator;
 using FluentMigrator.Runner;
-using FluentMigrator.Runner.Announcers;
-using FluentMigrator.Runner.Initialization;
 using FMStudio.Lib.Exceptions;
-using FMStudio.Lib.Utility;
+using FMStudio.Lib.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,169 +12,69 @@ namespace FMStudio.Lib
 {
     public class MigrationInfo
     {
-        public event EventHandler OnUpdate = delegate { };
-
-        public bool IsValid { get; set; }
-
-        public long Version { get; set; }
-
-        public string Description { get; set; }
-
-        public List<string> Tags { get; set; }
-
-        public bool HasRun { get; set; }
-
-        public bool IsToBeRun
-        {
-            get { return !HasRun && IsIncluded; }
-        }
-
-        public bool IsIncluded
-        {
-            get { return !Tags.Any() || _project.Tags.Any(pt => Tags.Contains(pt)); }
-        }
-
-        public DateTime? AppliedOn { get; private set; }
-
-        private string _sql;
-
-        public string Sql
-        {
-            get
-            {
-                if (_sql == null)
-                {
-                    _project.Output.Write(string.Format("Loading SQL for migration {0}: '{1}'", Version, Description));
-                    _sql = MigrationHelper.GetMigrationSql(_project, _typeInfo.FullName);
-                }
-
-                return _sql;
-            }
-        }
+        private MigrationAttribute _migrationAttribute;
+        private IMigrationsRepository _migrationsRepository;
 
         private ProjectInfo _project;
 
+        private string _sql;
+        private List<TagsAttribute> _tagsAttribute;
         private TypeInfo _typeInfo;
 
-        private MigrationAttribute _migrationAttribute;
-
-        private List<TagsAttribute> _tagsAttribute;
-
-        public MigrationInfo(ProjectInfo project, TypeInfo typeInfo)
+        public MigrationInfo(
+            IMigrationsRepository migrationsRepository,
+            ProjectInfo project,
+            TypeInfo typeInfo)
         {
+            _migrationsRepository = migrationsRepository;
+
             _project = project;
             _typeInfo = typeInfo;
 
             Tags = new List<string>();
         }
 
-        public override string ToString()
+        public event EventHandler MigrationUpdated = delegate { };
+
+        public DateTime? AppliedOn { get; private set; }
+
+        public string Description { get; private set; }
+
+        public bool HasRun { get; private set; }
+
+        public bool IsIncluded
         {
-            return string.Format("{0}: {1} ({2})", Version, Description, HasRun ? "Run" : "Not run");
+            get { return !Tags.Any() || _project.Tags.Any(pt => Tags.Contains(pt)); }
         }
 
-        public async Task DownAsync()
+        public bool IsToBeRun
         {
-            // TODO: Implement
+            get { return !HasRun && IsIncluded; }
         }
 
-        public async Task UpAsync(bool clearFromVersionInfoTable)
-        {
-            await Task.Run(() =>
-            {
-                _project.Output.Write(string.Format("Running migration {0}: '{1}'...", Version, Description));
+        public bool IsValid { get; private set; }
 
-                var announcer = new TextWriterAnnouncer(s => { });
+        public List<string> Tags { get; private set; }
 
-                var migrationContext = new RunnerContext(announcer)
-                {
-                    Tags = Tags.ToArray(),
-                    PreviewOnly = false
-                };
-
-                var factory = MigrationHelper.CreateFactory(_project.DatabaseType);
-
-                if (clearFromVersionInfoTable)
-                {
-                    using (var processor = factory.Create(_project.ConnectionString, announcer, new MigrationProcessorOptions(migrationContext)))
-                    {
-                        processor.BeginTransaction();
-
-                        try
-                        {
-                            var runner = new MigrationRunner(_project.Assembly, migrationContext, processor);
-
-                            runner.VersionLoader.DeleteVersion(Version);
-
-                            runner = new MigrationRunner(_project.Assembly, migrationContext, processor);
-
-                            var m1 = runner.MigrationLoader.LoadMigrations();
-                            var info = m1.Single(m => m.Key == Version);
-
-                            runner.ApplyMigrationUp(info.Value, true);
-
-                            processor.CommitTransaction();
-                        }
-                        catch (Exception e)
-                        {
-                            processor.RollbackTransaction();
-                            throw new MigrateUpFailedException("Could not remove potential record from version info table", e, this);
-                        }
-                    }
-                }
-                else
-                {
-                    try
-                    {
-                        using (var processor = factory.Create(_project.ConnectionString, announcer, new MigrationProcessorOptions(migrationContext)))
-                        {
-                            var runner = new MigrationRunner(_project.Assembly, migrationContext, processor);
-
-                            var m1 = runner.MigrationLoader.LoadMigrations();
-                            var info = m1.Single(m => m.Key == Version);
-
-                            runner.ApplyMigrationUp(info.Value, true);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        throw new MigrateUpFailedException("Could not run the migration up-action", e, this);
-                    }
-                }
-            });
-
-            await InitializeAsync();
-
-            _project.Output.Write(string.Format("Done"));
-        }
+        public long Version { get; private set; }
 
         public async Task AddToVersionInfoTableAsync()
         {
             await Task.Run(() =>
             {
-                var announcer = new TextWriterAnnouncer(s => _project.Output.Write(s));
-
-                var migrationContext = new RunnerContext(announcer)
+                try
                 {
-                    Tags = Tags.ToArray(),
-                    PreviewOnly = false
-                };
+                    var context = _migrationsRepository.GetRunnerContext(_project.Profile, Tags, false);
+                    using (var processor = _migrationsRepository.GetMigrationProcessor(_project.DatabaseType.Value, _project.ConnectionString, context))
+                    {
+                        var runner = new MigrationRunner(_project.MigrationsAssembly, context, processor);
 
-                var factory = MigrationHelper.CreateFactory(_project.DatabaseType);
-
-                using (var processor = factory.Create(_project.ConnectionString, announcer, new MigrationProcessorOptions(migrationContext)))
+                        runner.VersionLoader.UpdateVersionInfo(Version, Description);
+                    }
+                }
+                catch (Exception e)
                 {
-                    try
-                    {
-                        var runner = new MigrationRunner(_project.Assembly, migrationContext, processor);
-
-                        runner.VersionLoader.UpdateVersionInfo(_migrationAttribute.Version, _migrationAttribute.Description);
-                    }
-                    catch (Exception e)
-                    {
-                        processor.RollbackTransaction();
-                        throw new MigrateUpFailedException("Could not add record to version info table", e, this);
-                    }
+                    throw new MigrateUpFailedException("Could not add record to version info table", e, this);
                 }
             });
 
@@ -185,63 +83,102 @@ namespace FMStudio.Lib
 
         public async Task DeleteFromVersionInfoTableAsync()
         {
+            if (!_project.IsDatabaseInitialized)
+                throw new InvalidOperationException("Cannot delete migration from version info table: the database connection has not been initialized");
+
             await Task.Run(() =>
             {
-                var announcer = new TextWriterAnnouncer(s => _project.Output.Write(s));
-
-                var migrationContext = new RunnerContext(announcer)
+                var context = _migrationsRepository.GetRunnerContext(_project.Profile, _project.Tags, false);
+                using (var processor = _migrationsRepository.GetMigrationProcessor(_project.DatabaseType.Value, _project.ConnectionString, context))
                 {
-                    Tags = Tags.ToArray(),
-                    PreviewOnly = false
-                };
+                    var runner = new MigrationRunner(_project.MigrationsAssembly, context, processor);
 
-                var factory = MigrationHelper.CreateFactory(_project.DatabaseType);
-
-                using (var processor = factory.Create(_project.ConnectionString, announcer, new MigrationProcessorOptions(migrationContext)))
-                {
-                    try
-                    {
-                        var runner = new MigrationRunner(_project.Assembly, migrationContext, processor);
-
-                        runner.VersionLoader.DeleteVersion(Version);
-                    }
-                    catch (Exception e)
-                    {
-                        processor.RollbackTransaction();
-                        throw new MigrateUpFailedException("Could not remove potential record from version info table", e, this);
-                    }
+                    runner.VersionLoader.DeleteVersion(Version);
                 }
             });
 
             await InitializeAsync();
         }
 
+        public async Task DownAsync()
+        {
+            // TODO: Implement
+        }
+
+        public async Task<string> GetSqlAsync()
+        {
+            if (_sql == null)
+                _sql = await _migrationsRepository.GetMigrationSql(_project.MigrationsAssembly, _typeInfo.FullName);
+
+            return _sql;
+        }
+
         public async Task InitializeAsync()
         {
+            _migrationAttribute = _typeInfo.GetCustomAttribute<MigrationAttribute>();
+
+            Version = _migrationAttribute.Version;
+            Description = _migrationAttribute.Description;
+
+            _tagsAttribute = _typeInfo.GetCustomAttributes<TagsAttribute>().ToList();
+
+            if (_tagsAttribute.Any())
+                Tags = _tagsAttribute.SelectMany(t => t.TagNames).ToList();
+            else
+                Tags = Enumerable.Empty<string>().ToList();
+
+            if (_project.IsDatabaseInitialized)
+            {
+                HasRun = await _migrationsRepository.IsVersionApplied(_project.MigrationsAssembly, Version, _project.DatabaseType.Value, _project.ConnectionString);
+
+                if (HasRun)
+                    AppliedOn = await _migrationsRepository.GetAppliedOnDate(_project.MigrationsAssembly, Version, _project.DatabaseType.Value, _project.ConnectionString);
+            }
+
+            MigrationUpdated(this, EventArgs.Empty);
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{0}: {1} ({2})", Version, Description, HasRun ? "Run" : "Not run");
+        }
+
+        public async Task UpAsync(bool clearFromVersionInfoTable)
+        {
+            if (!_project.IsDatabaseInitialized)
+                throw new InvalidOperationException("Cannot run migration: database connection has not been initialized");
+
             await Task.Run(() =>
             {
-                _migrationAttribute = _typeInfo.GetCustomAttribute<MigrationAttribute>();
-                _tagsAttribute = _typeInfo.GetCustomAttributes<TagsAttribute>().ToList();
-
-                Version = _migrationAttribute.Version;
-                Description = _migrationAttribute.Description;
-
-                if (_tagsAttribute.Any())
+                var context = _migrationsRepository.GetRunnerContext(_project.Profile, _project.Tags, false);
+                using (var processor = _migrationsRepository.GetMigrationProcessor(_project.DatabaseType.Value, _project.ConnectionString, context))
                 {
-                    Tags = _tagsAttribute.SelectMany(t => t.TagNames).ToList();
-                }
-                else
-                {
-                    Tags = Enumerable.Empty<string>().ToList();
-                }
+                    processor.BeginTransaction();
 
-                HasRun = MigrationHelper.CheckIfMigrationHasRun(_project, Version);
-                
-                if (HasRun)
-                    AppliedOn = MigrationHelper.GetAppliedOnDate(_project, Version);
+                    try
+                    {
+                        var runner = new MigrationRunner(_project.MigrationsAssembly, context, processor);
+
+                        if (clearFromVersionInfoTable)
+                            runner.VersionLoader.DeleteVersion(Version);
+
+                        runner = new MigrationRunner(_project.MigrationsAssembly, context, processor);
+
+                        var migrations = runner.MigrationLoader.LoadMigrations();
+                        var info = migrations.Single(m => m.Key == Version);
+
+                        runner.ApplyMigrationUp(info.Value, true);
+
+                        processor.CommitTransaction();
+                    }
+                    catch (Exception e)
+                    {
+                        processor.RollbackTransaction();
+                    }
+                }
             });
 
-            OnUpdate(this, EventArgs.Empty);
+            await InitializeAsync();
         }
     }
 }

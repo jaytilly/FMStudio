@@ -88,6 +88,15 @@ namespace FMStudio.Lib {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not initialize database, no database type specified..
+        /// </summary>
+        internal static string InitializeProject_NoDatabaseTypeSpecified {
+            get {
+                return ResourceManager.GetString("InitializeProject_NoDatabaseTypeSpecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The specified migrations dll does not exist..
         /// </summary>
         internal static string InitializeProject_PathToMigrationsDoesNotExist {

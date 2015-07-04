@@ -21,7 +21,7 @@ namespace FMStudio.App.ViewModels
             ProfilesVM = profilesVM;
             ProfileInfo = profileInfo;
             
-            Sql = new Binding<string>(() => ProfileInfo.Sql);
+            Sql = new Binding<string>(() => ProfileInfo.GetSqlAsync().Result); // TODO: Make nicer
 
             RunProfileCommand = new RelayCommand(async param => await RunProfileAsync());
         }
@@ -44,7 +44,7 @@ namespace FMStudio.App.ViewModels
         {
             try
             {
-                await ProfileInfo.Run();
+                await ProfileInfo.RunAsync();
 
                 await InitializeAsync();
             }

@@ -135,21 +135,19 @@ namespace FMStudio.App.ViewModels
                 return;
             }
 
-            ProjectInfo.PathToMigrationsDll = PathToMigrationsDll.Value;
-            ProjectInfo.ConnectionString = ConnectionString.Value;
-            ProjectInfo.DatabaseType = DatabaseType.Value.Value.ToLib();
+            //ProjectInfo.PathToMigrationsDll = PathToMigrationsDll.Value;
+            //ProjectInfo.ConnectionString = ConnectionString.Value;
+            //ProjectInfo.DatabaseType = DatabaseType.Value.Value.ToLib();
             ProjectInfo.Profile = Profile.Value;
 
             if (Tags.HasValue)
                 ProjectInfo.Tags = Tags.Value.Split(new char[] { ' ' }).ToList();
-
-            var outputWriter = new FMStudio.App.Utility.NotifyingOutputWriter();
-            outputWriter.OnOutput(output => RootVM.AppendOutput(output));
-            ProjectInfo.Output = outputWriter;
             
             try
             {
-                await ProjectInfo.InitializeAsync();
+                await ProjectInfo.InitializeMigrationsAsync(PathToMigrationsDll.Value);
+
+                await ProjectInfo.InitializeDatabase(DatabaseType.Value.Value.ToLib(), ConnectionString.Value);
 
                 await MigrationsVM.InitializeAsync();
 
@@ -159,7 +157,7 @@ namespace FMStudio.App.ViewModels
 
                 IsInitialized.Value = true;
 
-                RootVM.OutputVM.Write("Loaded project '{0}', from assembly {1}, which uses FluentMigrator {2}", Name.Value, ProjectInfo.Assembly.GetName().Name, ProjectInfo.FMAssembly.Version.ToString());
+                RootVM.OutputVM.Write("Loaded project '{0}', from assembly {1}, which uses FluentMigrator {2}", Name.Value, ProjectInfo.MigrationsAssembly.GetName().Name, ProjectInfo.FluentMigratorAssemblyName.Version.ToString());
             }
             catch (InitializeProjectException e)
             {

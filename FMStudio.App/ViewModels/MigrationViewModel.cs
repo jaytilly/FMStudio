@@ -47,7 +47,7 @@ namespace FMStudio.App.ViewModels
         {
             MigrationsVM = migrationsVM;
             MigrationInfo = migrationInfo;
-            MigrationInfo.OnUpdate += (s, e) => Update();
+            MigrationInfo.MigrationUpdated += (s, e) => Update();
 
             Description = new Binding<string>();
             Version = new Binding<long>();
@@ -56,7 +56,7 @@ namespace FMStudio.App.ViewModels
             IsToBeRun = new Binding<bool>();
             IsSkipped = new Binding<bool>();
             AppliedOn = new Binding<DateTime?>();
-            Sql = new Binding<string>(() => MigrationInfo.Sql);
+            Sql = new Binding<string>(() => MigrationInfo.GetSqlAsync().Result); // TODO: Make nicer
 
             AddToDatabaseCommand = new RelayCommand(async param => await AddToDatabaseAsync());
             MigrateDownCommand = new RelayCommand(async param => await MigrateDownAsync());

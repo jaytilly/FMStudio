@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Reflection;
 
 namespace FMStudio.Lib.Utility
 {
     public static class References
     {
-        public static void Load()
-        {
-            var sqlite = typeof(FluentMigrator.Runner.Processors.SQLite.SQLiteProcessorFactory);
-        }
-
-        public static void InitializeAssemblyBinding()
+        public static void Initialize()
         {
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+            var sqlite = typeof(FluentMigrator.Runner.Processors.SQLite.SQLiteProcessorFactory);
         }
 
         public static string GetFluentMigratorAssemblyVersion()

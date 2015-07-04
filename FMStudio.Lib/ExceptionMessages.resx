@@ -126,6 +126,9 @@
   <data name="InitializeProject_CouldNotLoadDll" xml:space="preserve">
     <value>Could not load the specified migrations dll.</value>
   </data>
+  <data name="InitializeProject_NoDatabaseTypeSpecified" xml:space="preserve">
+    <value>Could not initialize database, no database type specified.</value>
+  </data>
   <data name="InitializeProject_PathToMigrationsDoesNotExist" xml:space="preserve">
     <value>The specified migrations dll does not exist.</value>
   </data>

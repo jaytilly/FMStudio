@@ -8,7 +8,7 @@ namespace FMStudio.Configuration.Test
     public class FMConfigurationTest
     {
         [TestMethod]
-        public void SerializationTest()
+        public void FMConfiguration_Serialization()
         {
             //var project1 = new ProjectConfiguration()
             //{
@@ -74,6 +74,8 @@ namespace FMStudio.Configuration.Test
             //Assert.AreEqual(project2.Tags.Count, p2.Tags.Count);
             //Assert.IsTrue(p2.Tags.Any(t => t == project2.Tags[0]));
             //Assert.IsTrue(p2.Tags.Any(t => t == project2.Tags[1]));
+
+            Assert.Inconclusive();
         }
     }
 }

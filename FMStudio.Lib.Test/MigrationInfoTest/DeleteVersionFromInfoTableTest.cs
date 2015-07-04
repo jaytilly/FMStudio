@@ -1,18 +1,18 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace FMStudio.Lib.Test.MigrationTest
+namespace FMStudio.Lib.Test.MigrationInfoTest
 {
     [TestClass]
     public class DeleteVersionFromInfoTableTest
     {
         [TestMethod]
-        public void DeleteVersionFromInfoTable_DoesExist()
+        public void MigrationInfo_DeleteVersionFromInfoTable_DoesExist()
         {
             Assert.Inconclusive();
         }
 
         [TestMethod]
-        public void DeleteVersionFromInfoTable_DoesNotExist()
+        public void MigrationInfo_DeleteVersionFromInfoTable_DoesNotExist()
         {
             Assert.Inconclusive();
         }

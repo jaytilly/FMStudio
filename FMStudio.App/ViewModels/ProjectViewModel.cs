@@ -134,10 +134,7 @@ namespace FMStudio.App.ViewModels
                 RootVM.AppendOutput("No database type has been specified.");
                 return;
             }
-
-            //ProjectInfo.PathToMigrationsDll = PathToMigrationsDll.Value;
-            //ProjectInfo.ConnectionString = ConnectionString.Value;
-            //ProjectInfo.DatabaseType = DatabaseType.Value.Value.ToLib();
+            
             ProjectInfo.Profile = Profile.Value;
 
             if (Tags.HasValue)

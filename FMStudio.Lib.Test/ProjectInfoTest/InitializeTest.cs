@@ -12,12 +12,14 @@ namespace FMStudio.Lib.Test.ProjectInfoTest
         [TestMethod]
         public void Project_Initialize_MigrationsOnly()
         {
-            //    var pathToMigrations = Constants.FMTestMigrationsPath;
+            var pathToMigrations = Constants.FMTestMigrationsPath;
 
-            //    var projectInfo = new ProjectInfo();
-            //    await projectInfo.InitializeMigrationsAsync(pathToMigrations);
+            var projectInfo = new ProjectInfo();
+            projectInfo.InitializeMigrationsAsync(pathToMigrations).Wait();
 
-            Assert.Inconclusive();
+            var migration1 = projectInfo.Migrations.FirstOrDefault(m => m.Version == 1);
+            Assert.IsNotNull(migration1);
+            Assert.AreEqual("Execute Sql", migration1.Description);
         }
 
         [TestMethod]

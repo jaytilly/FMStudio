@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace FMStudio.App.ViewModels
 {
@@ -17,11 +18,18 @@ namespace FMStudio.App.ViewModels
 
         public ObservableCollection<HierarchicalBaseViewModel> Children { get; set; }
 
+        public ICommand CollapseAllCommand { get; private set; }
+
+        public ICommand ExpandAllCommand { get; private set; }
+
         public HierarchicalBaseViewModel()
         {
             Name = new Binding<string>();
             IsNodeExpanded = new Binding<bool>();
             Children = new ObservableCollection<HierarchicalBaseViewModel>();
+
+            CollapseAllCommand = new RelayCommand(param => CollapseAll());
+            ExpandAllCommand = new RelayCommand(param => ExpandAll());
         }
 
         public virtual async Task InitializeAsync()
@@ -66,5 +74,19 @@ namespace FMStudio.App.ViewModels
         }
 
         #endregion Collection
+
+        public void CollapseAll()
+        {
+            IsNodeExpanded.Value = false;
+
+            Children.ForEachOnDispatcher(c => c.CollapseAll());
+        }
+
+        public void ExpandAll()
+        {
+            IsNodeExpanded.Value = true;
+
+            Children.ForEachOnDispatcher(c => c.ExpandAll());
+        }
     }
 }

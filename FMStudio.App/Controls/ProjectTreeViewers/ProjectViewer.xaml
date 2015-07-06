@@ -23,7 +23,6 @@
                 Foreground="{StaticResource FailRed}"
                 Style="{StaticResource IconStyleLabel}"
                 Visibility="{Binding IsInitialized.Value, Converter={StaticResource InvertBoolToVis}}" />
-
             <Label
                 Canvas.Bottom="-5"
                 Canvas.Right="0"
@@ -33,9 +32,46 @@
                 Style="{StaticResource IconStyleLabel}"
                 Visibility="{Binding HasPendingMigrations.Value, Converter={StaticResource BoolToVis}}" />
         </Canvas>
-        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-            <TextBlock Text="{Binding Name.Value}" />
-            <TextBlock Text=" * " Visibility="{Binding IsNew.Value, Converter={StaticResource BoolToVis}}" />
-        </StackPanel>
+        <DockPanel Grid.Column="1">
+            <Label DockPanel.Dock="Left" Content="{Binding Name.Value}" />
+        </DockPanel>
+
+        <Grid.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Initialize project" Command="{Binding InitializeProjectCommand}">
+                    <MenuItem.Icon>
+                        <Label Content="&#xF0E7;" Foreground="{StaticResource SuccessGreen}" Style="{StaticResource IconStyleLabel}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="Full update" Command="{Binding FullUpdateCommand}">
+                    <MenuItem.Icon>
+                        <Label Content="&#xF00C;" Foreground="{StaticResource SuccessGreen}" Style="{StaticResource IconStyleLabel}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Migrations only" Command="{Binding MigrationsOnlyCommand}">
+                    <MenuItem.Icon>
+                        <Label Content="M" Foreground="{StaticResource SuccessGreen}" HorizontalAlignment="Center" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Profiles only" Command="{Binding ProfilesOnlyCommand}">
+                    <MenuItem.Icon>
+                        <Label Content="P" Foreground="{StaticResource SuccessGreen}" HorizontalAlignment="Center" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="Clone project" Command="{Binding CloneProjectCommand}">
+                    <MenuItem.Icon>
+                        <Label Content="&#xF0C5;" Foreground="{StaticResource NeutralBlue}" Style="{StaticResource IconStyleLabel}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="Delete project" Command="{Binding DeleteProjectCommand}">
+                    <MenuItem.Icon>
+                        <Label Content="&#xF00D;" Foreground="{StaticResource FailRed}" Style="{StaticResource IconStyleLabel}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </ContextMenu>
+        </Grid.ContextMenu>
     </Grid>
 </UserControl>

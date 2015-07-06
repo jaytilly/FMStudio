@@ -2,6 +2,7 @@
 using FMStudio.App.Utility;
 using FMStudio.Configuration;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace FMStudio.App.ViewModels
@@ -9,10 +10,10 @@ namespace FMStudio.App.ViewModels
     public class CategoryViewModel : HierarchicalBaseViewModel, IHaveAName, ICanBeDragged, ICanBeDroppedUpon
     {
         public RootViewModel RootVM { get; private set; }
+        
+        public ICommand DeleteCategoryCommand { get; private set; }
 
-        public ICommand RemoveCategoryCommand { get; private set; }
-
-        public ICommand SaveCategoryCommand { get; private set; }
+        public ICommand FullUpdateAllUnderlyingProjectsCommand { get; private set; }
 
         public CategoryViewModel(RootViewModel root, CategoryConfiguration categoryConfiguration)
         {
@@ -21,7 +22,8 @@ namespace FMStudio.App.ViewModels
             Name.Value = categoryConfiguration.Name;
             IsNodeExpanded.Value = categoryConfiguration.IsExpanded;
 
-            RemoveCategoryCommand = new RelayCommand(param => RemoveCategory());
+            DeleteCategoryCommand = new RelayCommand(param => DeleteCategory());
+            FullUpdateAllUnderlyingProjectsCommand = new RelayCommand(async param => await FullUpdateAllUnderlyingProjectsAsync());
 
             categoryConfiguration.Categories.ForEach(c => Add(new CategoryViewModel(RootVM, c)));
             categoryConfiguration.Projects.ForEach(p => Add(new ProjectViewModel(RootVM, p)));
@@ -43,9 +45,15 @@ namespace FMStudio.App.ViewModels
                 Add(childVM);
         }
 
-        private void RemoveCategory()
+        public void DeleteCategory()
         {
             Parent.Remove(this);
+        }
+
+        public async Task FullUpdateAllUnderlyingProjectsAsync()
+        {
+            await Task.WhenAll(Children.OfType<ProjectViewModel>().Select(p => p.FullUpdateAsync()));
+            await Task.WhenAll(Children.OfType<CategoryViewModel>().Select(c => c.FullUpdateAllUnderlyingProjectsAsync()));
         }
 
         public CategoryConfiguration ToConfiguration()

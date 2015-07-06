@@ -1,6 +1,7 @@
 ﻿using FluentMigrator;
 using FluentMigrator.Runner;
 using FMStudio.Lib.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -28,7 +29,7 @@ namespace FMStudio.Lib
 
         public bool IsToBeRun
         {
-            get { return _project.Profile.Equals(Name, System.StringComparison.OrdinalIgnoreCase); }
+            get { return !string.IsNullOrEmpty(_project.Profile) && _project.Profile.Equals(Name, StringComparison.OrdinalIgnoreCase); }
         }
 
         public ProfileInfo(

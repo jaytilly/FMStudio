@@ -156,7 +156,7 @@ namespace FMStudio.App.ViewModels
 
                 RootVM.OutputVM.Write("Loaded project '{0}', from assembly {1}, which uses FluentMigrator {2}", Name.Value, ProjectInfo.MigrationsAssembly.GetName().Name, ProjectInfo.FluentMigratorAssemblyName.Version.ToString());
             }
-            catch (InitializeProjectException e)
+            catch (Exception e)
             {
                 RootVM.AppendOutput("Could not initialize project '{0}': {1}", Name.Value, e.GetFullMessage());
             }
@@ -177,7 +177,7 @@ namespace FMStudio.App.ViewModels
             HasPendingMigrations.Value = ProjectInfo.ToBeRunMigrationsCount > 0;
         }
 
-        private async Task FullUpdateAsync()
+        public async Task FullUpdateAsync()
         {
             RootVM.AppendOutput("Running full update on project '{0}'...", Name.Value);
 
@@ -191,7 +191,7 @@ namespace FMStudio.App.ViewModels
             }
         }
 
-        private async Task RunMigrationsAsync()
+        public async Task RunMigrationsAsync()
         {
             RootVM.AppendOutput("Running migrations only on project '{0}'...", Name.Value);
 
@@ -205,7 +205,7 @@ namespace FMStudio.App.ViewModels
             }
         }
 
-        private async Task RunProfilesAsync()
+        public async Task RunProfilesAsync()
         {
             RootVM.AppendOutput("Running profiles only on project '{0}'...", Name.Value);
 
@@ -219,7 +219,7 @@ namespace FMStudio.App.ViewModels
             }
         }
 
-        private void BrowsePathToMigrationsDll()
+        public void BrowsePathToMigrationsDll()
         {
             var dialog = new Microsoft.Win32.OpenFileDialog();
 
@@ -234,12 +234,12 @@ namespace FMStudio.App.ViewModels
             }
         }
 
-        private void Clone()
+        public void Clone()
         {
             Parent.Add(new ProjectViewModel(RootVM, ToConfiguration()));
         }
 
-        private void Delete()
+        public void Delete()
         {
             RootVM.AppendOutput("Deleting project...");
 

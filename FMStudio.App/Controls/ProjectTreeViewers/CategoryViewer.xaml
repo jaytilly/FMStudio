@@ -13,5 +13,32 @@
         </Grid.ColumnDefinitions>
         <Label Content="&#xF114;" Foreground="{StaticResource NeutralBlue}" Style="{StaticResource IconStyleLabel}" />
         <Label Grid.Column="1" Content="{Binding Name.Value}" />
+        
+        <Grid.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Full update all underlying projects" Command="{Binding FullUpdateAllUnderlyingProjectsCommand}">
+                    <MenuItem.Icon>
+                        <Label Content="&#xF00C;" Foreground="{StaticResource SuccessGreen}" Style="{StaticResource IconStyleLabel}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="Collapse all" Command="{Binding CollapseAllCommand}">
+                    <MenuItem.Icon>
+                        <Label Content="&#xF147;" Foreground="{StaticResource NeutralBlue}" Style="{StaticResource IconStyleLabel}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Expand all" Command="{Binding ExpandAllCommand}">
+                    <MenuItem.Icon>
+                        <Label Content="&#xF196;" Foreground="{StaticResource NeutralBlue}" Style="{StaticResource IconStyleLabel}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="Delete category" Command="{Binding DeleteCategoryCommand}">
+                    <MenuItem.Icon>
+                        <Label Content="&#xF00D;" Foreground="{StaticResource FailRed}" Style="{StaticResource IconStyleLabel}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </ContextMenu>
+        </Grid.ContextMenu>
     </Grid>
 </UserControl>

@@ -1,5 +1,6 @@
 ﻿using FMStudio.App.Utility;
 using FMStudio.Lib;
+using FMStudio.Utility.Logging;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -8,6 +9,8 @@ namespace FMStudio.App.ViewModels
 {
     public class ProfileViewModel : HierarchicalBaseViewModel
     {
+        private ILog _log;
+
         public ProfilesViewModel ProfilesVM { get; set; }
 
         public ProfileInfo ProfileInfo { get; set; }
@@ -16,8 +19,10 @@ namespace FMStudio.App.ViewModels
 
         public ICommand RunProfileCommand { get; set; }
 
-        public ProfileViewModel(ProfilesViewModel profilesVM, ProfileInfo profileInfo)
+        public ProfileViewModel(ILog log, ProfilesViewModel profilesVM, ProfileInfo profileInfo)
         {
+            _log = log;
+
             ProfilesVM = profilesVM;
             ProfileInfo = profileInfo;
             
@@ -36,7 +41,7 @@ namespace FMStudio.App.ViewModels
             }
             catch (Exception e)
             {
-                ProfilesVM.ProjectVM.RootVM.AppendOutput("Could not load profile '{0}': {1}", ProfileInfo.Name, e.GetFullMessage());
+                _log.Error("Could not load profile '{0}': {1}", ProfileInfo.Name, e.GetFullMessage());
             }
         }
 
@@ -50,7 +55,7 @@ namespace FMStudio.App.ViewModels
             }
             catch (Exception e)
             {
-                ProfilesVM.ProjectVM.RootVM.AppendOutput("Could not run profile '{0}': {1}", ProfileInfo.Name, e.GetFullMessage());
+                _log.Error("Could not run profile '{0}': {1}", ProfileInfo.Name, e.GetFullMessage());
             }
         }
     }

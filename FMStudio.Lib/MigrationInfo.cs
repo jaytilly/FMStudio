@@ -2,6 +2,7 @@
 using FluentMigrator.Runner;
 using FMStudio.Lib.Exceptions;
 using FMStudio.Lib.Repositories;
+using FMStudio.Utility.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,21 +13,28 @@ namespace FMStudio.Lib
 {
     public class MigrationInfo
     {
-        private MigrationAttribute _migrationAttribute;
         private IMigrationsRepository _migrationsRepository;
+
+        private ILog _log;
 
         private ProjectInfo _project;
 
-        private string _sql;
-        private List<TagsAttribute> _tagsAttribute;
         private TypeInfo _typeInfo;
 
+        private MigrationAttribute _migrationAttribute;
+
+        private List<TagsAttribute> _tagsAttribute;
+        
+        private string _sql;
+        
         public MigrationInfo(
             IMigrationsRepository migrationsRepository,
+            ILog log,
             ProjectInfo project,
             TypeInfo typeInfo)
         {
             _migrationsRepository = migrationsRepository;
+            _log = log;
 
             _project = project;
             _typeInfo = typeInfo;
@@ -60,6 +68,9 @@ namespace FMStudio.Lib
 
         public async Task AddToVersionInfoTableAsync()
         {
+            if (!_project.IsDatabaseInitialized)
+                throw new InvalidOperationException("Cannot add version to version info table: the database connection has not been initialized");
+
             await Task.Run(() =>
             {
                 try
@@ -70,11 +81,13 @@ namespace FMStudio.Lib
                         var runner = new MigrationRunner(_project.MigrationsAssembly, context, processor);
 
                         runner.VersionLoader.UpdateVersionInfo(Version, Description);
+
+                        _log.Info("Added version {0}: '{1}' to version info table", Version, Description);
                     }
                 }
                 catch (Exception e)
                 {
-                    throw new MigrateUpFailedException("Could not add record to version info table", e, this);
+                    throw new MigrationException("Could not add record to version info table", e, this);
                 }
             });
 
@@ -88,12 +101,21 @@ namespace FMStudio.Lib
 
             await Task.Run(() =>
             {
-                var context = _migrationsRepository.GetRunnerContext(_project.Profile, _project.Tags, false);
-                using (var processor = _migrationsRepository.GetMigrationProcessor(_project.DatabaseType.Value, _project.ConnectionString, context))
+                try
                 {
-                    var runner = new MigrationRunner(_project.MigrationsAssembly, context, processor);
+                    var context = _migrationsRepository.GetRunnerContext(_project.Profile, _project.Tags, false);
+                    using (var processor = _migrationsRepository.GetMigrationProcessor(_project.DatabaseType.Value, _project.ConnectionString, context))
+                    {
+                        var runner = new MigrationRunner(_project.MigrationsAssembly, context, processor);
 
-                    runner.VersionLoader.DeleteVersion(Version);
+                        runner.VersionLoader.DeleteVersion(Version);
+
+                        _log.Info("Deleted version {0}: '{1}' from version info table", Version, Description);
+                    }
+                }
+                catch(Exception e)
+                {
+                    throw new MigrationException("Could not delete version from version info table", e, this);
                 }
             });
 
@@ -102,7 +124,31 @@ namespace FMStudio.Lib
 
         public async Task DownAsync()
         {
-            // TODO: Implement
+            if (!_project.IsDatabaseInitialized)
+                throw new InvalidOperationException("Cannot undo migration: database connection has not been initialized");
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    var context = _migrationsRepository.GetRunnerContext(_project.Profile, Tags, false);
+                    using (var processor = _migrationsRepository.GetMigrationProcessor(_project.DatabaseType.Value, _project.ConnectionString, context))
+                    {
+                        var runner = new MigrationRunner(_project.MigrationsAssembly, context, processor);
+
+                        var migrations = runner.MigrationLoader.LoadMigrations();
+                        var info = migrations.Single(m => m.Key == Version);
+
+                        runner.ApplyMigrationDown(info.Value, true);
+
+                        _log.Info("Successfully undone migration {0}: '{1}'", Version, Description);
+                    }
+                }
+                catch(Exception e)
+                {
+                    throw new MigrationException("Could not undo migration", e, this);
+                }
+            });
         }
 
         public async Task<string> GetSqlAsync()
@@ -137,12 +183,7 @@ namespace FMStudio.Lib
 
             MigrationUpdated(this, EventArgs.Empty);
         }
-
-        public override string ToString()
-        {
-            return string.Format("{0}: {1} ({2})", Version, Description, HasRun ? "Run" : "Not run");
-        }
-
+        
         public async Task UpAsync(bool clearFromVersionInfoTable)
         {
             if (!_project.IsDatabaseInitialized)
@@ -170,15 +211,24 @@ namespace FMStudio.Lib
                         runner.ApplyMigrationUp(info.Value, true);
 
                         processor.CommitTransaction();
+
+                        _log.Info("Successfully applied migration {0}: '{1}'", Version, Description);
                     }
                     catch (Exception e)
                     {
                         processor.RollbackTransaction();
+
+                        throw new MigrationException("Could not apply migration", e, this);
                     }
                 }
             });
 
             await InitializeAsync();
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{0}: {1} ({2})", Version, Description, HasRun ? "Run" : "Not run");
         }
     }
 }

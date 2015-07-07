@@ -49,17 +49,12 @@ namespace FMStudio.App.ViewModels
 
             OutputVM = new OutputViewModel();
 
-            AppendOutput("Loaded local FluentMigrator assembly version " + Lib.Utility.References.GetFluentMigratorAssemblyVersion());
+            OutputVM.Write("Loaded local FluentMigrator assembly version " + Lib.Utility.References.GetFluentMigratorAssemblyVersion());
 
-            Configuration.Categories.ForEach(c => Add(new CategoryViewModel(this, c)));
-            Configuration.Projects.ForEach(p => Add(new ProjectViewModel(this, p)));
+            Configuration.Categories.ForEach(c => Add(new CategoryViewModel(OutputVM, this, c)));
+            Configuration.Projects.ForEach(p => Add(new ProjectViewModel(OutputVM, this, p)));
         }
         
-        public void AppendOutput(string format, params object[] args)
-        {
-            OutputVM.Write(format, args);
-        }
-
         public void Drop(ICanBeDragged draggable)
         {
             var childVM = draggable as HierarchicalBaseViewModel;
@@ -80,7 +75,7 @@ namespace FMStudio.App.ViewModels
 
         private void AddCategory()
         {
-            var categoryVM = new CategoryViewModel(this, new CategoryConfiguration() { Name = "New category" });
+            var categoryVM = new CategoryViewModel(OutputVM, this, new CategoryConfiguration() { Name = "New category" });
 
             var selectedCategoryVM = ActiveEntity.Value as CategoryViewModel;
             if (selectedCategoryVM != null)
@@ -93,7 +88,7 @@ namespace FMStudio.App.ViewModels
 
         private void AddProject()
         {
-            var projectVM = new ProjectViewModel(this, new ProjectConfiguration());
+            var projectVM = new ProjectViewModel(OutputVM, this, new ProjectConfiguration());
             projectVM.IsNew.Value = true;
 
             var currentCategoryVM = ActiveEntity.Value as CategoryViewModel;
@@ -133,7 +128,7 @@ namespace FMStudio.App.ViewModels
                 }
                 catch (Exception e)
                 {
-                    AppendOutput("Could not run a full update on project '{0}': {1}", project.Name.Value, e.GetFullMessage());
+                    OutputVM.Error("Could not run a full update on project '{0}': {1}", project.Name.Value, e.GetFullMessage());
                 }
             }
         }

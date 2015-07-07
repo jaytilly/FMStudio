@@ -1,6 +1,7 @@
 ﻿using FMStudio.App.Interfaces;
 using FMStudio.App.Utility;
 using FMStudio.Configuration;
+using FMStudio.Utility.Logging;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -9,14 +10,18 @@ namespace FMStudio.App.ViewModels
 {
     public class CategoryViewModel : HierarchicalBaseViewModel, IHaveAName, ICanBeDragged, ICanBeDroppedUpon
     {
+        private ILog _log;
+
         public RootViewModel RootVM { get; private set; }
         
         public ICommand DeleteCategoryCommand { get; private set; }
 
         public ICommand FullUpdateAllUnderlyingProjectsCommand { get; private set; }
 
-        public CategoryViewModel(RootViewModel root, CategoryConfiguration categoryConfiguration)
+        public CategoryViewModel(ILog log, RootViewModel root, CategoryConfiguration categoryConfiguration)
         {
+            _log = log;
+
             RootVM = root;
 
             Name.Value = categoryConfiguration.Name;
@@ -25,8 +30,8 @@ namespace FMStudio.App.ViewModels
             DeleteCategoryCommand = new RelayCommand(param => DeleteCategory());
             FullUpdateAllUnderlyingProjectsCommand = new RelayCommand(async param => await FullUpdateAllUnderlyingProjectsAsync());
 
-            categoryConfiguration.Categories.ForEach(c => Add(new CategoryViewModel(RootVM, c)));
-            categoryConfiguration.Projects.ForEach(p => Add(new ProjectViewModel(RootVM, p)));
+            categoryConfiguration.Categories.ForEach(c => Add(new CategoryViewModel(_log, RootVM, c)));
+            categoryConfiguration.Projects.ForEach(p => Add(new ProjectViewModel(_log, RootVM, p)));
         }
 
         public override int CompareTo(object obj)

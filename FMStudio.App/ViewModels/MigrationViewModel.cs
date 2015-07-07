@@ -1,5 +1,6 @@
 ﻿using FMStudio.App.Utility;
 using FMStudio.Lib;
+using FMStudio.Utility.Logging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,6 +12,8 @@ namespace FMStudio.App.ViewModels
 {
     public class MigrationViewModel : HierarchicalBaseViewModel
     {
+        private ILog _log;
+
         public MigrationsViewModel MigrationsVM { get; set; }
 
         public MigrationInfo MigrationInfo { get; set; }
@@ -43,8 +46,10 @@ namespace FMStudio.App.ViewModels
 
         public ICommand SaveToFileCommand { get; private set; }
 
-        public MigrationViewModel(MigrationsViewModel migrationsVM, MigrationInfo migrationInfo)
+        public MigrationViewModel(ILog log, MigrationsViewModel migrationsVM, MigrationInfo migrationInfo)
         {
+            _log = log;
+
             MigrationsVM = migrationsVM;
             MigrationInfo = migrationInfo;
             MigrationInfo.MigrationUpdated += (s, e) => Update();
@@ -74,7 +79,7 @@ namespace FMStudio.App.ViewModels
             }
             catch (Exception e)
             {
-                MigrationsVM.ProjectVM.RootVM.AppendOutput("Could not initialized migration {0} '{1}': ", Version.Value, Description.Value, e.GetFullMessage());
+                _log.Error("Could not initialized migration {0} '{1}': ", Version.Value, Description.Value, e.GetFullMessage());
             }
         }
 
@@ -108,7 +113,7 @@ namespace FMStudio.App.ViewModels
             }
             catch (Exception e)
             {
-                MigrationsVM.ProjectVM.RootVM.AppendOutput("Could not add migration to database without running it: {0}", e.GetFullMessage());
+                _log.Error("Could not add migration to database without running it: {0}", e.GetFullMessage());
             }
         }
 
@@ -120,7 +125,7 @@ namespace FMStudio.App.ViewModels
             }
             catch (Exception e)
             {
-                MigrationsVM.ProjectVM.RootVM.AppendOutput("Could not run migration Down-operation: {0}", e.GetFullMessage());
+                _log.Error("Could not run migration Down-operation: {0}", e.GetFullMessage());
             }
         }
 
@@ -132,7 +137,7 @@ namespace FMStudio.App.ViewModels
             }
             catch (Exception e)
             {
-                MigrationsVM.ProjectVM.RootVM.AppendOutput("Could not run migration Up-operation: {0}", e.GetFullMessage());
+                _log.Error("Could not run migration Up-operation: {0}", e.GetFullMessage());
             }
         }
 
@@ -144,7 +149,7 @@ namespace FMStudio.App.ViewModels
             }
             catch (Exception e)
             {
-                MigrationsVM.ProjectVM.RootVM.AppendOutput("Could not remove migration from database: {0}", e.GetFullMessage());
+                _log.Error("Could not remove migration from database: {0}", e.GetFullMessage());
             }
         }
 
@@ -156,7 +161,7 @@ namespace FMStudio.App.ViewModels
             }
             catch (Exception e)
             {
-                MigrationsVM.ProjectVM.RootVM.AppendOutput("Could not re-run migration: {0}", e.GetFullMessage());
+                _log.Error("Could not re-run migration: {0}", e.GetFullMessage());
             }
         }
 
@@ -177,7 +182,7 @@ namespace FMStudio.App.ViewModels
                 }
                 catch (Exception e)
                 {
-                    MigrationsVM.ProjectVM.RootVM.AppendOutput("Error while writing to file: {0}", e.GetFullMessage());
+                    _log.Error("Error while writing to file: {0}", e.GetFullMessage());
                 }
             }
         }

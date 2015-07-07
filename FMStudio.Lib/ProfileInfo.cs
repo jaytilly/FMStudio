@@ -1,6 +1,8 @@
 ﻿using FluentMigrator;
 using FluentMigrator.Runner;
+using FMStudio.Lib.Exceptions;
 using FMStudio.Lib.Repositories;
+using FMStudio.Utility.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,8 @@ namespace FMStudio.Lib
     public class ProfileInfo
     {
         private IMigrationsRepository _migrationsRepository;
+
+        private ILog _log;
 
         private ProjectInfo _project;
 
@@ -34,10 +38,12 @@ namespace FMStudio.Lib
 
         public ProfileInfo(
             IMigrationsRepository migrationsRepository,
+            ILog log,
             ProjectInfo project,
             TypeInfo typeInfo)
         {
             _migrationsRepository = migrationsRepository;
+            _log = log;
             _project = project;
             _typeInfo = typeInfo;
         }
@@ -46,12 +52,21 @@ namespace FMStudio.Lib
         {
             return Task.Run(() =>
             {
-                var context = _migrationsRepository.GetRunnerContext(Name, Tags, false);
-                using (var processor = _migrationsRepository.GetMigrationProcessor(_project.DatabaseType.Value, _project.ConnectionString, context))
+                try
                 {
-                    var runner = new MigrationRunner(_project.MigrationsAssembly, context, processor);
+                    var context = _migrationsRepository.GetRunnerContext(Name, Tags, false);
+                    using (var processor = _migrationsRepository.GetMigrationProcessor(_project.DatabaseType.Value, _project.ConnectionString, context))
+                    {
+                        var runner = new MigrationRunner(_project.MigrationsAssembly, context, processor);
 
-                    runner.ApplyProfiles();
+                        runner.ApplyProfiles();
+
+                        _log.Info("Successfully ran profile '{0}'", Name);
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw new ProfileException("Could not run profile", e, this);
                 }
             });
         }

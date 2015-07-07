@@ -1,4 +1,5 @@
 ﻿using FMStudio.App.Utility;
+using FMStudio.Utility.Logging;
 using System;
 using System.Collections.Concurrent;
 using System.Windows.Input;
@@ -6,7 +7,7 @@ using System.Windows.Threading;
 
 namespace FMStudio.App.ViewModels
 {
-    public class OutputViewModel
+    public class OutputViewModel : ILog
     {
         public int MaxLines { get; set; }
 
@@ -69,6 +70,26 @@ namespace FMStudio.App.ViewModels
             while (_rows.Count > MaxLines) _rows.TryDequeue(out dequeue);
 
             Output.Value = string.Join(Environment.NewLine, _rows);
+        }
+
+        public void Debug(string message, params object[] args)
+        {
+            Write(message, args);
+        }
+
+        public void Error(string message, params object[] args)
+        {
+            Write(message, args);
+        }
+
+        public void Info(string message, params object[] args)
+        {
+            Write(message, args);
+        }
+
+        public void Warning(string message, params object[] args)
+        {
+            Write(message, args);
         }
     }
 }

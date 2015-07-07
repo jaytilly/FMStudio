@@ -3,6 +3,7 @@ using FMStudio.App.Utility;
 using FMStudio.Configuration;
 using FMStudio.Lib;
 using FMStudio.Lib.Exceptions;
+using FMStudio.Utility.Logging;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -13,6 +14,8 @@ namespace FMStudio.App.ViewModels
 {
     public class ProjectViewModel : HierarchicalBaseViewModel, ICanBeDragged
     {
+        private ILog _log;
+
         public RootViewModel RootVM { get; private set; }
 
         public MigrationsViewModel MigrationsVM { get; private set; }
@@ -65,8 +68,10 @@ namespace FMStudio.App.ViewModels
 
         #endregion Commands
 
-        public ProjectViewModel(RootViewModel root, ProjectConfiguration configProject)
+        public ProjectViewModel(ILog log, RootViewModel root, ProjectConfiguration configProject)
         {
+            _log = log;
+
             RootVM = root;
 
             DatabaseTypes = new ObservableCollection<DatabaseTypeViewModel>(DatabaseTypeViewModel.GetDatabaseTypes());
@@ -102,15 +107,15 @@ namespace FMStudio.App.ViewModels
             CloneProjectCommand = new RelayCommand(param => Clone());
             DeleteProjectCommand = new RelayCommand(param => Delete());
 
-            ProjectInfo = new ProjectInfo();
+            ProjectInfo = new ProjectInfo(null, null, null, RootVM.OutputVM);
 
             // Migrations
-            MigrationsVM = new MigrationsViewModel(this);
+            MigrationsVM = new MigrationsViewModel(_log, this);
             MigrationsVM.IsNodeExpanded.Value = configProject.IsMigrationsExpanded;
             Add(MigrationsVM);
 
             // Profiles
-            ProfilesVM = new ProfilesViewModel(this);
+            ProfilesVM = new ProfilesViewModel(_log, this);
             ProfilesVM.IsNodeExpanded.Value = configProject.IsProfilesExpanded;
             Add(ProfilesVM);
         }
@@ -119,22 +124,23 @@ namespace FMStudio.App.ViewModels
         {
             if (!PathToMigrationsDll.HasValue)
             {
-                RootVM.AppendOutput("No path to a migrations assembly has been specified.");
+                _log.Warning("No path to a migrations assembly has been specified.");
                 return;
             }
 
             if (!ConnectionString.HasValue)
             {
-                RootVM.AppendOutput("No connection string has been specified.");
+                _log.Warning("No connection string has been specified.");
                 return;
             }
 
             if (!DatabaseType.HasValue)
             {
-                RootVM.AppendOutput("No database type has been specified.");
+                _log.Warning("No database type has been specified.");
                 return;
             }
-            
+
+            ProjectInfo.Name = Name.Value;
             ProjectInfo.Profile = Profile.Value;
 
             if (Tags.HasValue)
@@ -153,12 +159,10 @@ namespace FMStudio.App.ViewModels
                 Update();
 
                 IsInitialized.Value = true;
-
-                RootVM.OutputVM.Write("Loaded project '{0}', from assembly {1}, which uses FluentMigrator {2}", Name.Value, ProjectInfo.MigrationsAssembly.GetName().Name, ProjectInfo.FluentMigratorAssemblyName.Version.ToString());
             }
             catch (Exception e)
             {
-                RootVM.AppendOutput("Could not initialize project '{0}': {1}", Name.Value, e.GetFullMessage());
+                _log.Error("Could not initialize project '{0}': {1}", Name.Value, e.GetFullMessage());
             }
         }
 
@@ -179,43 +183,37 @@ namespace FMStudio.App.ViewModels
 
         public async Task FullUpdateAsync()
         {
-            RootVM.AppendOutput("Running full update on project '{0}'...", Name.Value);
-
             try
             {
                 await ProjectInfo.FullUpdateAsync();
             }
             catch (Exception e)
             {
-                RootVM.AppendOutput("Could not run a full update on project '{0}': {1}", Name.Value, e.GetFullMessage());
+                _log.Error("Could not run a full update on project '{0}': {1}", Name.Value, e.GetFullMessage());
             }
         }
 
         public async Task RunMigrationsAsync()
         {
-            RootVM.AppendOutput("Running migrations only on project '{0}'...", Name.Value);
-
             try
             {
                 await ProjectInfo.RunApplicableMigrationsAsync();
             }
             catch (Exception e)
             {
-                RootVM.AppendOutput("Could not run migrations on project '{0}': {1}", Name.Value, e.GetFullMessage());
+                _log.Error("Could not run migrations on project '{0}': {1}", Name.Value, e.GetFullMessage());
             }
         }
 
         public async Task RunProfilesAsync()
         {
-            RootVM.AppendOutput("Running profiles only on project '{0}'...", Name.Value);
-
             try
             {
                 await ProjectInfo.RunApplicableProfilesAsync();
             }
             catch (Exception e)
             {
-                RootVM.AppendOutput("Could not run profiles on project '{0}': {1}", Name.Value, e.GetFullMessage());
+                _log.Error("Could not run profiles on project '{0}': {1}", Name.Value, e.GetFullMessage());
             }
         }
 
@@ -236,15 +234,15 @@ namespace FMStudio.App.ViewModels
 
         public void Clone()
         {
-            Parent.Add(new ProjectViewModel(RootVM, ToConfiguration()));
+            Parent.Add(new ProjectViewModel(_log, RootVM, ToConfiguration()));
         }
 
         public void Delete()
         {
-            RootVM.AppendOutput("Deleting project...");
-
             Parent.Remove(this);
             RootVM.ActiveEntity.Value = null;
+
+            _log.Info("Deleted project '{0}'", Name);
         }
 
         public ProjectConfiguration ToConfiguration()

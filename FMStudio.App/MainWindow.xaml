@@ -65,11 +65,11 @@
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" MinHeight="200" />
-                <RowDefinition Height="1" />
+                <RowDefinition Height="5" />
                 <RowDefinition Height="200" MinHeight="200" />
             </Grid.RowDefinitions>
             <fmcontrols:MainViewSelector />
-            <GridSplitter Grid.Row="1" Background="{StaticResource Border}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></GridSplitter>
+            <GridSplitter Grid.Row="1" Background="White" BorderBrush="{StaticResource Border}" BorderThickness="0,1,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
             <fmviewers:OutputViewer Grid.Row="2" />
         </Grid>
     </Grid>

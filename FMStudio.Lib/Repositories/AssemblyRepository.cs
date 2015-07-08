@@ -20,7 +20,7 @@ namespace FMStudio.Lib.Repositories
 
         public Task<Assembly> LoadFromArchive(string path)
         {
-            return Task.Run(() =>
+            return Task.Run(async () =>
             {
                 try
                 {
@@ -32,7 +32,9 @@ namespace FMStudio.Lib.Repositories
                     {
                         foreach (ZipEntry entry in zf)
                         {
-                            if (entry.IsFile && entry.Name.EndsWith(".dll", StringComparison.OrdinalIgnoreCase))
+                            if (entry.IsFile && entry.Name.EndsWith(".dll", StringComparison.OrdinalIgnoreCase)
+                                && !entry.Name.EndsWith("FluentMigrator.dll", StringComparison.OrdinalIgnoreCase)
+                                && !entry.Name.EndsWith("FluentMigrator.Runner.dll", StringComparison.OrdinalIgnoreCase))
                             {
                                 Debug.WriteLine(string.Format("Found dll '{0}', trying to load...", Path.GetFileName(entry.Name)));
 
@@ -42,7 +44,7 @@ namespace FMStudio.Lib.Repositories
                                     entryStream.CopyTo(ms);
                                     var bytes = ms.ToArray();
 
-                                    var assembly = LoadFromBytes(bytes);
+                                    var assembly = await LoadFromBytes(bytes);
 
                                     if (assembly != null)
                                     {

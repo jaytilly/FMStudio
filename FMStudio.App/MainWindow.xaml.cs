@@ -8,11 +8,17 @@ namespace FMStudio.App
     {
         private RootViewModel _root;
 
-        public MainWindow()
+        public MainWindow(string pathToConfigFile)
         {
             InitializeComponent();
 
-            var config = FMConfiguration.Load();
+            FMConfiguration config = null;
+
+            if (!string.IsNullOrEmpty(pathToConfigFile))
+                config = FMConfiguration.Load(pathToConfigFile);
+            else
+                config = FMConfiguration.Load();
+
             _root = new RootViewModel(config);
             _root.InitializeAsync();
 

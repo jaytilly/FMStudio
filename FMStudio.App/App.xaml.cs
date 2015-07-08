@@ -50,10 +50,16 @@ namespace FMStudio.App
         {
             var message = exception.GetType().ToString() + Environment.NewLine + exception.Message;
 
-            if(exception.InnerException != null)
+            if (exception.InnerException != null)
                 return message + Environment.NewLine + Environment.NewLine + UnwrapException(exception.InnerException);
 
             return message;
+        }
+
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            var mainWindow = new MainWindow(e.Args.Length > 0 ? e.Args[0] : null);
+            mainWindow.Show();
         }
     }
 }

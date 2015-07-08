@@ -9,6 +9,9 @@ namespace FMStudio.Configuration
     {
         public const string DefaultPath = "config.json";
 
+        [JsonIgnore]
+        public string Path { get; set; }
+
         public int Version { get; set; }
 
         public List<CategoryConfiguration> Categories { get; set; }
@@ -40,7 +43,7 @@ namespace FMStudio.Configuration
         /// </summary>
         public void Save()
         {
-            Save(DefaultPath);
+            Save(Path);
         }
 
         /// <summary>
@@ -57,6 +60,7 @@ namespace FMStudio.Configuration
                 var file = File.ReadAllText(path);
 
                 var config = JsonConvert.DeserializeObject<FMConfiguration>(file);
+                config.Path = path;
 
                 config.Link();
 

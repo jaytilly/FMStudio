@@ -65,12 +65,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseType.cs" />
+    <Compile Include="Exceptions\ProjectException.cs" />
     <Compile Include="Resources\ExceptionMessages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ExceptionMessages.resx</DependentUpon>
     </Compile>
-    <Compile Include="Exceptions\ProjectException.cs" />
     <Compile Include="Exceptions\MigrationException.cs" />
     <Compile Include="Exceptions\ProfileException.cs" />
     <Compile Include="ProfileInfo.cs" />

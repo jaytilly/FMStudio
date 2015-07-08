@@ -13,7 +13,7 @@
             Style="{DynamicResource SquareButtonStyle}"
             ToolTip="{Binding ToolTip}">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding Icon}" Foreground="{Binding IconColor}" FontWeight="Bold" FontSize="12pt" Style="{StaticResource IconStyle}" Width="20" />
+                <TextBlock Text="{Binding Icon}" Foreground="{Binding IconColor}" FontWeight="Bold" FontSize="12pt" Style="{StaticResource Icon}" Width="20" />
                 <TextBlock Text="{Binding Text}" />
             </StackPanel>
         </Button>

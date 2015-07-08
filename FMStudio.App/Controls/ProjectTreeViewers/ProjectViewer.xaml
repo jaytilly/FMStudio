@@ -14,61 +14,58 @@
             <Label
                 HorizontalContentAlignment="Center"
                 Content="&#xF1C0;"
-                Foreground="DarkBlue"
-                Style="{StaticResource IconStyleLabel}"
+                Style="{StaticResource IconLabelBlue}"
                 Visibility="{Binding IsInitialized.Value, Converter={StaticResource BoolToVis}}" />
             <Label
                 HorizontalContentAlignment="Center"
                 Content="&#xF1C0;"
-                Foreground="{StaticResource FailRed}"
-                Style="{StaticResource IconStyleLabel}"
+                Style="{StaticResource IconLabelRed}"
                 Visibility="{Binding IsInitialized.Value, Converter={StaticResource InvertBoolToVis}}" />
             <Label
                 Canvas.Bottom="-5"
                 Canvas.Right="0"
                 Content="&#xF12A;"
                 FontSize="10pt"
-                Foreground="{StaticResource WarningOrange}"
-                Style="{StaticResource IconStyleLabel}"
+                Style="{StaticResource IconLabelOrange}"
                 Visibility="{Binding HasPendingMigrations.Value, Converter={StaticResource BoolToVis}}" />
         </Canvas>
         <DockPanel Grid.Column="1">
-            <Label DockPanel.Dock="Left" Content="{Binding Name.Value}" />
+            <TextBlock DockPanel.Dock="Left" Text="{Binding Name.Value}" VerticalAlignment="Center" />
         </DockPanel>
 
         <Grid.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Initialize project" Command="{Binding InitializeProjectCommand}">
                     <MenuItem.Icon>
-                        <Label Content="&#xF0E7;" Foreground="{StaticResource SuccessGreen}" Style="{StaticResource IconStyleLabel}" />
+                        <TextBlock Text="&#xF0E7;" Style="{StaticResource IconGreen}" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
                 <MenuItem Header="Full update" Command="{Binding FullUpdateCommand}">
                     <MenuItem.Icon>
-                        <Label Content="&#xF00C;" Foreground="{StaticResource SuccessGreen}" Style="{StaticResource IconStyleLabel}" />
+                        <TextBlock Text="&#xF00C;" Style="{StaticResource IconGreen}" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Migrations only" Command="{Binding MigrationsOnlyCommand}">
                     <MenuItem.Icon>
-                        <Label Content="M" Foreground="{StaticResource SuccessGreen}" HorizontalAlignment="Center" />
+                        <TextBlock Text="M" Style="{StaticResource IconGreen}" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Profiles only" Command="{Binding ProfilesOnlyCommand}">
                     <MenuItem.Icon>
-                        <Label Content="P" Foreground="{StaticResource SuccessGreen}" HorizontalAlignment="Center" />
+                        <TextBlock Text="P" Style="{StaticResource IconGreen}" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
                 <MenuItem Header="Clone project" Command="{Binding CloneProjectCommand}">
                     <MenuItem.Icon>
-                        <Label Content="&#xF0C5;" Foreground="{StaticResource NeutralBlue}" Style="{StaticResource IconStyleLabel}" />
+                        <TextBlock Text="&#xF0C5;" Style="{StaticResource IconBlue}" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
                 <MenuItem Header="Delete project" Command="{Binding DeleteProjectCommand}">
                     <MenuItem.Icon>
-                        <Label Content="&#xF00D;" Foreground="{StaticResource FailRed}" Style="{StaticResource IconStyleLabel}" />
+                        <TextBlock Text="&#xF00D;" Style="{StaticResource IconRed}" />
                     </MenuItem.Icon>
                 </MenuItem>
             </ContextMenu>

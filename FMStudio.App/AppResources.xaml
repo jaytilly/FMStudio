@@ -4,25 +4,81 @@
 
     <SolidColorBrush x:Key="Border">Gray</SolidColorBrush>
 
-    <SolidColorBrush x:Key="FailRed">Tomato</SolidColorBrush>
-    <SolidColorBrush x:Key="NeutralBlue">SlateBlue</SolidColorBrush>
-    <SolidColorBrush x:Key="SuccessGreen">#5EDB5E</SolidColorBrush>
-    <SolidColorBrush x:Key="WarningOrange">DarkOrange</SolidColorBrush>
+    <SolidColorBrush x:Key="Red">Tomato</SolidColorBrush>
+    <SolidColorBrush x:Key="Blue">SlateBlue</SolidColorBrush>
+    <SolidColorBrush x:Key="Gray">SlateGray</SolidColorBrush>
+    <SolidColorBrush x:Key="Green">#5EDB5E</SolidColorBrush>
+    <SolidColorBrush x:Key="Orange">DarkOrange</SolidColorBrush>
+    <SolidColorBrush x:Key="DarkBlue">DarkBlue</SolidColorBrush>
 
-    <Style x:Key="IconStyle" TargetType="TextBlock">
+    <!--#region TextBlock-->
+    
+    <Style x:Key="Icon" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="pack://application:,,,/Fonts/#fontawesome" />
         <Setter Property="FontSize" Value="16" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TreeViewItem}}}" Value="True">
+                <Setter Property="Foreground" Value="White" />
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
 
-    <Style x:Key="IconStyleLabel" TargetType="Label">
+    <Style x:Key="IconBlue" TargetType="TextBlock" BasedOn="{StaticResource Icon}">
+        <Setter Property="Foreground" Value="{StaticResource DarkBlue}" />
+    </Style>
+    
+    <Style x:Key="IconGray" TargetType="TextBlock" BasedOn="{StaticResource Icon}">
+        <Setter Property="Foreground" Value="{StaticResource Gray}" />
+    </Style>
+    
+    <Style x:Key="IconGreen" TargetType="TextBlock" BasedOn="{StaticResource Icon}">
+        <Setter Property="Foreground" Value="{StaticResource Green}" />
+    </Style>
+    
+    <Style x:Key="IconOrange" TargetType="TextBlock" BasedOn="{StaticResource Icon}">
+        <Setter Property="Foreground" Value="{StaticResource Orange}" />
+    </Style>
+    
+    <Style x:Key="IconRed" TargetType="TextBlock" BasedOn="{StaticResource Icon}">
+        <Setter Property="Foreground" Value="{StaticResource Red}" />
+    </Style>
+    
+    <!--#endregion-->
+
+    <!--#region Label-->
+    
+    <Style x:Key="IconLabel" TargetType="Label">
         <Setter Property="FontFamily" Value="pack://application:,,,/Fonts/#fontawesome" />
         <Setter Property="FontSize" Value="16" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TreeViewItem}}}" Value="True">
+                <Setter Property="Foreground" Value="White" />
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
 
+    <Style x:Key="IconLabelBlue" TargetType="Label" BasedOn="{StaticResource IconLabel}">
+        <Setter Property="Foreground" Value="{StaticResource DarkBlue}" />
+    </Style>
+    
+    <Style x:Key="IconLabelGreen" TargetType="Label" BasedOn="{StaticResource IconLabel}">
+        <Setter Property="Foreground" Value="{StaticResource Green}" />
+    </Style>
+    
+    <Style x:Key="IconLabelOrange" TargetType="Label" BasedOn="{StaticResource IconLabel}">
+        <Setter Property="Foreground" Value="{StaticResource Orange}" />
+    </Style>
+    
+    <Style x:Key="IconLabelRed" TargetType="Label" BasedOn="{StaticResource IconLabel}">
+        <Setter Property="Foreground" Value="{StaticResource Red}" />
+    </Style>
+    
+    <!--#endregion-->
+    
     <Style x:Key="StretchedTreeView" TargetType="TreeViewItem" BasedOn="{StaticResource {x:Type TreeViewItem}}">
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="Template">
@@ -125,6 +181,8 @@
         </Setter>
     </Style>
 
+    <!--#region Converters-->
+    
     <converters:BooleanToOpacityConverter x:Key="BoolToOpacity" />
     
     <BooleanToVisibilityConverter x:Key="BoolToVis" />
@@ -135,4 +193,7 @@
         <converters:InvertBooleanConverter />
         <BooleanToVisibilityConverter />
     </converters:ValueConverterGroup>
+
+    <!--#endregion-->
+    
 </ResourceDictionary>

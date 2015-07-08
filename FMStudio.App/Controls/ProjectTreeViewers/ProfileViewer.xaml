@@ -10,7 +10,7 @@
       <ColumnDefinition Width="10" />
       <ColumnDefinition Width="*" />
     </Grid.ColumnDefinitions>
-    <TextBlock Text="&#xF0C8;" Foreground="{StaticResource NeutralBlue}" Style="{StaticResource IconStyle}" VerticalAlignment="Center" />
+    <TextBlock Text="&#xF0C8;" Style="{StaticResource IconBlue}" VerticalAlignment="Center" />
     <StackPanel Grid.Column="1" VerticalAlignment="Center"></StackPanel>
     <TextBlock Text="{Binding Name.Value}" Grid.Column="2" VerticalAlignment="Center" />
   </Grid>

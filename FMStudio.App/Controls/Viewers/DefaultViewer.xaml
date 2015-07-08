@@ -10,7 +10,7 @@
         <TextBlock
             Text="&#xF01B;"
             Foreground="Gray"
-            Style="{StaticResource IconStyle}"
+            Style="{StaticResource Icon}"
             FontSize="300pt"
             Margin="0,20,0,0"
             Opacity="0.1"

@@ -16,7 +16,9 @@ namespace FMStudio.App.Utility
                 {
                     System.Windows.Application.Current.Dispatcher.Invoke(() =>
                     {
-                        PropertyChanged(this, new PropertyChangedEventArgs(propertyInfo.Member.Name));
+                        var ev = PropertyChanged;
+                        if (ev != null)
+                            ev(this, new PropertyChangedEventArgs(propertyInfo.Member.Name));
                     });
                 }
                 catch { }

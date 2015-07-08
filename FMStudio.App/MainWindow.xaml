@@ -21,7 +21,7 @@
   WindowStartupLocation="CenterScreen">
     <Controls:MetroWindow.IconTemplate>
         <DataTemplate>
-            <TextBlock Foreground="White" Text="&#xF01B;" Style="{StaticResource IconStyle}" />
+            <TextBlock Foreground="White" Text="&#xF01B;" Style="{StaticResource Icon}" />
         </DataTemplate>
     </Controls:MetroWindow.IconTemplate>
 
@@ -29,13 +29,13 @@
         <Controls:WindowCommands>
             <Button Command="{Binding SaveConfigurationCommand}">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="&#xF0C7;" Margin="0,0,5,0" Style="{StaticResource IconStyle}" />
+                    <TextBlock Text="&#xF0C7;" Margin="0,0,5,0" Style="{StaticResource Icon}" />
                     <TextBlock Text="Save" />
                 </StackPanel>
             </Button>
             <Button Command="{Binding EditPreferencesCommand}">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="&#xF013;" Margin="0,0,5,0" Style="{StaticResource IconStyle}" />
+                    <TextBlock Text="&#xF013;" Margin="0,0,5,0" Style="{StaticResource Icon}" />
                     <TextBlock Text="Preferences" />
                 </StackPanel>
             </Button>
@@ -55,8 +55,8 @@
             </Grid.RowDefinitions>
             <Border BorderBrush="{StaticResource Border}" BorderThickness="0,0,0,1">
                 <StackPanel HorizontalAlignment="Left" Margin="0,4,0,4" Orientation="Horizontal" VerticalAlignment="Center">
-                    <fmcontrols:IconButton Command="{Binding AddCategoryCommand}" Icon="&#xF196;" IconColor="{StaticResource NeutralBlue}" Text="Add category" />
-                    <fmcontrols:IconButton Command="{Binding AddProjectCommand}" Icon="&#xF067;" IconColor="{StaticResource SuccessGreen}" Text="Add project" />
+                    <fmcontrols:IconButton Command="{Binding AddCategoryCommand}" Icon="&#xF196;" IconColor="{StaticResource Blue}" Text="Add category" />
+                    <fmcontrols:IconButton Command="{Binding AddProjectCommand}" Icon="&#xF067;" IconColor="{StaticResource Green}" Text="Add project" />
                 </StackPanel>
             </Border>
             <fmcontrols:ProjectTree Grid.Row="1" Margin="0,4,0,0" />

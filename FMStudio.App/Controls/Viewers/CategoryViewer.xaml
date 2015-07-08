@@ -21,10 +21,10 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Label Content="&#xF114;" Style="{StaticResource IconStyleLabel}" FontSize="20pt" Foreground="{StaticResource NeutralBlue}" />
+                    <TextBlock Text="&#xF07B;" Style="{StaticResource IconGray}" FontSize="20pt" />
                 </StackPanel>
                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                    <Label Content="{Binding Name.Value}" FontSize="20pt" />
+                    <TextBlock Text="{Binding Name.Value}" FontSize="20pt" />
                 </StackPanel>
             </Grid>
         </Border>
@@ -43,7 +43,7 @@
         <!-- Bottom Toolbar -->
         <Border Grid.Row="3" BorderBrush="{StaticResource Border}" BorderThickness="0,1,0,0">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <local:IconButton Command="{Binding DeleteCategoryCommand}" Icon="&#xF00D;" IconColor="{StaticResource FailRed}" Text="Delete" />
+                <local:IconButton Command="{Binding DeleteCategoryCommand}" Icon="&#xF00D;" IconColor="{StaticResource Red}" Text="Delete" />
             </StackPanel>
         </Border>
     </Grid>

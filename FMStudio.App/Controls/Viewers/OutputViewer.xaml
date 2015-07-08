@@ -22,7 +22,7 @@
         </ScrollViewer>
         <Border Grid.Row="1" BorderBrush="{StaticResource Border}" BorderThickness="0,1,0,0">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <local:IconButton Command="{Binding ClearOutputCommand}" Icon="&#xF014;" IconColor="{StaticResource FailRed}" Text="Clear" ToolTip="Clears the contents of the output viewer" />
+                <local:IconButton Command="{Binding ClearOutputCommand}" Icon="&#xF014;" IconColor="{StaticResource Red}" Text="Clear" ToolTip="Clears the contents of the output viewer" />
             </StackPanel>
         </Border>
     </Grid>

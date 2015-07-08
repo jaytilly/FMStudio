@@ -22,8 +22,8 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock Text="&#xF1C0;" Style="{StaticResource IconStyle}" FontSize="20pt" Foreground="DarkBlue" Visibility="{Binding IsInitialized.Value, Converter={StaticResource BoolToVis}}" />
-                    <TextBlock Text="&#xF1C0;" Style="{StaticResource IconStyle}" FontSize="20pt" Foreground="{StaticResource FailRed}" Visibility="{Binding IsInitialized.Value, Converter={StaticResource InvertBoolToVis}}" />
+                    <TextBlock Text="&#xF1C0;" Style="{StaticResource IconBlue}" FontSize="20pt" Visibility="{Binding IsInitialized.Value, Converter={StaticResource BoolToVis}}" />
+                    <TextBlock Text="&#xF1C0;" Style="{StaticResource IconRed}" FontSize="20pt" Visibility="{Binding IsInitialized.Value, Converter={StaticResource InvertBoolToVis}}" />
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                     <TextBlock Text="{Binding Name.Value}" FontSize="20pt" />
@@ -34,11 +34,11 @@
         <!-- Toolbar -->
         <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="0,0,0,1">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <local:IconButton Command="{Binding FullUpdateCommand}" Icon="&#xF00C;" IconColor="{StaticResource SuccessGreen}" Text="Full update" ToolTip="Run all applicable migrations and profiles" />
+                <local:IconButton Command="{Binding FullUpdateCommand}" Icon="&#xF00C;" IconColor="{StaticResource Green}" Text="Full update" ToolTip="Run all applicable migrations and profiles" />
 
-                <local:IconButton Command="{Binding MigrationsOnlyCommand}" Icon="M" IconColor="{StaticResource SuccessGreen}" Text="Migrations only" ToolTip="Run all applicable migrations only" />
+                <local:IconButton Command="{Binding MigrationsOnlyCommand}" Icon="M" IconColor="{StaticResource Green}" Text="Migrations only" ToolTip="Run all applicable migrations only" />
 
-                <local:IconButton Command="{Binding ProfilesOnlyCommand}" Icon="P" IconColor="{StaticResource SuccessGreen}" Text="Profiles only" ToolTip="Run all applicable profiles only" />
+                <local:IconButton Command="{Binding ProfilesOnlyCommand}" Icon="P" IconColor="{StaticResource Green}" Text="Profiles only" ToolTip="Run all applicable profiles only" />
             </StackPanel>
         </Border>
         <!-- Content -->
@@ -74,11 +74,11 @@
         <!-- Bottom Toolbar -->
         <Border Grid.Row="3" BorderBrush="{StaticResource Border}" BorderThickness="0,1,0,0">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <local:IconButton Command="{Binding InitializeProjectCommand}" Icon="&#xF0E7;" IconColor="{StaticResource SuccessGreen}" Text="Initialize" ToolTip="Initializes the project" />
+                <local:IconButton Command="{Binding InitializeProjectCommand}" Icon="&#xF0E7;" IconColor="{StaticResource Green}" Text="Initialize" ToolTip="Initializes the project" />
 
-                <local:IconButton Command="{Binding CloneProjectCommand}" Icon="&#xF0C5;" IconColor="{StaticResource NeutralBlue}" Text="Clone" ToolTip="Clones the project to a second one" />
+                <local:IconButton Command="{Binding CloneProjectCommand}" Icon="&#xF0C5;" IconColor="{StaticResource Blue}" Text="Clone" ToolTip="Clones the project to a second one" />
 
-                <local:IconButton Command="{Binding DeleteProjectCommand}" Icon="&#xF00D;" IconColor="{StaticResource FailRed}" Text="Delete" ToolTip="Deletes the project from the configuration file" />
+                <local:IconButton Command="{Binding DeleteProjectCommand}" Icon="&#xF00D;" IconColor="{StaticResource Red}" Text="Delete" ToolTip="Deletes the project from the configuration file" />
             </StackPanel>
         </Border>
     </Grid>

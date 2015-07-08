@@ -2,6 +2,7 @@
 using FMStudio.App.Utility;
 using FMStudio.Configuration;
 using FMStudio.Utility.Logging;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -13,7 +14,19 @@ namespace FMStudio.App.ViewModels
         private ILog _log;
 
         public RootViewModel RootVM { get; private set; }
-        
+
+        public IEnumerable<CategoryViewModel> Categories
+        {
+            get { return Children.OfType<CategoryViewModel>(); }
+        }
+
+        public IEnumerable<ProjectViewModel> Projects
+        {
+            get { return Children.OfType<ProjectViewModel>(); }
+        }
+
+        public Binding<bool> HasPendingMigrations { get; private set; }
+
         public ICommand DeleteCategoryCommand { get; private set; }
 
         public ICommand FullUpdateAllUnderlyingProjectsCommand { get; private set; }
@@ -26,6 +39,7 @@ namespace FMStudio.App.ViewModels
 
             Name.Value = categoryConfiguration.Name;
             IsNodeExpanded.Value = categoryConfiguration.IsExpanded;
+            HasPendingMigrations = new Binding<bool>();
 
             DeleteCategoryCommand = new RelayCommand(param => DeleteCategory());
             FullUpdateAllUnderlyingProjectsCommand = new RelayCommand(async param => await FullUpdateAllUnderlyingProjectsAsync());
@@ -48,6 +62,8 @@ namespace FMStudio.App.ViewModels
             var childVM = draggable as HierarchicalBaseViewModel;
             if (childVM != null && !Children.Contains(childVM))
                 Add(childVM);
+
+            Task.Run(async () => await RootVM.UpdateHasPendingMigrations());
         }
 
         public void DeleteCategory()
@@ -59,6 +75,13 @@ namespace FMStudio.App.ViewModels
         {
             await Task.WhenAll(Children.OfType<ProjectViewModel>().Select(p => p.FullUpdateAsync()));
             await Task.WhenAll(Children.OfType<CategoryViewModel>().Select(c => c.FullUpdateAllUnderlyingProjectsAsync()));
+        }
+
+        public async Task UpdateHasPendingMigrations()
+        {
+            await Task.WhenAll(Categories.Select(c => c.UpdateHasPendingMigrations()));
+
+            HasPendingMigrations.Value = Categories.Any(c => c.HasPendingMigrations.Value) || Projects.Any(p => p.HasPendingMigrations.Value);
         }
 
         public CategoryConfiguration ToConfiguration()

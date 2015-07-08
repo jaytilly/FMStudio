@@ -65,6 +65,10 @@
         <Setter Property="Foreground" Value="{StaticResource DarkBlue}" />
     </Style>
     
+    <Style x:Key="IconLabelGray" TargetType="Label" BasedOn="{StaticResource IconLabel}">
+        <Setter Property="Foreground" Value="{StaticResource Gray}" />
+    </Style>
+    
     <Style x:Key="IconLabelGreen" TargetType="Label" BasedOn="{StaticResource IconLabel}">
         <Setter Property="Foreground" Value="{StaticResource Green}" />
     </Style>

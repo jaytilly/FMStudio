@@ -156,7 +156,7 @@ namespace FMStudio.App.ViewModels
 
                 await ProfilesVM.InitializeAsync();
                 
-                Update();
+                await Update();
 
                 IsInitialized.Value = true;
             }
@@ -175,10 +175,12 @@ namespace FMStudio.App.ViewModels
             return base.CompareTo(obj);
         }
 
-        public void Update()
+        public async Task Update()
         {
             UnRunMigrationsCount.Value = ProjectInfo.ToBeRunMigrationsCount;
             HasPendingMigrations.Value = ProjectInfo.ToBeRunMigrationsCount > 0;
+
+            await RootVM.UpdateHasPendingMigrations();
         }
 
         public async Task FullUpdateAsync()

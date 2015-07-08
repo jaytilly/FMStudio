@@ -141,5 +141,10 @@ namespace FMStudio.App.ViewModels
                 ActiveEntity.Value = migrationEntity;
             }
         }
+
+        public async Task UpdateHasPendingMigrations()
+        {
+            await Task.WhenAll(Children.OfType<CategoryViewModel>().Select(c => c.UpdateHasPendingMigrations()));
+        }
     }
 }

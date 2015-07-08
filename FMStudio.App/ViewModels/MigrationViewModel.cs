@@ -52,7 +52,7 @@ namespace FMStudio.App.ViewModels
 
             MigrationsVM = migrationsVM;
             MigrationInfo = migrationInfo;
-            MigrationInfo.MigrationUpdated += (s, e) => Update();
+            MigrationInfo.MigrationUpdated += async (s, e) => await Update();
 
             Description = new Binding<string>();
             Version = new Binding<long>();
@@ -83,7 +83,7 @@ namespace FMStudio.App.ViewModels
             }
         }
 
-        private void Update()
+        private async Task Update()
         {
             Version.Value = MigrationInfo.Version;
             Description.Value = MigrationInfo.Description;
@@ -102,7 +102,7 @@ namespace FMStudio.App.ViewModels
             IsToBeRun.Value = !HasRun.Value && tagIsIncluded;
             IsSkipped.Value = !HasRun.Value && !tagIsIncluded;
 
-            MigrationsVM.ProjectVM.Update();
+            await MigrationsVM.ProjectVM.Update();
         }
 
         private async Task AddToDatabaseAsync()

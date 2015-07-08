@@ -11,7 +11,19 @@
             <ColumnDefinition Width="30" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <TextBlock Text="&#xF07B;" Style="{StaticResource IconGray}" VerticalAlignment="Center" />
+        <Canvas VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Label
+                HorizontalContentAlignment="Center"
+                Content="&#xF07B;"
+                Style="{StaticResource IconLabelGray}" />
+            <Label
+                Canvas.Bottom="-5"
+                Canvas.Right="0"
+                Content="&#xF12A;"
+                FontSize="10pt"
+                Style="{StaticResource IconLabelOrange}"
+                Visibility="{Binding HasPendingMigrations.Value, Converter={StaticResource BoolToVis}}" />
+        </Canvas>
         <TextBlock Grid.Column="1" Text="{Binding Name.Value}" VerticalAlignment="Center" />
 
         <Grid.ContextMenu>

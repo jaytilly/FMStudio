@@ -28,9 +28,14 @@
 
         <Grid.ContextMenu>
             <ContextMenu>
+                <MenuItem Header="Refresh all underlying projects" Command="{Binding RefreshAllUnderlyingProjectsCommand}">
+                    <MenuItem.Icon>
+                        <TextBlock Text="&#xF021;" Style="{StaticResource IconBlue}" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem Header="Full update all underlying projects" Command="{Binding FullUpdateAllUnderlyingProjectsCommand}">
                     <MenuItem.Icon>
-                        <TextBlock Text="&#xF00C;" Style="{StaticResource IconOrange}" />
+                        <TextBlock Text="&#xF00C;" Style="{StaticResource IconGreen}" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />

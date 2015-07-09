@@ -31,6 +31,8 @@ namespace FMStudio.App.ViewModels
 
         public ICommand FullUpdateAllUnderlyingProjectsCommand { get; private set; }
 
+        public ICommand RefreshAllUnderlyingProjectsCommand { get; private set; }
+
         public CategoryViewModel(ILog log, RootViewModel root, CategoryConfiguration categoryConfiguration)
         {
             _log = log;
@@ -43,6 +45,7 @@ namespace FMStudio.App.ViewModels
 
             DeleteCategoryCommand = new RelayCommand(param => DeleteCategory());
             FullUpdateAllUnderlyingProjectsCommand = new RelayCommand(async param => await FullUpdateAllUnderlyingProjectsAsync());
+            RefreshAllUnderlyingProjectsCommand = new RelayCommand(async param => await RefreshAllUnderlyingProjectsAsync());
 
             categoryConfiguration.Categories.ForEach(c => Add(new CategoryViewModel(_log, RootVM, c)));
             categoryConfiguration.Projects.ForEach(p => Add(new ProjectViewModel(_log, RootVM, p)));
@@ -73,8 +76,14 @@ namespace FMStudio.App.ViewModels
 
         public async Task FullUpdateAllUnderlyingProjectsAsync()
         {
-            await Task.WhenAll(Children.OfType<ProjectViewModel>().Select(p => p.FullUpdateAsync()));
-            await Task.WhenAll(Children.OfType<CategoryViewModel>().Select(c => c.FullUpdateAllUnderlyingProjectsAsync()));
+            await Task.WhenAll(Projects.Select(p => p.FullUpdateAsync()));
+            await Task.WhenAll(Categories.Select(c => c.FullUpdateAllUnderlyingProjectsAsync()));
+        }
+
+        public async Task RefreshAllUnderlyingProjectsAsync()
+        {
+            await Task.WhenAll(Categories.Select(c => c.RefreshAllUnderlyingProjectsAsync()));
+            await Task.WhenAll(Projects.Select(p => p.InitializeAsync()));
         }
 
         public async Task UpdateHasPendingMigrations()
@@ -88,10 +97,10 @@ namespace FMStudio.App.ViewModels
         {
             return new CategoryConfiguration()
             {
-                Categories = Children.OfType<CategoryViewModel>().Select(c => c.ToConfiguration()).ToList(),
+                Categories = Categories.Select(c => c.ToConfiguration()).ToList(),
                 Name = Name.Value,
                 IsExpanded = IsNodeExpanded.Value,
-                Projects = Children.OfType<ProjectViewModel>().Select(c => c.ToConfiguration()).ToList()
+                Projects = Projects.Select(c => c.ToConfiguration()).ToList()
             };
         }
     }

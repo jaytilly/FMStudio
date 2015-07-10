@@ -32,6 +32,8 @@ namespace FMStudio.App.ViewModels
 
         public Binding<bool> IsInitialized { get; private set; }
         
+        public Binding<bool> IsReadOnly { get; private set; }
+
         public Binding<int> UnRunMigrationsCount { get; private set; }
 
         public Binding<bool> HasPendingMigrations { get; private set; }
@@ -80,6 +82,7 @@ namespace FMStudio.App.ViewModels
 
             IsNew = new Binding<bool>();
             IsInitialized = new Binding<bool>();
+            IsReadOnly = new Binding<bool>(configProject.IsReadOnly);
             IsNodeExpanded.Value = configProject.IsExpanded;
             UnRunMigrationsCount = new Binding<int>();
             HasPendingMigrations = new Binding<bool>();
@@ -98,14 +101,14 @@ namespace FMStudio.App.ViewModels
 
             Profile = new Binding<string>(configProject.Profile);
 
-            FullUpdateCommand = new RelayCommand(async param => await FullUpdateAsync(), param => !IsNew.Value);
-            MigrationsOnlyCommand = new RelayCommand(async param => await RunMigrationsAsync(), param => !IsNew.Value);
-            ProfilesOnlyCommand = new RelayCommand(async param => await RunProfilesAsync(), param => !IsNew.Value);
+            FullUpdateCommand = new RelayCommand(async param => await FullUpdateAsync(), param => !IsReadOnly.Value && !IsNew.Value);
+            MigrationsOnlyCommand = new RelayCommand(async param => await RunMigrationsAsync(), param => !IsReadOnly.Value && !IsNew.Value);
+            ProfilesOnlyCommand = new RelayCommand(async param => await RunProfilesAsync(), param => !IsReadOnly.Value && !IsNew.Value);
 
             BrowsePathToMigrationsDllCommand = new RelayCommand(param => BrowsePathToMigrationsDll());
             InitializeProjectCommand = new RelayCommand(async param => await InitializeAsync());
             CloneProjectCommand = new RelayCommand(param => Clone());
-            DeleteProjectCommand = new RelayCommand(param => Delete());
+            DeleteProjectCommand = new RelayCommand(param => Delete(), param => !IsReadOnly.Value);
 
             ProjectInfo = new ProjectInfo(null, null, null, RootVM.OutputVM);
 
@@ -185,37 +188,46 @@ namespace FMStudio.App.ViewModels
 
         public async Task FullUpdateAsync()
         {
-            try
+            if (!MigrationsVM.ProjectVM.IsReadOnly.Value)
             {
-                await ProjectInfo.FullUpdateAsync();
-            }
-            catch (Exception e)
-            {
-                _log.Error("Could not run a full update on project '{0}': {1}", Name.Value, e.GetFullMessage());
+                try
+                {
+                    await ProjectInfo.FullUpdateAsync();
+                }
+                catch (Exception e)
+                {
+                    _log.Error("Could not run a full update on project '{0}': {1}", Name.Value, e.GetFullMessage());
+                }
             }
         }
 
         public async Task RunMigrationsAsync()
         {
-            try
+            if (!MigrationsVM.ProjectVM.IsReadOnly.Value)
             {
-                await ProjectInfo.RunApplicableMigrationsAsync();
-            }
-            catch (Exception e)
-            {
-                _log.Error("Could not run migrations on project '{0}': {1}", Name.Value, e.GetFullMessage());
+                try
+                {
+                    await ProjectInfo.RunApplicableMigrationsAsync();
+                }
+                catch (Exception e)
+                {
+                    _log.Error("Could not run migrations on project '{0}': {1}", Name.Value, e.GetFullMessage());
+                }
             }
         }
 
         public async Task RunProfilesAsync()
         {
-            try
+            if (!MigrationsVM.ProjectVM.IsReadOnly.Value)
             {
-                await ProjectInfo.RunApplicableProfilesAsync();
-            }
-            catch (Exception e)
-            {
-                _log.Error("Could not run profiles on project '{0}': {1}", Name.Value, e.GetFullMessage());
+                try
+                {
+                    await ProjectInfo.RunApplicableProfilesAsync();
+                }
+                catch (Exception e)
+                {
+                    _log.Error("Could not run profiles on project '{0}': {1}", Name.Value, e.GetFullMessage());
+                }
             }
         }
 
@@ -257,6 +269,7 @@ namespace FMStudio.App.ViewModels
                 IsExpanded = IsNodeExpanded.Value,
                 IsMigrationsExpanded = MigrationsVM.IsNodeExpanded.Value,
                 IsProfilesExpanded = ProfilesVM.IsNodeExpanded.Value,
+                IsReadOnly = IsReadOnly.Value,
                 Name = Name.Value,
                 Profile = Profile.Value
             };

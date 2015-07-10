@@ -63,11 +63,11 @@ namespace FMStudio.App.ViewModels
             AppliedOn = new Binding<DateTime?>();
             Sql = new Binding<string>(() => MigrationInfo.GetSqlAsync().Result); // TODO: Make nicer
 
-            AddToDatabaseCommand = new RelayCommand(async param => await AddToDatabaseAsync());
-            MigrateDownCommand = new RelayCommand(async param => await MigrateDownAsync());
-            MigrateUpCommand = new RelayCommand(async param => await MigrateUpAsync());
-            ReRunCommand = new RelayCommand(async param => await ReRunMigrateUpAsync());
-            RemoveFromDatabaseCommand = new RelayCommand(async param => await RemoveFromDatabaseAsync());
+            AddToDatabaseCommand = new RelayCommand(async param => await AddToDatabaseAsync(), param => !MigrationsVM.ProjectVM.IsReadOnly.Value);
+            MigrateDownCommand = new RelayCommand(async param => await MigrateDownAsync(), param => !MigrationsVM.ProjectVM.IsReadOnly.Value);
+            MigrateUpCommand = new RelayCommand(async param => await MigrateUpAsync(), param => !MigrationsVM.ProjectVM.IsReadOnly.Value);
+            ReRunCommand = new RelayCommand(async param => await ReRunMigrateUpAsync(), param => !MigrationsVM.ProjectVM.IsReadOnly.Value);
+            RemoveFromDatabaseCommand = new RelayCommand(async param => await RemoveFromDatabaseAsync(), param => !MigrationsVM.ProjectVM.IsReadOnly.Value);
             SaveToFileCommand = new RelayCommand(param => SaveToFile());
         }
 
@@ -107,61 +107,76 @@ namespace FMStudio.App.ViewModels
 
         private async Task AddToDatabaseAsync()
         {
-            try
+            if (!MigrationsVM.ProjectVM.IsReadOnly.Value)
             {
-                await MigrationInfo.AddToVersionInfoTableAsync();
-            }
-            catch (Exception e)
-            {
-                _log.Error("Could not add migration to database without running it: {0}", e.GetFullMessage());
+                try
+                {
+                    await MigrationInfo.AddToVersionInfoTableAsync();
+                }
+                catch (Exception e)
+                {
+                    _log.Error("Could not add migration to database without running it: {0}", e.GetFullMessage());
+                }
             }
         }
 
         private async Task MigrateDownAsync()
         {
-            try
+            if (!MigrationsVM.ProjectVM.IsReadOnly.Value)
             {
-                await MigrationInfo.DownAsync();
-            }
-            catch (Exception e)
-            {
-                _log.Error("Could not run migration Down-operation: {0}", e.GetFullMessage());
+                try
+                {
+                    await MigrationInfo.DownAsync();
+                }
+                catch (Exception e)
+                {
+                    _log.Error("Could not run migration Down-operation: {0}", e.GetFullMessage());
+                }
             }
         }
 
         private async Task MigrateUpAsync()
         {
-            try
+            if (!MigrationsVM.ProjectVM.IsReadOnly.Value)
             {
-                await MigrationInfo.UpAsync(false);
-            }
-            catch (Exception e)
-            {
-                _log.Error("Could not run migration Up-operation: {0}", e.GetFullMessage());
+                try
+                {
+                    await MigrationInfo.UpAsync(false);
+                }
+                catch (Exception e)
+                {
+                    _log.Error("Could not run migration Up-operation: {0}", e.GetFullMessage());
+                }
             }
         }
 
         private async Task RemoveFromDatabaseAsync()
         {
-            try
+            if (!MigrationsVM.ProjectVM.IsReadOnly.Value)
             {
-                await MigrationInfo.DeleteFromVersionInfoTableAsync();
-            }
-            catch (Exception e)
-            {
-                _log.Error("Could not remove migration from database: {0}", e.GetFullMessage());
+                try
+                {
+                    await MigrationInfo.DeleteFromVersionInfoTableAsync();
+                }
+                catch (Exception e)
+                {
+                    _log.Error("Could not remove migration from database: {0}", e.GetFullMessage());
+                }
             }
         }
 
         private async Task ReRunMigrateUpAsync()
         {
-            try
+            if (!MigrationsVM.ProjectVM.IsReadOnly.Value)
             {
-                await MigrationInfo.UpAsync(true);
-            }
-            catch (Exception e)
-            {
-                _log.Error("Could not re-run migration: {0}", e.GetFullMessage());
+                try
+                {
+                    await MigrationInfo.UpAsync(true);
+                }
+                catch (Exception e)
+                {
+                    _log.Error("Could not re-run migration: {0}", e.GetFullMessage());
+                }
             }
         }
 

@@ -70,6 +70,10 @@
                 <TextBlock Text="Profile" Width="200" />
                 <TextBox Width="300" Text="{Binding Profile.Value}" />
             </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <TextBlock Text="Read only" Width="200" />
+                <CheckBox Width="300" IsChecked="{Binding IsReadOnly.Value}" />
+            </StackPanel>
         </StackPanel>
         <!-- Bottom Toolbar -->
         <Border Grid.Row="3" BorderBrush="{StaticResource Border}" BorderThickness="0,1,0,0">

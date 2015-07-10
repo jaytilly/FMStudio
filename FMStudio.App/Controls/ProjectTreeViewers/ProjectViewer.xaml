@@ -28,6 +28,13 @@
                 FontSize="10pt"
                 Style="{StaticResource IconLabelOrange}"
                 Visibility="{Binding HasPendingMigrations.Value, Converter={StaticResource BoolToVis}}" />
+            <Label
+                Canvas.Top="-5"
+                Canvas.Right="-2"
+                Content="&#xF023;"
+                FontSize="10pt"
+                Style="{StaticResource IconLabelOrange}"
+                Visibility="{Binding IsReadOnly.Value, Converter={StaticResource BoolToVis}}" />
         </Canvas>
         <DockPanel Grid.Column="1">
             <TextBlock DockPanel.Dock="Left" Text="{Binding Name.Value}" VerticalAlignment="Center" />

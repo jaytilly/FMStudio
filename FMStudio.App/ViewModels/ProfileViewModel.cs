@@ -31,7 +31,7 @@ namespace FMStudio.App.ViewModels
 
             Sql = new Binding<string>(() => ProfileInfo.GetSqlAsync().Result); // TODO: Make nicer
 
-            RunProfileCommand = new RelayCommand(async param => await RunProfileAsync());
+            RunProfileCommand = new RelayCommand(async param => await RunProfileAsync(), param => !ProfilesVM.ProjectVM.IsReadOnly.Value);
             SaveToFileCommand = new RelayCommand(param => SaveToFile());
         }
 
@@ -51,15 +51,18 @@ namespace FMStudio.App.ViewModels
 
         private async Task RunProfileAsync()
         {
-            try
+            if (!ProfilesVM.ProjectVM.IsReadOnly.Value)
             {
-                await ProfileInfo.RunAsync();
+                try
+                {
+                    await ProfileInfo.RunAsync();
 
-                await InitializeAsync();
-            }
-            catch (Exception e)
-            {
-                _log.Error("Could not run profile '{0}': {1}", ProfileInfo.Name, e.GetFullMessage());
+                    await InitializeAsync();
+                }
+                catch (Exception e)
+                {
+                    _log.Error("Could not run profile '{0}': {1}", ProfileInfo.Name, e.GetFullMessage());
+                }
             }
         }
 

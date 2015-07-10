@@ -17,6 +17,8 @@ namespace FMStudio.Configuration
 
         public string Name { get; set; }
 
+        public bool IsReadOnly { get; set; }
+
         public string DllPath { get; set; }
 
         public string ConnectionString { get; set; }

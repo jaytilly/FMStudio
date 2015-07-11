@@ -1,6 +1,7 @@
 ﻿using FMStudio.App.Interfaces;
 using FMStudio.App.Utility;
 using FMStudio.Configuration;
+using Squirrel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -145,6 +146,14 @@ namespace FMStudio.App.ViewModels
         public async Task UpdateHasPendingMigrations()
         {
             await Task.WhenAll(Children.OfType<CategoryViewModel>().Select(c => c.UpdateHasPendingMigrations()));
+        }
+
+        public async Task CheckForUpdates()
+        {
+            using (var updateManager = new UpdateManager(@"http://builds.flyingpie.nl/fm-studio/squirrel/dev"))
+            {
+                var result = await updateManager.CheckForUpdate();
+            }
         }
     }
 }

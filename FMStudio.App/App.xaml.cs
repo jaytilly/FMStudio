@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -48,18 +49,26 @@ namespace FMStudio.App
 
         private string UnwrapException(Exception exception)
         {
-            var message = exception.GetType().ToString() + Environment.NewLine + exception.Message;
+            var message = exception.GetFullMessage();
 
-            if (exception.InnerException != null)
-                return message + Environment.NewLine + Environment.NewLine + UnwrapException(exception.InnerException);
+            var stackTrace = exception.StackTrace.ToString();
 
-            return message;
+            return message + Environment.NewLine + Environment.NewLine + stackTrace;
         }
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            var mainWindow = new MainWindow(e.Args.Length > 0 ? e.Args[0] : null);
-            mainWindow.Show();
+            var filePath = e.Args.Length > 0 ? e.Args[0] : null;
+            if (!string.IsNullOrEmpty(filePath) && File.Exists(filePath))
+            {
+                var mainWindow = new MainWindow(filePath);
+                mainWindow.Show();
+            }
+            else
+            {
+                var mainWindow = new MainWindow(null);
+                mainWindow.Show();
+            }
         }
     }
 }

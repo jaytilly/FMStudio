@@ -22,6 +22,8 @@ namespace FMStudio.Configuration
 
         public FMConfiguration()
         {
+            Path = DefaultPath;
+
             Version = 1;
             Categories = new List<CategoryConfiguration>();
             Projects = new List<ProjectConfiguration>();

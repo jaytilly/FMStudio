@@ -7,8 +7,8 @@
     <authors>Marco van den Oever</authors>
     <owners>Info Support</owners>
     <licenseUrl>https://github.com/infosupport/FMStudio/blob/master/LICENSE</licenseUrl>
-    <projectUrl>http://infosupport.github.io/FMStudio/</projectUrl>
-    <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
+    <projectUrl>https://infosupport.github.io/FMStudio</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/infosupport/FMStudio/master/FMStudio.App/fm-studio-icon.ico</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>The Fluent Migrator management tool</description>
     <releaseNotes></releaseNotes>
@@ -16,6 +16,6 @@
     <tags>FM Studio FMStudio Fluent Migrator UI</tags>
   </metadata>
   <files>
-    <file src="FMStudio.App\bin\package\**\*.*" target="lib" />
+    <file src="FMStudio.App\bin\package\**\*.*" target="lib\net45" />
   </files>
 </package>

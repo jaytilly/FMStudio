@@ -26,6 +26,8 @@ namespace FMStudio.App.ViewModels
 
         public ICommand SelectActiveEntityCommand { get; private set; }
 
+        public ICommand UpdateApplicationCommand { get; private set; }
+
         public FMConfiguration Configuration { get; set; }
 
         public List<FMStudio.Lib.ProjectInfo> LibProjects { get; set; }
@@ -45,6 +47,7 @@ namespace FMStudio.App.ViewModels
             FullUpdateCommand = new RelayCommand(async param => await FullUpdateAsync());
             SaveConfigurationCommand = new RelayCommand(param => SaveConfiguration());
             SelectActiveEntityCommand = new RelayCommand(param => SelectActiveEntity(param));
+            UpdateApplicationCommand = new RelayCommand(param => UpdateApplication());
 
             Configuration = configuration;
 
@@ -148,12 +151,9 @@ namespace FMStudio.App.ViewModels
             await Task.WhenAll(Children.OfType<CategoryViewModel>().Select(c => c.UpdateHasPendingMigrations()));
         }
 
-        public async Task CheckForUpdates()
+        public void UpdateApplication()
         {
-            using (var updateManager = new UpdateManager(@"http://builds.flyingpie.nl/fm-studio/squirrel/dev"))
-            {
-                var result = await updateManager.CheckForUpdate();
-            }
+            ActiveEntity.Value = new UpdateViewModel(this);
         }
     }
 }

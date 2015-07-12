@@ -5,9 +5,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:FMStudio.App.Controls.Viewers"
+    xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
     mc:Ignorable="d"
     d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel VerticalAlignment="Center">
+    <StackPanel VerticalAlignment="Center" Margin="10">
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Current version" Width="200" />
             <TextBlock Text="{Binding CurrentVersion.Value}" />
@@ -17,26 +18,16 @@
             <TextBlock Text="{Binding LatestVersion.Value}" />
         </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <TextBlock Text="Is update available" Width="200" />
-            <TextBlock Text="{Binding IsUpdateAvailable.Value}" />
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Text="Is updating" Width="200" />
-            <TextBlock Text="{Binding IsUpdating.Value}" />
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Text="Update progress" Width="200" />
-            <TextBlock Text="{Binding UpdateProgress.Value}" />
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Text="Is update complete" Width="200" />
-            <TextBlock Text="{Binding IsUpdateComplete.Value}" />
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
             <Button Command="{Binding CheckForUpdatesCommand}" Content="Check for updates" />
         </StackPanel>
-        <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Horizontal" Visibility="{Binding IsUpdateAvailable.Value, Converter={StaticResource BoolToVis}}">
             <Button Command="{Binding UpdateToLatestVersionCommand}" Content="Update to latest version" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Visibility="{Binding IsUpdateComplete.Value, Converter={StaticResource BoolToVis}}">
+            <Button Command="{Binding RestartApplicationCommand}" Content="Restart to complete update" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Visibility="{Binding IsUpdating.Value, Converter={StaticResource BoolToVis}}">
+            <mahapps:ProgressRing IsActive="True" />
         </StackPanel>
     </StackPanel>
 </UserControl>

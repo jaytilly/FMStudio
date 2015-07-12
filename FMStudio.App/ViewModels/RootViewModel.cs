@@ -36,6 +36,8 @@ namespace FMStudio.App.ViewModels
 
         public OutputViewModel OutputVM { get; set; }
 
+        public UpdateViewModel UpdateVM { get; set; }
+
         public RootViewModel(FMConfiguration configuration)
         {
             ActiveEntity = new Binding<BaseViewModel>(new DefaultViewModel());
@@ -52,8 +54,10 @@ namespace FMStudio.App.ViewModels
             Configuration = configuration;
 
             OutputVM = new OutputViewModel();
-
             OutputVM.Write("Loaded local FluentMigrator assembly version " + Lib.Utility.References.GetFluentMigratorAssemblyVersion());
+
+            UpdateVM = new UpdateViewModel(this);
+            Task.Run(async () => await UpdateVM.CheckForUpdates());
 
             Configuration.Categories.ForEach(c => Add(new CategoryViewModel(OutputVM, this, c)));
             Configuration.Projects.ForEach(p => Add(new ProjectViewModel(OutputVM, this, p)));
@@ -153,7 +157,7 @@ namespace FMStudio.App.ViewModels
 
         public void UpdateApplication()
         {
-            ActiveEntity.Value = new UpdateViewModel(this);
+            ActiveEntity.Value = UpdateVM;
         }
     }
 }

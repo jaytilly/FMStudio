@@ -7,8 +7,6 @@ namespace FMStudio.Configuration
 {
     public class FMConfiguration
     {
-        public const string DefaultPath = "config.json";
-
         [JsonIgnore]
         public string Path { get; set; }
 
@@ -19,15 +17,30 @@ namespace FMStudio.Configuration
         public List<ProjectConfiguration> Projects { get; set; }
 
         public Preferences Preferences { get; set; }
-
+        
         public FMConfiguration()
         {
-            Path = DefaultPath;
+            Path = GetDefaultPath();
 
             Version = 1;
             Categories = new List<CategoryConfiguration>();
             Projects = new List<ProjectConfiguration>();
             Preferences = new Preferences();
+        }
+
+        public static string GetDefaultPath()
+        {
+            var userDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            var applicationDirectory = "FMStudio";
+
+            var fmStudioDirectory = System.IO.Path.Combine(userDirectory, applicationDirectory);
+
+            if (!Directory.Exists(fmStudioDirectory))
+                Directory.CreateDirectory(fmStudioDirectory);
+
+            var fileName = "config.json";
+            
+            return System.IO.Path.Combine(fmStudioDirectory, fileName);
         }
 
         /// <summary>
@@ -79,9 +92,11 @@ namespace FMStudio.Configuration
         /// </summary>
         public static FMConfiguration Load()
         {
-            if (File.Exists(DefaultPath))
+            var defaultPath = GetDefaultPath();
+
+            if (File.Exists(defaultPath))
             {
-                return Load(DefaultPath);
+                return Load(defaultPath);
             }
 
             return new FMConfiguration();

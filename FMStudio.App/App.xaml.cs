@@ -45,6 +45,8 @@ namespace FMStudio.App
                 MessageBox.Show("I'm sorry, the app crashed because of this: " + Environment.NewLine + Environment.NewLine + UnwrapException(exception));
             else
                 MessageBox.Show("I'm sorry, the app crashed and I don't know why :'(");
+
+            System.Environment.Exit(-1);
         }
 
         private string UnwrapException(Exception exception)

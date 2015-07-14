@@ -1,7 +1,6 @@
 ﻿using FMStudio.App.Interfaces;
 using FMStudio.App.Utility;
 using FMStudio.Configuration;
-using Squirrel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,7 +61,7 @@ namespace FMStudio.App.ViewModels
             Configuration.Categories.ForEach(c => Add(new CategoryViewModel(OutputVM, this, c)));
             Configuration.Projects.ForEach(p => Add(new ProjectViewModel(OutputVM, this, p)));
         }
-        
+
         public void Drop(ICanBeDragged draggable)
         {
             var childVM = draggable as HierarchicalBaseViewModel;

@@ -2,7 +2,6 @@
 using FMStudio.App.Utility;
 using FMStudio.Configuration;
 using FMStudio.Lib;
-using FMStudio.Lib.Exceptions;
 using FMStudio.Utility.Logging;
 using System;
 using System.Collections.ObjectModel;
@@ -23,7 +22,7 @@ namespace FMStudio.App.ViewModels
         public ProfilesViewModel ProfilesVM { get; private set; }
 
         public ProjectInfo ProjectInfo { get; private set; }
-        
+
         #region Properties
 
         public Guid Id { get; private set; }
@@ -31,7 +30,7 @@ namespace FMStudio.App.ViewModels
         public Binding<bool> IsNew { get; private set; }
 
         public Binding<bool> IsInitialized { get; private set; }
-        
+
         public Binding<bool> IsReadOnly { get; private set; }
 
         public Binding<int> UnRunMigrationsCount { get; private set; }
@@ -148,7 +147,7 @@ namespace FMStudio.App.ViewModels
 
             if (Tags.HasValue)
                 ProjectInfo.Tags = Tags.Value.Split(new char[] { ' ' }).ToList();
-            
+
             try
             {
                 await ProjectInfo.InitializeMigrationsAsync(PathToMigrationsDll.Value);
@@ -158,7 +157,7 @@ namespace FMStudio.App.ViewModels
                 await MigrationsVM.InitializeAsync();
 
                 await ProfilesVM.InitializeAsync();
-                
+
                 await Update();
 
                 IsInitialized.Value = true;

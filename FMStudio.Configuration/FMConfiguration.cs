@@ -17,7 +17,7 @@ namespace FMStudio.Configuration
         public List<ProjectConfiguration> Projects { get; set; }
 
         public Preferences Preferences { get; set; }
-        
+
         public FMConfiguration()
         {
             Path = GetDefaultPath();
@@ -39,7 +39,7 @@ namespace FMStudio.Configuration
                 Directory.CreateDirectory(fmStudioDirectory);
 
             var fileName = "config.json";
-            
+
             return System.IO.Path.Combine(fmStudioDirectory, fileName);
         }
 
@@ -70,21 +70,13 @@ namespace FMStudio.Configuration
 
             if (!File.Exists(path)) throw new FileNotFoundException(path);
 
-            try
-            {
-                var file = File.ReadAllText(path);
+            var file = File.ReadAllText(path);
 
-                var config = JsonConvert.DeserializeObject<FMConfiguration>(file);
-                config.Path = path;
+            var config = JsonConvert.DeserializeObject<FMConfiguration>(file);
+            config.Path = path;
+            config.Link();
 
-                config.Link();
-
-                return config;
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
+            return config;
         }
 
         /// <summary>

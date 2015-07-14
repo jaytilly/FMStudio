@@ -20,12 +20,11 @@ namespace FMStudio.App.Controls
 
             using (var stream = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("FMStudio.App.Resources.sql.xshd"))
             {
-                using (var reader = new XmlTextReader(stream))
-                {
-                    txtSql.SyntaxHighlighting =
-                        ICSharpCode.AvalonEdit.Highlighting.Xshd.HighlightingLoader.Load(reader,
-                        ICSharpCode.AvalonEdit.Highlighting.HighlightingManager.Instance);
-                }
+                var reader = new XmlTextReader(stream);
+
+                txtSql.SyntaxHighlighting =
+                    ICSharpCode.AvalonEdit.Highlighting.Xshd.HighlightingLoader.Load(reader,
+                    ICSharpCode.AvalonEdit.Highlighting.HighlightingManager.Instance);
             }
         }
 

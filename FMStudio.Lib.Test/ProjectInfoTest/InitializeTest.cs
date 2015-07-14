@@ -1,7 +1,4 @@
-﻿using FMStudio.Lib.Exceptions;
-using FMStudio.Lib.Test.Migrations.Migrations;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 
 namespace FMStudio.Lib.Test.ProjectInfoTest

@@ -1,6 +1,7 @@
 ﻿using FMStudio.App.ViewModels;
 using FMStudio.Configuration;
 using MahApps.Metro.Controls;
+using System.Threading.Tasks;
 
 namespace FMStudio.App
 {
@@ -20,7 +21,7 @@ namespace FMStudio.App
                 config = FMConfiguration.Load();
 
             _root = new RootViewModel(config);
-            _root.InitializeAsync();
+            Task.Run(_root.InitializeAsync);
 
             LoadPreferences(config.Preferences);
 

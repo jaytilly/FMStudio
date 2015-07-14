@@ -24,13 +24,13 @@ namespace FMStudio.App.ViewModels
         public Binding<int> UpdateProgress { get; private set; }
 
         public Binding<bool> IsUpdateComplete { get; private set; }
-        
+
         public ICommand CheckForUpdatesCommand { get; private set; }
 
         public ICommand UpdateToLatestVersionCommand { get; private set; }
 
         public ICommand RestartApplicationCommand { get; private set; }
-        
+
         public UpdateViewModel(RootViewModel rootVM)
         {
             RootVM = rootVM;
@@ -42,7 +42,7 @@ namespace FMStudio.App.ViewModels
             IsUpdating = new Binding<bool>();
             UpdateProgress = new Binding<int>();
             IsUpdateComplete = new Binding<bool>();
-            
+
             CheckForUpdatesCommand = new RelayCommand(async param => await CheckForUpdates());
             UpdateToLatestVersionCommand = new RelayCommand(async param => await UpdateToLatestVersion());
             RestartApplicationCommand = new RelayCommand(param => RestartApplication());
@@ -81,7 +81,7 @@ namespace FMStudio.App.ViewModels
                     IsUpdateComplete.Value = true;
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 RootVM.OutputVM.Error("Cannot update to latest version: {0}", e.GetFullMessage());
             }
@@ -93,7 +93,7 @@ namespace FMStudio.App.ViewModels
             {
                 UpdateManager.RestartApp();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 RootVM.OutputVM.Error("Cannot restart the application: {0}", e.GetFullMessage());
             }

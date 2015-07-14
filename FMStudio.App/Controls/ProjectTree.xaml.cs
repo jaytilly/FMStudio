@@ -54,7 +54,7 @@ namespace FMStudio.App.Controls
                 }
             }
         }
-        
+
         private void trvProjects_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             var treeViewItem = ((DependencyObject)e.OriginalSource).FindAncestor<TreeViewItem>();

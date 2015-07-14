@@ -57,8 +57,6 @@ namespace FMStudio.Lib
             get { return !HasRun && IsIncluded; }
         }
 
-        public bool IsValid { get; private set; }
-
         public List<string> Tags { get; private set; }
 
         public long Version { get; private set; }

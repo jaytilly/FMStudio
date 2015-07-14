@@ -1,4 +1,5 @@
 ﻿using FluentMigrator;
+using FluentMigrator.Infrastructure;
 using FluentMigrator.Runner;
 using FMStudio.Lib.Exceptions;
 using FMStudio.Lib.Repositories;
@@ -21,12 +22,8 @@ namespace FMStudio.Lib
 
         private TypeInfo _typeInfo;
 
-        private MigrationAttribute _migrationAttribute;
-
-        private List<TagsAttribute> _tagsAttribute;
-        
         private string _sql;
-        
+
         public MigrationInfo(
             IMigrationsRepository migrationsRepository,
             ILog log,
@@ -52,7 +49,7 @@ namespace FMStudio.Lib
 
         public bool IsIncluded
         {
-            get { return !Tags.Any() || _project.Tags.Any(pt => Tags.Contains(pt)); }
+            get { return !DefaultMigrationConventions.TypeHasTags(_typeInfo) || DefaultMigrationConventions.TypeHasMatchingTags(_typeInfo, _project.Tags); }
         }
 
         public bool IsToBeRun
@@ -113,7 +110,7 @@ namespace FMStudio.Lib
                         _log.Info("Deleted version {0}: '{1}' from version info table", Version, Description);
                     }
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     throw new MigrationException("Could not delete version from version info table", e, this);
                 }
@@ -144,7 +141,7 @@ namespace FMStudio.Lib
                         _log.Info("Successfully undone migration {0}: '{1}'", Version, Description);
                     }
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     throw new MigrationException("Could not undo migration", e, this);
                 }
@@ -161,15 +158,15 @@ namespace FMStudio.Lib
 
         public async Task InitializeAsync()
         {
-            _migrationAttribute = _typeInfo.GetCustomAttribute<MigrationAttribute>();
+            var migrationInfo = DefaultMigrationConventions.GetMigrationInfoFor(_typeInfo.AsType());
 
-            Version = _migrationAttribute.Version;
-            Description = _migrationAttribute.Description;
+            Version = migrationInfo.Version;
+            Description = migrationInfo.Description;
 
-            _tagsAttribute = _typeInfo.GetCustomAttributes<TagsAttribute>().ToList();
+            var tagsAttributes = _typeInfo.GetCustomAttributes<TagsAttribute>().ToList();
 
-            if (_tagsAttribute.Any())
-                Tags = _tagsAttribute.SelectMany(t => t.TagNames).ToList();
+            if (tagsAttributes.Any())
+                Tags = tagsAttributes.SelectMany(t => t.TagNames).ToList();
             else
                 Tags = Enumerable.Empty<string>().ToList();
 
@@ -183,7 +180,7 @@ namespace FMStudio.Lib
 
             MigrationUpdated(this, EventArgs.Empty);
         }
-        
+
         public async Task UpAsync(bool clearFromVersionInfoTable)
         {
             if (!_project.IsDatabaseInitialized)

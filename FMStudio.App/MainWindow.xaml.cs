@@ -21,7 +21,7 @@ namespace FMStudio.App
                 config = FMConfiguration.Load();
 
             _root = new RootViewModel(config);
-            Task.Run(_root.InitializeAsync);
+            Task.Run(() => _root.InitializeAsync());
 
             LoadPreferences(config.Preferences);
 

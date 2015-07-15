@@ -39,7 +39,7 @@
                     <TextBlock Text="Preferences" />
                 </StackPanel>
             </Button>
-            <Button Command="{Binding UpdateApplicationCommand}">
+            <Button Command="{Binding UpdateApplicationCommand}" Visibility="{Binding UpdateVM.IsUpdaterEnabled.Value, Converter={StaticResource BoolToVis}}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="&#xF06A;" Margin="0,0,5,0" Style="{StaticResource Icon}" Visibility="{Binding UpdateVM.IsUpdateAvailable.Value, Converter={StaticResource BoolToVis}}" />
                     <TextBlock Text="Update" />

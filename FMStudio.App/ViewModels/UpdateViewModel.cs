@@ -13,6 +13,8 @@ namespace FMStudio.App.ViewModels
 
         public RootViewModel RootVM { get; private set; }
 
+        public Binding<bool> IsUpdaterEnabled { get; private set; }
+
         public Binding<string> CurrentVersion { get; private set; }
 
         public Binding<string> LatestVersion { get; private set; }
@@ -34,6 +36,8 @@ namespace FMStudio.App.ViewModels
         public UpdateViewModel(RootViewModel rootVM)
         {
             RootVM = rootVM;
+
+            IsUpdaterEnabled = new Binding<bool>();
 
             CurrentVersion = new Binding<string>("<unknown>");
             LatestVersion = new Binding<string>("<unknown>");
@@ -64,6 +68,7 @@ namespace FMStudio.App.ViewModels
             catch (Exception e)
             {
                 RootVM.OutputVM.Error("Cannot check for updates: {0}", e.GetFullMessage());
+                IsUpdaterEnabled.Value = false;
             }
         }
 

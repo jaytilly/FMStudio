@@ -1,4 +1,5 @@
 ﻿using FMStudio.App.Interfaces;
+using FMStudio.App.Services;
 using FMStudio.App.Utility;
 using FMStudio.Configuration;
 using System;
@@ -11,6 +12,8 @@ namespace FMStudio.App.ViewModels
 {
     public class RootViewModel : HierarchicalBaseViewModel, ICanBeDroppedUpon
     {
+        public IDialogService DialogService { get; private set; }
+
         public Binding<BaseViewModel> ActiveEntity { get; set; }
 
         public ICommand AddCategoryCommand { get; private set; }
@@ -37,8 +40,10 @@ namespace FMStudio.App.ViewModels
 
         public UpdateViewModel UpdateVM { get; set; }
 
-        public RootViewModel(FMConfiguration configuration)
+        public RootViewModel(IDialogService dialogService, FMConfiguration configuration)
         {
+            DialogService = dialogService;
+
             ActiveEntity = new Binding<BaseViewModel>(new DefaultViewModel());
             Output = new Binding<string>();
 

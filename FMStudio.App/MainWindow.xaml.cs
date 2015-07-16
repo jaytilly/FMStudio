@@ -1,4 +1,5 @@
-﻿using FMStudio.App.ViewModels;
+﻿using FMStudio.App.Services;
+using FMStudio.App.ViewModels;
 using FMStudio.Configuration;
 using MahApps.Metro.Controls;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace FMStudio.App
         {
             InitializeComponent();
 
+            var dialogService = new DialogService(this);
             FMConfiguration config = null;
 
             if (!string.IsNullOrEmpty(pathToConfigFile))
@@ -20,7 +22,7 @@ namespace FMStudio.App
             else
                 config = FMConfiguration.Load();
 
-            _root = new RootViewModel(config);
+            _root = new RootViewModel(dialogService, config);
             Task.Run(() => _root.InitializeAsync());
 
             LoadPreferences(config.Preferences);

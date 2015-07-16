@@ -107,7 +107,7 @@ namespace FMStudio.App.ViewModels
             BrowsePathToMigrationsDllCommand = new RelayCommand(param => BrowsePathToMigrationsDll());
             InitializeProjectCommand = new RelayCommand(async param => await InitializeAsync());
             CloneProjectCommand = new RelayCommand(param => Clone());
-            DeleteProjectCommand = new RelayCommand(param => Delete(), param => !IsReadOnly.Value);
+            DeleteProjectCommand = new RelayCommand(async param => await DeleteAsync(), param => !IsReadOnly.Value);
 
             ProjectInfo = new ProjectInfo(null, null, null, RootVM.OutputVM);
 
@@ -250,8 +250,12 @@ namespace FMStudio.App.ViewModels
             Parent.Add(new ProjectViewModel(_log, RootVM, ToConfiguration()));
         }
 
-        public void Delete()
+        public async Task DeleteAsync()
         {
+            var confirm = await RootVM.DialogService.ConfirmAsync("Confirm project deletion", "Are you sure you want to delete project '" + Name.Value + "'?");
+            if (!confirm)
+                return;
+
             Parent.Remove(this);
             RootVM.ActiveEntity.Value = null;
 

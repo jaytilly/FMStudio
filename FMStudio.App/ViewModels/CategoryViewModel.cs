@@ -43,7 +43,7 @@ namespace FMStudio.App.ViewModels
             IsNodeExpanded.Value = categoryConfiguration.IsExpanded;
             HasPendingMigrations = new Binding<bool>();
 
-            DeleteCategoryCommand = new RelayCommand(param => DeleteCategory());
+            DeleteCategoryCommand = new RelayCommand(async param => await DeleteCategory());
             FullUpdateAllUnderlyingProjectsCommand = new RelayCommand(async param => await FullUpdateAllUnderlyingProjectsAsync());
             RefreshAllUnderlyingProjectsCommand = new RelayCommand(async param => await RefreshAllUnderlyingProjectsAsync());
 
@@ -69,8 +69,12 @@ namespace FMStudio.App.ViewModels
             Task.Run(async () => await RootVM.UpdateHasPendingMigrations());
         }
 
-        public void DeleteCategory()
+        public async Task DeleteCategory()
         {
+            var confirm = await RootVM.DialogService.ConfirmAsync("Are you sure you want to delete category '" + Name.Value + "'?");
+            if (!confirm)
+                return;
+
             Parent.Remove(this);
         }
 

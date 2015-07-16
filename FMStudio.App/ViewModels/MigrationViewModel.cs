@@ -107,76 +107,88 @@ namespace FMStudio.App.ViewModels
 
         private async Task AddToDatabaseAsync()
         {
-            if (!MigrationsVM.ProjectVM.IsReadOnly.Value)
+            if (MigrationsVM.ProjectVM.IsReadOnly.Value)
+                return;
+
+            var confirm = await MigrationsVM.ProjectVM.RootVM.DialogService.ConfirmAsync("Are you sure you want to add this migration to the version info table without applying it?");
+            if (!confirm)
+                return;
+
+            try
             {
-                try
-                {
-                    await MigrationInfo.AddToVersionInfoTableAsync();
-                }
-                catch (Exception e)
-                {
-                    _log.Error("Could not add migration to database without running it: {0}", e.GetFullMessage());
-                }
+                await MigrationInfo.AddToVersionInfoTableAsync();
+            }
+            catch (Exception e)
+            {
+                _log.Error("Could not add migration to database without running it: {0}", e.GetFullMessage());
             }
         }
 
         private async Task MigrateDownAsync()
         {
-            if (!MigrationsVM.ProjectVM.IsReadOnly.Value)
+            if (MigrationsVM.ProjectVM.IsReadOnly.Value)
+                return;
+
+            try
             {
-                try
-                {
-                    await MigrationInfo.DownAsync();
-                }
-                catch (Exception e)
-                {
-                    _log.Error("Could not run migration Down-operation: {0}", e.GetFullMessage());
-                }
+                await MigrationInfo.DownAsync();
+            }
+            catch (Exception e)
+            {
+                _log.Error("Could not run migration Down-operation: {0}", e.GetFullMessage());
             }
         }
 
         private async Task MigrateUpAsync()
         {
-            if (!MigrationsVM.ProjectVM.IsReadOnly.Value)
+            if (MigrationsVM.ProjectVM.IsReadOnly.Value)
+                return;
+
+            try
             {
-                try
-                {
-                    await MigrationInfo.UpAsync(false);
-                }
-                catch (Exception e)
-                {
-                    _log.Error("Could not run migration Up-operation: {0}", e.GetFullMessage());
-                }
+                await MigrationInfo.UpAsync(false);
+            }
+            catch (Exception e)
+            {
+                _log.Error("Could not run migration Up-operation: {0}", e.GetFullMessage());
             }
         }
 
         private async Task RemoveFromDatabaseAsync()
         {
-            if (!MigrationsVM.ProjectVM.IsReadOnly.Value)
+            if (MigrationsVM.ProjectVM.IsReadOnly.Value)
+                return;
+
+            var confirm = await MigrationsVM.ProjectVM.RootVM.DialogService.ConfirmAsync("Are you sure you want to remove this migration from the version info table without undoing it?");
+            if (!confirm)
+                return;
+
+            try
             {
-                try
-                {
-                    await MigrationInfo.DeleteFromVersionInfoTableAsync();
-                }
-                catch (Exception e)
-                {
-                    _log.Error("Could not remove migration from database: {0}", e.GetFullMessage());
-                }
+                await MigrationInfo.DeleteFromVersionInfoTableAsync();
+            }
+            catch (Exception e)
+            {
+                _log.Error("Could not remove migration from database: {0}", e.GetFullMessage());
             }
         }
 
         private async Task ReRunMigrateUpAsync()
         {
-            if (!MigrationsVM.ProjectVM.IsReadOnly.Value)
+            if (MigrationsVM.ProjectVM.IsReadOnly.Value)
+                return;
+
+            var confirm = await MigrationsVM.ProjectVM.RootVM.DialogService.ConfirmAsync("Are you sure you want to re-run this migration?");
+            if (!confirm)
+                return;
+
+            try
             {
-                try
-                {
-                    await MigrationInfo.UpAsync(true);
-                }
-                catch (Exception e)
-                {
-                    _log.Error("Could not re-run migration: {0}", e.GetFullMessage());
-                }
+                await MigrationInfo.UpAsync(true);
+            }
+            catch (Exception e)
+            {
+                _log.Error("Could not re-run migration: {0}", e.GetFullMessage());
             }
         }
 

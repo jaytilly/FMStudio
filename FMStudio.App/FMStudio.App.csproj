@@ -164,6 +164,8 @@
     <Compile Include="EventConstants.cs" />
     <Compile Include="Interfaces\ICanBeDragged.cs" />
     <Compile Include="Interfaces\ICanBeDroppedUpon.cs" />
+    <Compile Include="Services\DialogService.cs" />
+    <Compile Include="Services\IDialogService.cs" />
     <Compile Include="Utility\AutoScroll.cs" />
     <Compile Include="Utility\Binding.cs" />
     <Compile Include="Utility\CollectionExtensions.cs" />

@@ -4,16 +4,44 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:avalon-edit="http://icsharpcode.net/sharpdevelop/avalonedit"
+    xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
     mc:Ignorable="d"
     d:DesignHeight="300" d:DesignWidth="300">
     <Grid DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}">
-        <avalon-edit:TextEditor
+        <StackPanel Panel.ZIndex="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,20,0">
+            <TextBox
+                Name="txtSearch"
+                BorderBrush="{StaticResource Border}"
+                BorderThickness="1"
+                Margin="0,0,1,0"
+                Text="{Binding FindText.Value, UpdateSourceTrigger=PropertyChanged}"
+                Width="200">
+                <TextBox.InputBindings>
+                    <KeyBinding Command="{Binding FindCommand}" CommandParameter="{Binding FindText.Value}" Key="Return" />
+                </TextBox.InputBindings>
+            </TextBox>
+            <Button
+                Name="btnSearch"
+                BorderBrush="{StaticResource Border}"
+                BorderThickness="1"
+                Command="{Binding FindCommand}"
+                CommandParameter="{Binding FindText.Value}"
+                Style="{DynamicResource SquareButtonStyle}">
+                <TextBlock Text="&#xF002;" Style="{StaticResource IconGray}" />
+            </Button>
+        </StackPanel>
+
+        <avalonedit:TextEditor
             Document="{Binding Path=Document}"
             FontFamily="Consolas"
             FontSize="10pt"
             IsReadOnly="True"
             Name="txtSql"
-            ShowLineNumbers="True" />
+            Panel.ZIndex="0"
+            ShowLineNumbers="True">
+            <avalonedit:TextEditor.InputBindings>
+                <KeyBinding Command="{Binding FocusFindCommand}" Key="F" Modifiers="Ctrl" />
+            </avalonedit:TextEditor.InputBindings>
+        </avalonedit:TextEditor>
     </Grid>
 </UserControl>

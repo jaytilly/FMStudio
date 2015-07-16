@@ -1,8 +1,11 @@
-﻿using ICSharpCode.AvalonEdit.Document;
+﻿using FMStudio.App.Utility;
+using ICSharpCode.AvalonEdit.Document;
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Xml;
 
 namespace FMStudio.App.Controls
@@ -18,6 +21,17 @@ namespace FMStudio.App.Controls
             var dp = DependencyPropertyDescriptor.FromProperty(TextProperty, (typeof(SqlViewer)));
             dp.AddValueChanged(this, OnTextChanged);
 
+            InitializeSqlHighlighting();
+
+            FindText = new Binding<string>();
+            FindText.PropertyChanged += (s, e) => Find(FindText.Value);
+
+            FindCommand = new RelayCommand(param => Find(param as string));
+            FocusFindCommand = new RelayCommand(param => txtSearch.Focus());
+        }
+
+        private void InitializeSqlHighlighting()
+        {
             using (var stream = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("FMStudio.App.Resources.sql.xshd"))
             {
                 var reader = new XmlTextReader(stream);
@@ -42,6 +56,63 @@ namespace FMStudio.App.Controls
         {
             if (Text != null)
                 Document.Text = Text;
+        }
+
+        public ICommand FindCommand { get; private set; }
+
+        public ICommand FocusFindCommand { get; private set; }
+
+        public Binding<string> FindText { get; private set; }
+
+        private int lastSearchIndex = 0;
+        private string lastSearchQuery;
+
+        private void Find(string searchQuery)
+        {
+            if (string.IsNullOrEmpty(searchQuery))
+            {
+                lastSearchIndex = 0;
+                return;
+            }
+
+            var editorText = txtSql.Text;
+
+            if (string.IsNullOrEmpty(editorText))
+            {
+                lastSearchIndex = 0;
+                return;
+            }
+
+            if (lastSearchIndex >= editorText.Count())
+                lastSearchIndex = 0;
+
+            if (searchQuery != lastSearchQuery)
+                lastSearchIndex = 0;
+
+            var nIndex = editorText.IndexOf(searchQuery, lastSearchIndex, StringComparison.OrdinalIgnoreCase);
+
+            if (nIndex != -1)
+            {
+                var area = txtSql.TextArea;
+
+                txtSql.ScrollToLine(txtSql.Document.GetLineByOffset(nIndex).LineNumber);
+                txtSql.Select(nIndex, searchQuery.Length);
+
+                lastSearchIndex = nIndex + searchQuery.Length;
+                lastSearchQuery = searchQuery;
+            }
+            else
+            {
+                if (lastSearchIndex != 0)
+                {
+                    lastSearchIndex = 0;
+                    Find(searchQuery);
+                }
+                else
+                {
+                    lastSearchIndex = 0;
+                }
+            }
         }
     }
 }

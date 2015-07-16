@@ -63,6 +63,7 @@ namespace FMStudio.App.ViewModels
                     CurrentVersion.Value = result.CurrentlyInstalledVersion.Version.ToString();
                     LatestVersion.Value = result.FutureReleaseEntry.Version.ToString();
                     IsUpdateAvailable.Value = result.ReleasesToApply.Any();
+                    IsUpdaterEnabled.Value = true;
                 }
             }
             catch (Exception e)

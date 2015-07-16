@@ -82,8 +82,8 @@
         <!-- Bottom Toolbar -->
         <Border Grid.Row="3" BorderBrush="{StaticResource Border}" BorderThickness="0,1,0,0">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <local:IconButton Command="{Binding InitializeProjectCommand}" Icon="&#xF0E7;" IconColor="{StaticResource Green}" Text="Initialize" ToolTip="Initializes the project" />
-
+                <local:IconButton Command="{Binding InitializeProjectCommand}" Icon="&#xF021;" IconColor="{StaticResource Blue}" Text="Refresh" ToolTip="Refresh the project" />
+                
                 <local:IconButton Command="{Binding CloneProjectCommand}" Icon="&#xF0C5;" IconColor="{StaticResource Blue}" Text="Clone" ToolTip="Clones the project to a second one" />
 
                 <local:IconButton Command="{Binding DeleteProjectCommand}" Icon="&#xF00D;" IconColor="{StaticResource Red}" Text="Delete" ToolTip="Deletes the project from the configuration file" />

@@ -85,7 +85,7 @@ namespace FMStudio.App.ViewModels
             Configuration.Save();
         }
 
-        private void AddCategory()
+        public void AddCategory()
         {
             var categoryVM = new CategoryViewModel(OutputVM, this, new CategoryConfiguration() { Name = "New category" });
 
@@ -98,7 +98,7 @@ namespace FMStudio.App.ViewModels
             ActiveEntity.Value = categoryVM;
         }
 
-        private void AddProject()
+        public void AddProject()
         {
             var projectVM = new ProjectViewModel(OutputVM, this, new ProjectConfiguration());
             projectVM.IsNew.Value = true;
@@ -125,12 +125,12 @@ namespace FMStudio.App.ViewModels
             ActiveEntity.Value = projectVM;
         }
 
-        private void EditPreferences()
+        public void EditPreferences()
         {
             ActiveEntity.Value = new PreferencesViewModel(this);
         }
 
-        private async Task FullUpdateAsync()
+        public async Task FullUpdateAsync()
         {
             foreach (ProjectViewModel project in Children)
             {
@@ -145,7 +145,7 @@ namespace FMStudio.App.ViewModels
             }
         }
 
-        private void SelectActiveEntity(object param)
+        public void SelectActiveEntity(object param)
         {
             var migrationEntity = param as BaseViewModel;
             if (migrationEntity != null)

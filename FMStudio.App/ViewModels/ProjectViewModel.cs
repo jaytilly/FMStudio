@@ -266,7 +266,10 @@ namespace FMStudio.App.ViewModels
 
         public void Clone()
         {
-            Parent.Add(new ProjectViewModel(_log, RootVM, ToConfiguration()));
+            var clonedVM = new ProjectViewModel(_log, RootVM, ToConfiguration());
+            Parent.Add(clonedVM);
+
+            RootVM.SelectActiveEntity(clonedVM);
         }
 
         public async Task DeleteAsync()

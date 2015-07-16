@@ -32,5 +32,48 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+        
+        <Grid.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Refresh" Command="{Binding InitializeCommand}">
+                    <MenuItem.Icon>
+                        <TextBlock Text="&#xF021;" Style="{StaticResource IconBlue}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="Migrate up" Command="{Binding MigrateUpCommand}" Visibility="{Binding HasRun.Value, Converter={StaticResource InvertBoolToVis}}">
+                    <MenuItem.Icon>
+                        <TextBlock Text="&#xF062;" Style="{StaticResource IconGreen}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Migrate down" Command="{Binding MigrateDownCommand}" Visibility="{Binding HasRun.Value, Converter={StaticResource BoolToVis}}">
+                    <MenuItem.Icon>
+                        <TextBlock Text="&#xF063;" Style="{StaticResource IconRed}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Re-run" Command="{Binding ReRunCommand}" Visibility="{Binding HasRun.Value, Converter={StaticResource BoolToVis}}">
+                    <MenuItem.Icon>
+                        <TextBlock Text="&#xF021;" Style="{StaticResource IconOrange}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="Add to database" Command="{Binding AddToDatabaseCommand}" Visibility="{Binding HasRun.Value, Converter={StaticResource InvertBoolToVis}}">
+                    <MenuItem.Icon>
+                        <TextBlock Text="&#xF0C5;" Style="{StaticResource IconOrange}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Remove from database" Command="{Binding RemoveFromDatabaseCommand}" Visibility="{Binding HasRun.Value, Converter={StaticResource BoolToVis}}">
+                    <MenuItem.Icon>
+                        <TextBlock Text="&#xF067;" Style="{StaticResource IconRed}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="Save to file..." Command="{Binding SaveToFileCommand}">
+                    <MenuItem.Icon>
+                        <TextBlock Text="&#xF0C7;" Style="{StaticResource IconGreen}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </ContextMenu>
+        </Grid.ContextMenu>
     </Grid>
 </UserControl>

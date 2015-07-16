@@ -76,6 +76,8 @@
         <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="0,0,0,1">
             <StackPanel VerticalAlignment="Center">
                 <StackPanel Orientation="Horizontal" Visibility="{Binding IsInProgress.Value, Converter={StaticResource InvertBoolToVis}}">
+                    <local:IconButton Command="{Binding InitializeCommand}" Icon="&#xF021;" IconColor="{StaticResource Blue}" Text="Refresh" ToolTip="Refreshes the migration" />
+                    
                     <local:IconButton Command="{Binding MigrateUpCommand}" Icon="&#xF062;" IconColor="{StaticResource Green}" Text="Migrate up" ToolTip="Run the Up-operation of this migration" Visibility="{Binding HasRun.Value, Converter={StaticResource InvertBoolToVis}}" />
 
                     <local:IconButton Command="{Binding MigrateDownCommand}" Icon="&#xF063;" IconColor="{StaticResource Red}" Text="Migrate down" ToolTip="Run the Down-operation of this migration" Visibility="{Binding HasRun.Value, Converter={StaticResource BoolToVis}}" />

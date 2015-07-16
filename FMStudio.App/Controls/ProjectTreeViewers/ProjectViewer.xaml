@@ -43,9 +43,9 @@
 
         <Grid.ContextMenu>
             <ContextMenu>
-                <MenuItem Header="Initialize project" Command="{Binding InitializeProjectCommand}">
+                <MenuItem Header="Refresh" Command="{Binding InitializeProjectCommand}">
                     <MenuItem.Icon>
-                        <TextBlock Text="&#xF0E7;" Style="{StaticResource IconGreen}" />
+                        <TextBlock Text="&#xF021;" Style="{StaticResource IconBlue}" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />

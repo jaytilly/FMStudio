@@ -38,6 +38,8 @@ namespace FMStudio.App.ViewModels
 
         public ICommand AddToDatabaseCommand { get; private set; }
 
+        public ICommand InitializeCommand { get; private set; }
+
         public ICommand MigrateDownCommand { get; private set; }
 
         public ICommand MigrateUpCommand { get; private set; }
@@ -67,6 +69,7 @@ namespace FMStudio.App.ViewModels
             Sql = new Binding<string>(() => MigrationInfo.GetSqlAsync().Result); // TODO: Make nicer
 
             AddToDatabaseCommand = new RelayCommand(async param => await AddToDatabaseAsync(), param => !MigrationsVM.ProjectVM.IsReadOnly.Value);
+            InitializeCommand = new RelayCommand(async param => await InitializeAsync());
             MigrateDownCommand = new RelayCommand(async param => await MigrateDownAsync(), param => !MigrationsVM.ProjectVM.IsReadOnly.Value);
             MigrateUpCommand = new RelayCommand(async param => await MigrateUpAsync(), param => !MigrationsVM.ProjectVM.IsReadOnly.Value);
             ReRunCommand = new RelayCommand(async param => await ReRunMigrateUpAsync(), param => !MigrationsVM.ProjectVM.IsReadOnly.Value);

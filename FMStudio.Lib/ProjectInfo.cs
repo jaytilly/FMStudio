@@ -162,5 +162,16 @@ namespace FMStudio.Lib
 
             _log.Info("Ran all applicable profiles for project '{0}'", Name);
         }
+
+        /// <summary>
+        /// Run all migrations up until and including the specified version
+        /// </summary>
+        public async Task MigrateToVersion(long version)
+        {
+            foreach (var migration in Migrations.Where(m => m.Version <= version && m.IsToBeRun).OrderBy(m => m.Version))
+                await migration.UpAsync(false);
+
+            _log.Info("Ran all applicable migrations up until version {0} for project '{1}'", version, Name);
+        }
     }
 }

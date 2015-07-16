@@ -179,6 +179,11 @@ namespace FMStudio.Lib
             MigrationUpdated(this, EventArgs.Empty);
         }
 
+        public async Task MigrateToThisVersionAsync()
+        {
+            await _project.MigrateToVersion(Version);
+        }
+
         public async Task UpAsync(bool clearFromVersionInfoTable)
         {
             if (!_project.IsDatabaseInitialized)

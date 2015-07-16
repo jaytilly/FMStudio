@@ -80,6 +80,8 @@
                     
                     <local:IconButton Command="{Binding MigrateUpCommand}" Icon="&#xF062;" IconColor="{StaticResource Green}" Text="Migrate up" ToolTip="Run the Up-operation of this migration" Visibility="{Binding HasRun.Value, Converter={StaticResource InvertBoolToVis}}" />
 
+                    <local:IconButton Command="{Binding MigrateToThisVersionCommand}" Icon="&#xF062;" IconColor="{StaticResource Green}" Text="Migrate to this version" ToolTip="Runs all migrations up until and including this one" Visibility="{Binding HasRun.Value, Converter={StaticResource InvertBoolToVis}}" />
+                    
                     <local:IconButton Command="{Binding MigrateDownCommand}" Icon="&#xF063;" IconColor="{StaticResource Red}" Text="Migrate down" ToolTip="Run the Down-operation of this migration" Visibility="{Binding HasRun.Value, Converter={StaticResource BoolToVis}}" />
 
                     <local:IconButton Command="{Binding ReRunCommand}" Icon="&#xF021;" IconColor="{StaticResource Orange}" Text="Re-run" ToolTip="Re-run the Up-operation of this migration, which may break" Visibility="{Binding HasRun.Value, Converter={StaticResource BoolToVis}}" />

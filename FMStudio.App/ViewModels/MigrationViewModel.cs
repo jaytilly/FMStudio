@@ -42,12 +42,14 @@ namespace FMStudio.App.ViewModels
 
         public ICommand MigrateDownCommand { get; private set; }
 
+        public ICommand MigrateToThisVersionCommand { get; private set; }
+
         public ICommand MigrateUpCommand { get; private set; }
 
         public ICommand RemoveFromDatabaseCommand { get; private set; }
 
         public ICommand ReRunCommand { get; private set; }
-
+        
         public ICommand SaveToFileCommand { get; private set; }
 
         public MigrationViewModel(ILog log, MigrationsViewModel migrationsVM, MigrationInfo migrationInfo)
@@ -71,6 +73,7 @@ namespace FMStudio.App.ViewModels
             AddToDatabaseCommand = new RelayCommand(async param => await AddToDatabaseAsync(), param => !MigrationsVM.ProjectVM.IsReadOnly.Value);
             InitializeCommand = new RelayCommand(async param => await InitializeAsync());
             MigrateDownCommand = new RelayCommand(async param => await MigrateDownAsync(), param => !MigrationsVM.ProjectVM.IsReadOnly.Value);
+            MigrateToThisVersionCommand = new RelayCommand(async param => await MigrateToThisVersionAsync());
             MigrateUpCommand = new RelayCommand(async param => await MigrateUpAsync(), param => !MigrationsVM.ProjectVM.IsReadOnly.Value);
             ReRunCommand = new RelayCommand(async param => await ReRunMigrateUpAsync(), param => !MigrationsVM.ProjectVM.IsReadOnly.Value);
             RemoveFromDatabaseCommand = new RelayCommand(async param => await RemoveFromDatabaseAsync(), param => !MigrationsVM.ProjectVM.IsReadOnly.Value);
@@ -217,6 +220,25 @@ namespace FMStudio.App.ViewModels
             catch (Exception e)
             {
                 _log.Error("Could not re-run migration: {0}", e.GetFullMessage());
+            }
+
+            IsInProgress.Value = false;
+        }
+
+        private async Task MigrateToThisVersionAsync()
+        {
+            if (MigrationsVM.ProjectVM.IsReadOnly.Value)
+                return;
+
+            IsInProgress.Value = true;
+
+            try
+            {
+                await MigrationInfo.MigrateToThisVersionAsync();
+            }
+            catch (Exception e)
+            {
+                _log.Error("Could not run migrations up until and including version {0}: {1}", Version.Value, e.GetFullMessage());
             }
 
             IsInProgress.Value = false;

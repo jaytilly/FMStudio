@@ -6,6 +6,7 @@
   xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
   xmlns:converters="clr-namespace:FMStudio.App.Converters"
   xmlns:local="clr-namespace:FMStudio.App.Controls"
+  xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
   mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
@@ -33,12 +34,15 @@
         </Border>
         <!-- Toolbar -->
         <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="0,0,0,1">
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <local:IconButton Command="{Binding FullUpdateCommand}" Icon="&#xF00C;" IconColor="{StaticResource Green}" Text="Full update" ToolTip="Run all applicable migrations and profiles" />
+            <StackPanel VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal" Visibility="{Binding IsInProgress.Value, Converter={StaticResource InvertBoolToVis}}">
+                    <local:IconButton Command="{Binding FullUpdateCommand}" Icon="&#xF00C;" IconColor="{StaticResource Green}" Text="Full update" ToolTip="Run all applicable migrations and profiles" />
 
-                <local:IconButton Command="{Binding MigrationsOnlyCommand}" Icon="M" IconColor="{StaticResource Green}" Text="Migrations only" ToolTip="Run all applicable migrations only" />
+                    <local:IconButton Command="{Binding MigrationsOnlyCommand}" Icon="M" IconColor="{StaticResource Green}" Text="Migrations only" ToolTip="Run all applicable migrations only" />
 
-                <local:IconButton Command="{Binding ProfilesOnlyCommand}" Icon="P" IconColor="{StaticResource Green}" Text="Profiles only" ToolTip="Run all applicable profiles only" />
+                    <local:IconButton Command="{Binding ProfilesOnlyCommand}" Icon="P" IconColor="{StaticResource Green}" Text="Profiles only" ToolTip="Run all applicable profiles only" />
+                </StackPanel>
+                <metro:MetroProgressBar IsEnabled="True" IsIndeterminate="True" Visibility="{Binding IsInProgress.Value, Converter={StaticResource BoolToVis}}" />
             </StackPanel>
         </Border>
         <!-- Content -->

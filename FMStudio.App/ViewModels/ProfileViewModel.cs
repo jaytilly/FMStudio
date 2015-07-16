@@ -51,18 +51,18 @@ namespace FMStudio.App.ViewModels
 
         private async Task RunProfileAsync()
         {
-            if (!ProfilesVM.ProjectVM.IsReadOnly.Value)
-            {
-                try
-                {
-                    await ProfileInfo.RunAsync();
+            if (ProfilesVM.ProjectVM.IsReadOnly.Value)
+                return;
 
-                    await InitializeAsync();
-                }
-                catch (Exception e)
-                {
-                    _log.Error("Could not run profile '{0}': {1}", ProfileInfo.Name, e.GetFullMessage());
-                }
+            try
+            {
+                await ProfileInfo.RunAsync();
+
+                await InitializeAsync();
+            }
+            catch (Exception e)
+            {
+                _log.Error("Could not run profile '{0}': {1}", ProfileInfo.Name, e.GetFullMessage());
             }
         }
 

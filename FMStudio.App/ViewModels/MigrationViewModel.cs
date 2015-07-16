@@ -18,6 +18,8 @@ namespace FMStudio.App.ViewModels
 
         public MigrationInfo MigrationInfo { get; set; }
 
+        public Binding<bool> IsInProgress { get; private set; }
+
         public Binding<string> Description { get; private set; }
 
         public Binding<long> Version { get; set; }
@@ -54,6 +56,7 @@ namespace FMStudio.App.ViewModels
             MigrationInfo = migrationInfo;
             MigrationInfo.MigrationUpdated += async (s, e) => await Update();
 
+            IsInProgress = new Binding<bool>();
             Description = new Binding<string>();
             Version = new Binding<long>();
             Tags = new ObservableCollection<TagViewModel>();
@@ -73,6 +76,8 @@ namespace FMStudio.App.ViewModels
 
         public override async Task InitializeAsync()
         {
+            IsInProgress.Value = true;
+
             try
             {
                 await MigrationInfo.InitializeAsync();
@@ -81,6 +86,8 @@ namespace FMStudio.App.ViewModels
             {
                 _log.Error("Could not initialized migration {0} '{1}': ", Version.Value, Description.Value, e.GetFullMessage());
             }
+
+            IsInProgress.Value = false;
         }
 
         private async Task Update()
@@ -114,6 +121,8 @@ namespace FMStudio.App.ViewModels
             if (!confirm)
                 return;
 
+            IsInProgress.Value = true;
+
             try
             {
                 await MigrationInfo.AddToVersionInfoTableAsync();
@@ -122,12 +131,16 @@ namespace FMStudio.App.ViewModels
             {
                 _log.Error("Could not add migration to database without running it: {0}", e.GetFullMessage());
             }
+
+            IsInProgress.Value = false;
         }
 
         private async Task MigrateDownAsync()
         {
             if (MigrationsVM.ProjectVM.IsReadOnly.Value)
                 return;
+
+            IsInProgress.Value = true;
 
             try
             {
@@ -137,12 +150,16 @@ namespace FMStudio.App.ViewModels
             {
                 _log.Error("Could not run migration Down-operation: {0}", e.GetFullMessage());
             }
+
+            IsInProgress.Value = false;
         }
 
         private async Task MigrateUpAsync()
         {
             if (MigrationsVM.ProjectVM.IsReadOnly.Value)
                 return;
+
+            IsInProgress.Value = true;
 
             try
             {
@@ -152,6 +169,8 @@ namespace FMStudio.App.ViewModels
             {
                 _log.Error("Could not run migration Up-operation: {0}", e.GetFullMessage());
             }
+
+            IsInProgress.Value = false;
         }
 
         private async Task RemoveFromDatabaseAsync()
@@ -163,6 +182,8 @@ namespace FMStudio.App.ViewModels
             if (!confirm)
                 return;
 
+            IsInProgress.Value = true;
+
             try
             {
                 await MigrationInfo.DeleteFromVersionInfoTableAsync();
@@ -171,6 +192,8 @@ namespace FMStudio.App.ViewModels
             {
                 _log.Error("Could not remove migration from database: {0}", e.GetFullMessage());
             }
+
+            IsInProgress.Value = false;
         }
 
         private async Task ReRunMigrateUpAsync()
@@ -182,6 +205,8 @@ namespace FMStudio.App.ViewModels
             if (!confirm)
                 return;
 
+            IsInProgress.Value = true;
+
             try
             {
                 await MigrationInfo.UpAsync(true);
@@ -190,6 +215,8 @@ namespace FMStudio.App.ViewModels
             {
                 _log.Error("Could not re-run migration: {0}", e.GetFullMessage());
             }
+
+            IsInProgress.Value = false;
         }
 
         private void SaveToFile()

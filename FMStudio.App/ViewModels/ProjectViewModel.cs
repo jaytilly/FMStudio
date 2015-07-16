@@ -33,6 +33,8 @@ namespace FMStudio.App.ViewModels
 
         public Binding<bool> IsReadOnly { get; private set; }
 
+        public Binding<bool> IsInProgress { get; private set; }
+
         public Binding<int> UnRunMigrationsCount { get; private set; }
 
         public Binding<bool> HasPendingMigrations { get; private set; }
@@ -82,6 +84,7 @@ namespace FMStudio.App.ViewModels
             IsNew = new Binding<bool>();
             IsInitialized = new Binding<bool>();
             IsReadOnly = new Binding<bool>(configProject.IsReadOnly);
+            IsInProgress = new Binding<bool>();
             IsNodeExpanded.Value = configProject.IsExpanded;
             UnRunMigrationsCount = new Binding<int>();
             HasPendingMigrations = new Binding<bool>();
@@ -142,6 +145,8 @@ namespace FMStudio.App.ViewModels
                 return;
             }
 
+            IsInProgress.Value = true;
+
             ProjectInfo.Name = Name.Value;
             ProjectInfo.Profile = Profile.Value;
 
@@ -166,6 +171,8 @@ namespace FMStudio.App.ViewModels
             {
                 _log.Error("Could not initialize project '{0}': {1}", Name.Value, e.GetFullMessage());
             }
+
+            IsInProgress.Value = false;
         }
 
         public override int CompareTo(object obj)
@@ -187,47 +194,59 @@ namespace FMStudio.App.ViewModels
 
         public async Task FullUpdateAsync()
         {
-            if (!MigrationsVM.ProjectVM.IsReadOnly.Value)
+            if (MigrationsVM.ProjectVM.IsReadOnly.Value)
+                return;
+
+            IsInProgress.Value = true;
+
+            try
             {
-                try
-                {
-                    await ProjectInfo.FullUpdateAsync();
-                }
-                catch (Exception e)
-                {
-                    _log.Error("Could not run a full update on project '{0}': {1}", Name.Value, e.GetFullMessage());
-                }
+                await ProjectInfo.FullUpdateAsync();
             }
+            catch (Exception e)
+            {
+                _log.Error("Could not run a full update on project '{0}': {1}", Name.Value, e.GetFullMessage());
+            }
+
+            IsInProgress.Value = false;
         }
 
         public async Task RunMigrationsAsync()
         {
-            if (!MigrationsVM.ProjectVM.IsReadOnly.Value)
+            if (MigrationsVM.ProjectVM.IsReadOnly.Value)
+                return;
+
+            IsInProgress.Value = true;
+
+            try
             {
-                try
-                {
-                    await ProjectInfo.RunApplicableMigrationsAsync();
-                }
-                catch (Exception e)
-                {
-                    _log.Error("Could not run migrations on project '{0}': {1}", Name.Value, e.GetFullMessage());
-                }
+                await ProjectInfo.RunApplicableMigrationsAsync();
             }
+            catch (Exception e)
+            {
+                _log.Error("Could not run migrations on project '{0}': {1}", Name.Value, e.GetFullMessage());
+            }
+
+            IsInProgress.Value = false;
         }
 
         public async Task RunProfilesAsync()
         {
-            if (!MigrationsVM.ProjectVM.IsReadOnly.Value)
+            if (MigrationsVM.ProjectVM.IsReadOnly.Value)
+                return;
+
+            IsInProgress.Value = true;
+
+            try
             {
-                try
-                {
-                    await ProjectInfo.RunApplicableProfilesAsync();
-                }
-                catch (Exception e)
-                {
-                    _log.Error("Could not run profiles on project '{0}': {1}", Name.Value, e.GetFullMessage());
-                }
+                await ProjectInfo.RunApplicableProfilesAsync();
             }
+            catch (Exception e)
+            {
+                _log.Error("Could not run profiles on project '{0}': {1}", Name.Value, e.GetFullMessage());
+            }
+
+            IsInProgress.Value = false;
         }
 
         public void BrowsePathToMigrationsDll()

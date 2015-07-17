@@ -56,7 +56,7 @@
             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                 <TextBlock Text="Path to migrations dll" Width="200" />
                 <TextBox Width="300" Text="{Binding PathToMigrationsDll.Value}" />
-                <Button Command="{Binding BrowsePathToMigrationsDllCommand}" Content="Browse..." Margin="10,0,0,0" />
+                <local:IconButton Icon="&#xF07C;" IconColor="{StaticResource Gray}"  Command="{Binding BrowsePathToMigrationsDllCommand}" Text="Browse..." Margin="10,0,0,0" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                 <TextBlock Text="Connection string" Width="200" />

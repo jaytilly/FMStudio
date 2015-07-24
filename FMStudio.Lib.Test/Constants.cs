@@ -8,5 +8,11 @@ namespace FMStudio.Lib.Test
 
         // Used for testing non-migration dll's
         public static readonly string FMUtilityDllPath = Path.GetFullPath(@"FMStudio.Utility.dll");
+
+        public static readonly string FMDllPath = Path.GetFullPath(@"FluentMigrator.dll");
+
+        public static readonly string FMRunnerDllPath = Path.GetFullPath(@"FluentMigrator.Runner.dll");
+
+        public static readonly string FMTestMigrationsFullName = typeof(Migrations.Migrations.AddTable).Assembly.FullName;
     }
 }

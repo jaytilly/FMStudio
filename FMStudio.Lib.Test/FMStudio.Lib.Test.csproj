@@ -53,6 +53,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\FluentMigrator.1.5.1.0\lib\40\FluentMigrator.dll</HintPath>
     </Reference>
+    <Reference Include="Ionic.Zip, Version=1.9.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetZip.1.9.3\lib\net20\Ionic.Zip.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -82,6 +86,7 @@
     <Compile Include="ProjectInfoTest\RunAllRelevantMigrationsTest.cs" />
     <Compile Include="ProjectInfoTest\RunRelevantProfileTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RepositoriesTest\AssemblyRepositoryTest\LoadFromArchiveTest.cs" />
     <Compile Include="TestUtility.cs" />
     <Compile Include="RepositoriesTest\FilesRepositoryTest\GetMatchingFilesTest.cs" />
   </ItemGroup>
@@ -128,7 +133,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="RepositoriesTest\AssemblyRepositoryTest\" />
     <Folder Include="RepositoriesTest\MigrationsRepositoryTest\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

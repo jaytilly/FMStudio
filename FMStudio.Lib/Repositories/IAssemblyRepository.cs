@@ -7,7 +7,7 @@ namespace FMStudio.Lib.Repositories
     {
         Task<AssemblyName> GetReferenceByName(Assembly assembly, string referenceName);
 
-        Task<Assembly> LoadFromArchive(string path);
+        Task<Assembly> LoadFromArchive(byte[] bytes);
 
         Task<Assembly> LoadFromBytes(byte[] bytes);
 

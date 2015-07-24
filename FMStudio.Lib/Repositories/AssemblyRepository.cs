@@ -1,4 +1,4 @@
-﻿using ICSharpCode.SharpZipLib.Zip;
+﻿using Ionic.Zip;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -18,7 +18,7 @@ namespace FMStudio.Lib.Repositories
             });
         }
 
-        public Task<Assembly> LoadFromArchive(string path)
+        public Task<Assembly> LoadFromArchive(byte[] bytes)
         {
             return Task.Run(async () =>
             {
@@ -27,24 +27,23 @@ namespace FMStudio.Lib.Repositories
                     var stopwatch = new Stopwatch();
                     stopwatch.Start();
 
-                    using (var stream = File.OpenRead(path))
-                    using (var zf = new ZipFile(stream))
+                    using (var stream = new MemoryStream(bytes))
+                    using (var zf = ZipFile.Read(stream))
                     {
-                        foreach (ZipEntry entry in zf)
+                        foreach (var entry in zf)
                         {
-                            if (entry.IsFile && entry.Name.EndsWith(".dll", StringComparison.OrdinalIgnoreCase)
-                                && !entry.Name.EndsWith("FluentMigrator.dll", StringComparison.OrdinalIgnoreCase)
-                                && !entry.Name.EndsWith("FluentMigrator.Runner.dll", StringComparison.OrdinalIgnoreCase))
+                            if (!entry.IsDirectory && entry.FileName.EndsWith(".dll", StringComparison.OrdinalIgnoreCase)
+                                && !entry.FileName.EndsWith("FluentMigrator.dll", StringComparison.OrdinalIgnoreCase)
+                                && !entry.FileName.EndsWith("FluentMigrator.Runner.dll", StringComparison.OrdinalIgnoreCase))
                             {
-                                Debug.WriteLine(string.Format("Found dll '{0}', trying to load...", Path.GetFileName(entry.Name)));
+                                Debug.WriteLine(string.Format("Found dll '{0}', trying to load...", Path.GetFileName(entry.FileName)));
 
-                                using (var entryStream = zf.GetInputStream(entry))
                                 using (var ms = new MemoryStream())
                                 {
-                                    entryStream.CopyTo(ms);
-                                    var bytes = ms.ToArray();
+                                    entry.Extract(ms);
+                                    var entryBytes = ms.ToArray();
 
-                                    var assembly = await LoadFromBytes(bytes);
+                                    var assembly = await LoadFromBytes(entryBytes);
 
                                     if (assembly != null)
                                     {
@@ -92,12 +91,12 @@ namespace FMStudio.Lib.Repositories
             {
                 Debug.WriteLine(string.Format("Loading file '{0}'...", path));
 
+                var bytes = File.ReadAllBytes(path);
+
                 // Dll's can be loaded directly
                 if (Path.GetExtension(path).Equals(".dll", StringComparison.OrdinalIgnoreCase))
                 {
                     Debug.WriteLine("File is a dll, attempting to load...");
-
-                    var bytes = File.ReadAllBytes(path);
 
                     return LoadFromBytes(bytes);
                 }
@@ -105,7 +104,7 @@ namespace FMStudio.Lib.Repositories
                 // Try to unpack the file if it is not a dll
                 Debug.WriteLine("Could not load the file directly, trying to unpack as an archive...");
 
-                var assembly = LoadFromArchive(path);
+                var assembly = LoadFromArchive(bytes);
                 if (assembly != null)
                     return assembly;
 

@@ -29,3 +29,12 @@
   min-height: 100px;
   padding: 2em 0;
 }
+.btn-stretch {
+  width: 100%;
+}
+.margin-top {
+  margin-top: 1em;
+}
+.margin-bottom {
+  margin-bottom: 1em;
+}

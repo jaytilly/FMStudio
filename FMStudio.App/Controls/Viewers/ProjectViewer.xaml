@@ -47,43 +47,56 @@
         </Border>
         <!-- Content -->
         <StackPanel Grid.Row="2" Orientation="Vertical" Margin="10">
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                <TextBlock Text="Name" Width="200" />
-                <TextBox Width="300">
+            <DockPanel Margin="0,0,0,10">
+                <TextBlock DockPanel.Dock="Left" Text="Name" Width="200" VerticalAlignment="Center" />
+                <TextBox DockPanel.Dock="Right" Margin="0,0,100,0">
                     <Binding Path="Name.Value" UpdateSourceTrigger="PropertyChanged" />
                 </TextBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                <TextBlock Text="Path to migrations dll" Width="200" />
-                <TextBox Width="300" Text="{Binding PathToMigrationsDll.Value}" />
-                <local:IconButton Icon="&#xF07C;" IconColor="{StaticResource Gray}"  Command="{Binding BrowsePathToMigrationsDllCommand}" Text="Browse..." Margin="10,0,0,0" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                <TextBlock Text="Connection string" Width="200" />
-                <TextBox Width="300" Text="{Binding ConnectionString.Value}" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                <TextBlock Text="Database type" Width="200" />
-                <ComboBox ItemsSource="{Binding DatabaseTypes}" SelectedValue="{Binding DatabaseType.Value}" DisplayMemberPath="Name" Width="300" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                <TextBlock Text="Tags" Width="200" />
-                <TextBox Width="300" Text="{Binding Tags.Value}" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                <TextBlock Text="Profile" Width="200" />
-                <TextBox Width="300" Text="{Binding Profile.Value}" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                <TextBlock Text="Read only" Width="200" />
-                <CheckBox Width="300" IsChecked="{Binding IsReadOnly.Value}" />
-            </StackPanel>
+            </DockPanel>
+
+            <Grid Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="100" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="Path to migrations file" VerticalAlignment="Center" />
+                <TextBox Grid.Column="1" Text="{Binding PathToMigrationsFile.Value}" />
+                <local:IconButton Grid.Column="2" Icon="&#xF07C;" IconColor="{StaticResource Gray}" Command="{Binding BrowsePathToMigrationsFileCommand}" Text="Browse..." />
+            </Grid>
+
+            <DockPanel Margin="0,0,0,10">
+                <TextBlock DockPanel.Dock="Left" Text="Connection string" Width="200" />
+                <TextBox DockPanel.Dock="Right" Margin="0,0,100,0" Text="{Binding ConnectionString.Value}" />
+            </DockPanel>
+
+            <DockPanel Margin="0,0,0,10">
+                <TextBlock DockPanel.Dock="Left" Text="Database type" Width="200" />
+                <ComboBox DockPanel.Dock="Right" Margin="0,0,100,0" ItemsSource="{Binding DatabaseTypes}" SelectedValue="{Binding DatabaseType.Value}" DisplayMemberPath="Name" />
+            </DockPanel>
+
+            <DockPanel Margin="0,0,0,10">
+                <TextBlock DockPanel.Dock="Left" Text="Tags" Width="200" />
+                <TextBox DockPanel.Dock="Right" Margin="0,0,100,0" Text="{Binding Tags.Value}" />
+            </DockPanel>
+
+            <DockPanel Margin="0,0,0,10">
+                <TextBlock DockPanel.Dock="Left" Text="Profile" Width="200" />
+                <TextBox DockPanel.Dock="Right" Margin="0,0,100,0" Text="{Binding Profile.Value}" />
+            </DockPanel>
+
+            <DockPanel Margin="0,0,0,10">
+                <TextBlock DockPanel.Dock="Left" Text="Read only" Width="200" />
+                <CheckBox DockPanel.Dock="Right" Margin="0,0,100,0" IsChecked="{Binding IsReadOnly.Value}" />
+            </DockPanel>
         </StackPanel>
+
         <!-- Bottom Toolbar -->
         <Border Grid.Row="3" BorderBrush="{StaticResource Border}" BorderThickness="0,1,0,0">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                 <local:IconButton Command="{Binding InitializeProjectCommand}" Icon="&#xF021;" IconColor="{StaticResource Blue}" Text="Refresh" ToolTip="Refresh the project" />
-                
+
                 <local:IconButton Command="{Binding CloneProjectCommand}" Icon="&#xF0C5;" IconColor="{StaticResource Blue}" Text="Clone" ToolTip="Clones the project to a second one" />
 
                 <local:IconButton Command="{Binding DeleteProjectCommand}" Icon="&#xF00D;" IconColor="{StaticResource Red}" Text="Delete" ToolTip="Deletes the project from the configuration file" />

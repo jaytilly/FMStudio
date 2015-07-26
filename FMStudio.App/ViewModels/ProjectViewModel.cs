@@ -39,7 +39,7 @@ namespace FMStudio.App.ViewModels
 
         public Binding<bool> HasPendingMigrations { get; private set; }
 
-        public Binding<string> PathToMigrationsDll { get; private set; }
+        public Binding<string> PathToMigrationsFile { get; private set; }
 
         public ObservableCollection<DatabaseTypeViewModel> DatabaseTypes { get; private set; }
 
@@ -61,7 +61,7 @@ namespace FMStudio.App.ViewModels
 
         public ICommand ProfilesOnlyCommand { get; private set; }
 
-        public ICommand BrowsePathToMigrationsDllCommand { get; private set; }
+        public ICommand BrowsePathToMigrationsFileCommand { get; private set; }
 
         public ICommand InitializeProjectCommand { get; private set; }
 
@@ -91,7 +91,7 @@ namespace FMStudio.App.ViewModels
 
             Name = new Binding<string>(configProject.Name);
             ConnectionString = new Binding<string>(configProject.ConnectionString);
-            PathToMigrationsDll = new Binding<string>(configProject.DllPath);
+            PathToMigrationsFile = new Binding<string>(configProject.DllPath);
 
             DatabaseType = new Binding<DatabaseTypeViewModel>();
             if (configProject.DatabaseType.HasValue)
@@ -107,7 +107,7 @@ namespace FMStudio.App.ViewModels
             MigrationsOnlyCommand = new RelayCommand(async param => await RunMigrationsAsync(), param => !IsReadOnly.Value && !IsNew.Value);
             ProfilesOnlyCommand = new RelayCommand(async param => await RunProfilesAsync(), param => !IsReadOnly.Value && !IsNew.Value);
 
-            BrowsePathToMigrationsDllCommand = new RelayCommand(param => BrowsePathToMigrationsDll());
+            BrowsePathToMigrationsFileCommand = new RelayCommand(param => BrowsePathToMigrationsDll());
             InitializeProjectCommand = new RelayCommand(async param => await InitializeAsync());
             CloneProjectCommand = new RelayCommand(param => Clone());
             DeleteProjectCommand = new RelayCommand(async param => await DeleteAsync(), param => !IsReadOnly.Value);
@@ -127,7 +127,7 @@ namespace FMStudio.App.ViewModels
 
         public override async Task InitializeAsync()
         {
-            if (!PathToMigrationsDll.HasValue)
+            if (!PathToMigrationsFile.HasValue)
             {
                 _log.Warning("No path to a migrations assembly has been specified.");
                 return;
@@ -155,7 +155,7 @@ namespace FMStudio.App.ViewModels
 
             try
             {
-                await ProjectInfo.InitializeMigrationsAsync(PathToMigrationsDll.Value);
+                await ProjectInfo.InitializeMigrationsAsync(PathToMigrationsFile.Value);
 
                 await ProjectInfo.InitializeDatabase(DatabaseType.Value.Value.ToLib(), ConnectionString.Value);
 
@@ -260,7 +260,7 @@ namespace FMStudio.App.ViewModels
 
             if (result == true)
             {
-                PathToMigrationsDll.Value = dialog.FileName;
+                PathToMigrationsFile.Value = dialog.FileName;
             }
         }
 
@@ -290,7 +290,7 @@ namespace FMStudio.App.ViewModels
             {
                 Id = Id,
                 ConnectionString = ConnectionString.Value,
-                DllPath = PathToMigrationsDll.Value,
+                DllPath = PathToMigrationsFile.Value,
                 IsExpanded = IsNodeExpanded.Value,
                 IsMigrationsExpanded = MigrationsVM.IsNodeExpanded.Value,
                 IsProfilesExpanded = ProfilesVM.IsNodeExpanded.Value,

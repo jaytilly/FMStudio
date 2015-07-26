@@ -97,7 +97,7 @@
         </Border>
         <!-- Content -->
         <Grid Grid.Row="2" Margin="10">
-            <local:SqlViewer Text="{Binding Sql.Value}" />
+            <local:SqlViewer Text="{Binding Sql.Value}" HasValue="{Binding Sql.HasValue}" />
         </Grid>
     </Grid>
 </UserControl>

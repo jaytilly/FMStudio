@@ -44,11 +44,19 @@ namespace FMStudio.App.Controls
 
         public TextDocument Document { get; set; }
 
+        public bool HasValue
+        {
+            get { return (bool)GetValue(HasValueProperty); }
+            set { SetValue(HasValueProperty, value); }
+        }
+
         public string Text
         {
             get { return (string)GetValue(TextProperty); }
             set { SetValue(TextProperty, value); }
         }
+
+        public static DependencyProperty HasValueProperty = DependencyProperty.Register("HasValue", typeof(bool), typeof(SqlViewer));
 
         public static DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(SqlViewer));
 

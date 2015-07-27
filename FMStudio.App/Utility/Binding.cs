@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace FMStudio.App.Utility
 {
@@ -51,6 +52,9 @@ namespace FMStudio.App.Utility
                 Notify(() => HasValue);
 
                 IsChanged = true;
+
+                // Make sure any dependent CanExecute() handlers are refreshed
+                CommandManager.InvalidateRequerySuggested();
             }
         }
 

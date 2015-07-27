@@ -39,6 +39,14 @@
         </Canvas>
         <DockPanel Grid.Column="1">
             <TextBlock DockPanel.Dock="Left" Text="{Binding Name.Value}" VerticalAlignment="Center" />
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="{Binding MigrationsCount.Value}" Margin="10,0,0,0" Style="{StaticResource Subtext}" />
+                <TextBlock Text="migration(s)," Margin="5,0,0,0" Style="{StaticResource Subtext}" />
+                <TextBlock Text="{Binding ProfilesCount.Value}" Margin="5,0,0,0" Style="{StaticResource Subtext}" />
+                <TextBlock Text="profile(s)," Margin="5,0,0,0" Style="{StaticResource Subtext}" />
+                <TextBlock Text="{Binding PendingMigrationsCount.Value}" Margin="5,0,0,0" Style="{StaticResource Subtext}" />
+                <TextBlock Text="pending" Margin="5,0,0,0" Style="{StaticResource Subtext}" />
+            </StackPanel>
         </DockPanel>
 
         <Grid.ContextMenu>

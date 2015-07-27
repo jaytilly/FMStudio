@@ -35,9 +35,13 @@ namespace FMStudio.App.ViewModels
 
         public Binding<bool> IsInProgress { get; private set; }
 
-        public Binding<int> UnRunMigrationsCount { get; private set; }
+        public Binding<int> PendingMigrationsCount { get; private set; }
 
         public Binding<bool> HasPendingMigrations { get; private set; }
+
+        public Binding<int> MigrationsCount { get; private set; }
+
+        public Binding<int> ProfilesCount { get; private set; }
 
         public Binding<string> PathToMigrationsFile { get; private set; }
 
@@ -86,8 +90,10 @@ namespace FMStudio.App.ViewModels
             IsReadOnly = new Binding<bool>(configProject.IsReadOnly);
             IsInProgress = new Binding<bool>();
             IsNodeExpanded.Value = configProject.IsExpanded;
-            UnRunMigrationsCount = new Binding<int>();
+            PendingMigrationsCount = new Binding<int>();
             HasPendingMigrations = new Binding<bool>();
+            MigrationsCount = new Binding<int>();
+            ProfilesCount = new Binding<int>();
 
             Name = new Binding<string>(configProject.Name);
             ConnectionString = new Binding<string>(configProject.ConnectionString);
@@ -103,9 +109,9 @@ namespace FMStudio.App.ViewModels
 
             Profile = new Binding<string>(configProject.Profile);
 
-            FullUpdateCommand = new RelayCommand(async param => await FullUpdateAsync(), param => !IsReadOnly.Value && !IsNew.Value);
-            MigrationsOnlyCommand = new RelayCommand(async param => await RunMigrationsAsync(), param => !IsReadOnly.Value && !IsNew.Value);
-            ProfilesOnlyCommand = new RelayCommand(async param => await RunProfilesAsync(), param => !IsReadOnly.Value && !IsNew.Value);
+            FullUpdateCommand = new RelayCommand(async param => await FullUpdateAsync(), param => !IsReadOnly.Value && IsInitialized.Value);
+            MigrationsOnlyCommand = new RelayCommand(async param => await RunMigrationsAsync(), param => !IsReadOnly.Value && IsInitialized.Value);
+            ProfilesOnlyCommand = new RelayCommand(async param => await RunProfilesAsync(), param => !IsReadOnly.Value && IsInitialized.Value);
 
             BrowsePathToMigrationsFileCommand = new RelayCommand(param => BrowsePathToMigrationsDll());
             InitializeProjectCommand = new RelayCommand(async param => await InitializeAsync());
@@ -186,8 +192,11 @@ namespace FMStudio.App.ViewModels
 
         public async Task Update()
         {
-            UnRunMigrationsCount.Value = ProjectInfo.ToBeRunMigrationsCount;
+            PendingMigrationsCount.Value = ProjectInfo.ToBeRunMigrationsCount;
             HasPendingMigrations.Value = ProjectInfo.ToBeRunMigrationsCount > 0;
+
+            MigrationsCount.Value = ProjectInfo.Migrations.Count;
+            ProfilesCount.Value = ProjectInfo.Profiles.Count;
 
             await RootVM.UpdateHasPendingMigrations();
         }

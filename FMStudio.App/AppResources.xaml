@@ -44,6 +44,15 @@
     <Style x:Key="IconRed" TargetType="TextBlock" BasedOn="{StaticResource Icon}">
         <Setter Property="Foreground" Value="{StaticResource Red}" />
     </Style>
+
+    <Style x:Key="Subtext" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource Gray}" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TreeViewItem}}}" Value="True">
+                <Setter Property="Foreground" Value="LightGray" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
     
     <!--#endregion-->
 

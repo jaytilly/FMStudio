@@ -62,8 +62,8 @@
             </Grid.RowDefinitions>
             <Border BorderBrush="{StaticResource Border}" BorderThickness="0,0,0,1">
                 <StackPanel HorizontalAlignment="Left" Margin="0,4,0,4" Orientation="Horizontal" VerticalAlignment="Center">
-                    <fmcontrols:IconButton Command="{Binding AddCategoryCommand}" Icon="&#xF196;" IconColor="{StaticResource Blue}" Text="Add category" />
-                    <fmcontrols:IconButton Command="{Binding AddProjectCommand}" Icon="&#xF067;" IconColor="{StaticResource Green}" Text="Add project" />
+                    <fmcontrols:IconButton Command="{Binding AddCategoryCommand}" Icon="&#xF196;" IconColor="{StaticResource Blue}" Text="Add category" x:Name="btnAddCategory" />
+                    <fmcontrols:IconButton Command="{Binding AddProjectCommand}" Icon="&#xF067;" IconColor="{StaticResource Green}" Text="Add project" x:Name="btnAddProject" />
                 </StackPanel>
             </Border>
             <fmcontrols:ProjectTree Grid.Row="1" Margin="0,4,0,0" />

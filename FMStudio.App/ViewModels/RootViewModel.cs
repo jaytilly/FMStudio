@@ -100,7 +100,7 @@ namespace FMStudio.App.ViewModels
 
         public void AddProject()
         {
-            var projectVM = new ProjectViewModel(OutputVM, this, new ProjectConfiguration());
+            var projectVM = new ProjectViewModel(OutputVM, this, new ProjectConfiguration() { Name = "New project" });
             projectVM.IsNew.Value = true;
 
             var currentCategoryVM = ActiveEntity.Value as CategoryViewModel;

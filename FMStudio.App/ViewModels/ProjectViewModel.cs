@@ -27,6 +27,8 @@ namespace FMStudio.App.ViewModels
 
         public Guid Id { get; private set; }
 
+        public string AutomationId { get { return "trviProject_" + Id.ToString(); } }
+
         public Binding<bool> IsNew { get; private set; }
 
         public Binding<bool> IsInitialized { get; private set; }
@@ -275,7 +277,10 @@ namespace FMStudio.App.ViewModels
 
         public void Clone()
         {
-            var clonedVM = new ProjectViewModel(_log, RootVM, ToConfiguration());
+            var configuration = ToConfiguration();
+            configuration.Id = Guid.NewGuid();
+
+            var clonedVM = new ProjectViewModel(_log, RootVM, configuration);
             Parent.Add(clonedVM);
 
             RootVM.SelectActiveEntity(clonedVM);

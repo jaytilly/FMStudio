@@ -1,11 +1,11 @@
 ﻿<UserControl
-  x:Class="FMStudio.App.Controls.ProjectTreeViewers.ProjectViewer"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
-  mc:Ignorable="d">
+  
+  x:Class="FMStudio.App.Controls.ProjectTreeViewers.ProjectViewer"
+  AutomationProperties.AutomationId="{Binding AutomationId}"
+  >
     <Grid Height="25">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="30" />
@@ -38,7 +38,7 @@
                 Visibility="{Binding IsReadOnly.Value, Converter={StaticResource BoolToVis}}" />
         </Canvas>
         <DockPanel Grid.Column="1">
-            <TextBlock DockPanel.Dock="Left" Text="{Binding Name.Value}" VerticalAlignment="Center" />
+            <TextBlock DockPanel.Dock="Left" Text="{Binding Name.Value}" VerticalAlignment="Center" x:Name="lblProjectName" />
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                 <TextBlock Text="{Binding MigrationsCount.Value}" Margin="10,0,0,0" Style="{StaticResource Subtext}" />
                 <TextBlock Text="migration(s)," Margin="5,0,0,0" Style="{StaticResource Subtext}" />

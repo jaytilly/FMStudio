@@ -92,6 +92,33 @@
     
     <!--#endregion-->
     
+    <!--#region ColoredLabel-->
+    <Style x:Key="ColoredLabel" TargetType="Label" BasedOn="{StaticResource IconLabel}">
+        <Setter Property="FontFamily" Value="Verdana" />
+        <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+
+    <Style x:Key="ColoredLabelBlue" TargetType="Label" BasedOn="{StaticResource ColoredLabel}">
+        <Setter Property="Foreground" Value="{StaticResource DarkBlue}" />
+    </Style>
+
+    <Style x:Key="ColoredLabelGray" TargetType="Label" BasedOn="{StaticResource ColoredLabel}">
+        <Setter Property="Foreground" Value="{StaticResource Gray}" />
+    </Style>
+
+    <Style x:Key="ColoredLabelGreen" TargetType="Label" BasedOn="{StaticResource ColoredLabel}">
+        <Setter Property="Foreground" Value="{StaticResource Green}" />
+    </Style>
+
+    <Style x:Key="ColoredLabelOrange" TargetType="Label" BasedOn="{StaticResource ColoredLabel}">
+        <Setter Property="Foreground" Value="{StaticResource Orange}" />
+    </Style>
+
+    <Style x:Key="ColoredLabelRed" TargetType="Label" BasedOn="{StaticResource ColoredLabel}">
+        <Setter Property="Foreground" Value="{StaticResource Red}" />
+    </Style>
+    <!--#endregion-->
+    
     <Style x:Key="StretchedTreeView" TargetType="TreeViewItem" BasedOn="{StaticResource {x:Type TreeViewItem}}">
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="Template">

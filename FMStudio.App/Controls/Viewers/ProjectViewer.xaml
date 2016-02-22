@@ -90,6 +90,11 @@
                 <TextBlock DockPanel.Dock="Left" Text="Read only" Width="200" />
                 <CheckBox DockPanel.Dock="Right" Margin="0,0,100,0" IsChecked="{Binding IsReadOnly.Value}" />
             </DockPanel>
+
+            <DockPanel Margin="0,0,0,10">
+                <TextBlock DockPanel.Dock="Left" Text="Loads on start" Width="200" />
+                <CheckBox DockPanel.Dock="Right" Margin="0,0,100,0" IsChecked="{Binding IsLoadedOnStart.Value}" />
+            </DockPanel>
         </StackPanel>
 
         <!-- Bottom Toolbar -->

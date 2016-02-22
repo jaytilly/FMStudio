@@ -18,6 +18,8 @@ namespace FMStudio.Configuration
         public string Name { get; set; }
 
         public bool IsReadOnly { get; set; }
+        
+        public bool IsLoadedOnStart { get; set; }
 
         public string DllPath { get; set; }
 
@@ -40,6 +42,8 @@ namespace FMStudio.Configuration
         {
             Id = Guid.NewGuid();
             Tags = new List<string>();
+
+            IsLoadedOnStart = true;
         }
 
         public void MoveTo(CategoryConfiguration category)

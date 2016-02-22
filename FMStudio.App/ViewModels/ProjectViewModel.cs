@@ -35,6 +35,8 @@ namespace FMStudio.App.ViewModels
 
         public Binding<bool> IsReadOnly { get; private set; }
 
+        public Binding<bool> IsLoadedOnStart { get; private set; }
+
         public Binding<bool> IsInProgress { get; private set; }
 
         public Binding<int> PendingMigrationsCount { get; private set; }
@@ -90,6 +92,7 @@ namespace FMStudio.App.ViewModels
             IsNew = new Binding<bool>();
             IsInitialized = new Binding<bool>();
             IsReadOnly = new Binding<bool>(configProject.IsReadOnly);
+            IsLoadedOnStart = new Binding<bool>(configProject.IsLoadedOnStart);
             IsInProgress = new Binding<bool>();
             IsNodeExpanded.Value = configProject.IsExpanded;
             PendingMigrationsCount = new Binding<int>();
@@ -309,6 +312,7 @@ namespace FMStudio.App.ViewModels
                 IsMigrationsExpanded = MigrationsVM.IsNodeExpanded.Value,
                 IsProfilesExpanded = ProfilesVM.IsNodeExpanded.Value,
                 IsReadOnly = IsReadOnly.Value,
+                IsLoadedOnStart = IsLoadedOnStart.Value,
                 Name = Name.Value,
                 Profile = Profile.Value
             };

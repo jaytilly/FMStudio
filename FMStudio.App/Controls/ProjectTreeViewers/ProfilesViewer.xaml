@@ -10,7 +10,7 @@
             <ColumnDefinition Width="40" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <TextBlock Text="P" FontWeight="Bold" Style="{StaticResource IconBlue}" />
+        <Label Content="P" Style="{StaticResource ColoredLabelBlue}" />
         <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
             <TextBlock Text="Profiles" />
             <TextBlock Text=" (" />

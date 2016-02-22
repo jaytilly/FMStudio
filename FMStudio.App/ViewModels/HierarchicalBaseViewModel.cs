@@ -34,7 +34,11 @@ namespace FMStudio.App.ViewModels
 
         public virtual async Task InitializeAsync()
         {
-            await Task.WhenAll(Children.Select(c => c.InitializeAsync()));
+            var projectVMs = Children.OfType<ProjectViewModel>().ToList();
+
+            await Task.WhenAll(projectVMs.Where(p => p.IsLoadedOnStart.Value).Select(c => c.InitializeAsync()));
+
+            await Task.WhenAll(Children.Where(c => !projectVMs.Contains(c)).Select(c => c.InitializeAsync()));
         }
 
         #region Collection

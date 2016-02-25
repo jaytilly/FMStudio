@@ -39,6 +39,16 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
+                <MenuItem Header="Load underlying projects on start" Command="{Binding LoadUnderlyingProjectsOnStartCommand}">
+                    <MenuItem.Icon>
+                        <TextBlock Text="&#xF0FE;" Style="{StaticResource IconBlue}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Do not load underlying projects on start" Command="{Binding DoNotLoadUnderlyingProjectsOnStartCommand}">
+                    <MenuItem.Icon>
+                        <TextBlock Text="&#xF146;" Style="{StaticResource IconBlue}" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem Header="Collapse all" Command="{Binding CollapseAllCommand}">
                     <MenuItem.Icon>
                         <TextBlock Text="&#xF147;" Style="{StaticResource IconBlue}" />

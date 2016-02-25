@@ -33,6 +33,10 @@ namespace FMStudio.App.ViewModels
 
         public ICommand RefreshAllUnderlyingProjectsCommand { get; private set; }
 
+        public ICommand LoadUnderlyingProjectsOnStartCommand { get; private set; }
+
+        public ICommand DoNotLoadUnderlyingProjectsOnStartCommand { get; private set; }
+
         public CategoryViewModel(ILog log, RootViewModel root, CategoryConfiguration categoryConfiguration)
         {
             _log = log;
@@ -46,6 +50,8 @@ namespace FMStudio.App.ViewModels
             DeleteCategoryCommand = new RelayCommand(async param => await DeleteCategory());
             FullUpdateAllUnderlyingProjectsCommand = new RelayCommand(async param => await FullUpdateAllUnderlyingProjectsAsync());
             RefreshAllUnderlyingProjectsCommand = new RelayCommand(async param => await RefreshAllUnderlyingProjectsAsync());
+            LoadUnderlyingProjectsOnStartCommand = new RelayCommand(param => SetLoadUnderlyingProjectsOnStart(true));
+            DoNotLoadUnderlyingProjectsOnStartCommand = new RelayCommand(param => SetLoadUnderlyingProjectsOnStart(false));
 
             categoryConfiguration.Categories.ForEach(c => Add(new CategoryViewModel(_log, RootVM, c)));
             categoryConfiguration.Projects.ForEach(p => Add(new ProjectViewModel(_log, RootVM, p)));
@@ -88,6 +94,12 @@ namespace FMStudio.App.ViewModels
         {
             await Task.WhenAll(Categories.Select(c => c.RefreshAllUnderlyingProjectsAsync()));
             await Task.WhenAll(Projects.Select(p => p.InitializeAsync()));
+        }
+
+        public void SetLoadUnderlyingProjectsOnStart(bool isLoadedOnStart)
+        {
+            Projects.ToList().ForEach(p => p.IsLoadedOnStart.Value = isLoadedOnStart);
+            Categories.ToList().ForEach(p => p.SetLoadUnderlyingProjectsOnStart(isLoadedOnStart));
         }
 
         public async Task UpdateHasPendingMigrations()

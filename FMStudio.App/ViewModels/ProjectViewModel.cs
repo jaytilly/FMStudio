@@ -75,6 +75,8 @@ namespace FMStudio.App.ViewModels
 
         public ICommand CloneProjectCommand { get; private set; }
 
+        public ICommand RecreateDatabaseCommand { get; private set; }
+
         public ICommand DeleteProjectCommand { get; private set; }
 
         #endregion Commands
@@ -121,6 +123,7 @@ namespace FMStudio.App.ViewModels
             BrowsePathToMigrationsFileCommand = new RelayCommand(param => BrowsePathToMigrationsDll());
             InitializeProjectCommand = new RelayCommand(async param => await InitializeAsync());
             CloneProjectCommand = new RelayCommand(param => Clone());
+            RecreateDatabaseCommand = new RelayCommand(async param => await RecreateDatabaseAsync());
             DeleteProjectCommand = new RelayCommand(async param => await DeleteAsync(), param => !IsReadOnly.Value);
 
             ProjectInfo = new ProjectInfo(null, null, null, RootVM.OutputVM);
@@ -287,6 +290,29 @@ namespace FMStudio.App.ViewModels
             Parent.Add(clonedVM);
 
             RootVM.SelectActiveEntity(clonedVM);
+        }
+
+        public async Task RecreateDatabaseAsync()
+        {
+            var confirm = await RootVM.DialogService.ConfirmAsync("Confirm database recreation", "Are you sure you want to recreate the database for project '" + Name.Value + "'?");
+            if (!confirm)
+                return;
+
+            IsInProgress.Value = true;
+
+            try
+            {
+                await ProjectInfo.RecreateDatabase();
+                await InitializeAsync();
+
+                _log.Info("Successfully recreated database for project '{0}'", Name.Value);
+            }
+            catch (Exception e)
+            {
+                _log.Error("Could not recreate database for project '{0}': {1}", Name.Value, e.GetFullMessage());
+            }
+
+            IsInProgress.Value = false;
         }
 
         public async Task DeleteAsync()

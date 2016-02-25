@@ -1,4 +1,5 @@
-﻿using FMStudio.Lib.Exceptions;
+﻿using FMStudio.Lib.DatabaseHandlers;
+using FMStudio.Lib.Exceptions;
 using FMStudio.Lib.Repositories;
 using FMStudio.Lib.Utility;
 using FMStudio.Utility.Logging;
@@ -172,6 +173,25 @@ namespace FMStudio.Lib
                 await migration.UpAsync(false);
 
             _log.Info("Ran all applicable migrations up until version {0} for project '{1}'", version, Name);
+        }
+
+        /// <summary>
+        /// Drops and recreates the associated database
+        /// </summary>
+        public async Task RecreateDatabase()
+        {
+            if (!DatabaseType.HasValue)
+                throw new ProjectException("No database type has been selected", null, this);
+
+            try
+            {
+                var databaseHandler = DatabaseHandlerFactory.CreateDatabaseHandler(DatabaseType.Value);
+                await databaseHandler.Recreate(ConnectionString);
+            }
+            catch (Exception e)
+            {
+                throw new ProjectException("Cannot recreate database: " + e.Message, e, this);
+            }
         }
     }
 }

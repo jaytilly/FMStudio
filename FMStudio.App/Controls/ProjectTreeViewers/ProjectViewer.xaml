@@ -79,6 +79,11 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
+                <MenuItem Header="Recreate database" Command="{Binding RecreateDatabaseCommand}">
+                    <MenuItem.Icon>
+                        <TextBlock Text="&#xF079;" Style="{StaticResource IconRed}" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem Header="Delete project" Command="{Binding DeleteProjectCommand}">
                     <MenuItem.Icon>
                         <TextBlock Text="&#xF00D;" Style="{StaticResource IconRed}" />

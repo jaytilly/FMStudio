@@ -71,6 +71,9 @@
   <ItemGroup>
     <Compile Include="DatabaseType.cs" />
     <Compile Include="Exceptions\ProjectException.cs" />
+    <Compile Include="DatabaseHandlers\SqlServerDatabaseHandler.cs" />
+    <Compile Include="DatabaseHandlers\DatabaseHandlerFactory.cs" />
+    <Compile Include="DatabaseHandlers\IDatabaseHandler.cs" />
     <Compile Include="Resources\ExceptionMessages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -110,6 +113,7 @@
       <Name>FMStudio.Utility</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

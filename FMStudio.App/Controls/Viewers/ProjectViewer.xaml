@@ -104,6 +104,8 @@
 
                 <local:IconButton Command="{Binding CloneProjectCommand}" Icon="&#xF0C5;" IconColor="{StaticResource Blue}" Text="Clone" ToolTip="Clones the project to a second one" />
 
+                <local:IconButton Command="{Binding RecreateDatabaseCommand}" Icon="&#xF079;" IconColor="{StaticResource Red}" Text="Recreate database" ToolTip="Drops and recreates the database" />
+
                 <local:IconButton Command="{Binding DeleteProjectCommand}" Icon="&#xF00D;" IconColor="{StaticResource Red}" Text="Delete" ToolTip="Deletes the project from the configuration file" />
             </StackPanel>
         </Border>

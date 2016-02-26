@@ -6,6 +6,7 @@ using FMStudio.Lib.Repositories;
 using FMStudio.Utility.Logging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -136,9 +137,14 @@ namespace FMStudio.Lib
                         var migrations = runner.MigrationLoader.LoadMigrations();
                         var info = migrations.Single(m => m.Key == Version);
 
+                        var sw = new Stopwatch();
+                        sw.Start();
+
                         runner.ApplyMigrationDown(info.Value, true);
 
-                        _log.Info("Successfully undone migration {0}: '{1}'", Version, Description);
+                        sw.Stop();
+
+                        _log.Info("Successfully undone migration {0}: '{1}', took {2}", Version, Description, sw.Elapsed);
                     }
                 }
                 catch (Exception e)
@@ -212,12 +218,17 @@ namespace FMStudio.Lib
                         var migrations = runner.MigrationLoader.LoadMigrations();
                         var info = migrations.Single(m => m.Key == Version);
 
+                        var sw = new Stopwatch();
+                        sw.Start();
+
                         runner.ApplyMigrationUp(info.Value, true);
 
                         if (IsUsingTransaction)
                             processor.CommitTransaction();
 
-                        _log.Info("Successfully applied migration {0}: '{1}'", Version, Description);
+                        sw.Stop();
+
+                        _log.Info("Successfully applied migration {0}: '{1}', took {2}", Version, Description, sw.Elapsed);
                     }
                     catch (Exception e)
                     {

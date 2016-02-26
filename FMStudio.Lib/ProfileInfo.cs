@@ -5,6 +5,7 @@ using FMStudio.Lib.Repositories;
 using FMStudio.Utility.Logging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -59,9 +60,14 @@ namespace FMStudio.Lib
                     {
                         var runner = new MigrationRunner(_project.MigrationsAssembly, context, processor);
 
+                        var sw = new Stopwatch();
+                        sw.Start();
+
                         runner.ApplyProfiles();
 
-                        _log.Info("Successfully ran profile '{0}'", Name);
+                        sw.Stop();
+
+                        _log.Info("Successfully ran profile '{0}', took {1}", Name, sw.Elapsed);
                     }
                 }
                 catch (Exception e)

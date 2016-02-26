@@ -57,6 +57,8 @@ namespace FMStudio.Lib
             get { return !HasRun && IsIncluded; }
         }
 
+        public bool IsUsingTransaction { get; private set; }
+
         public List<string> Tags { get; private set; }
 
         public long Version { get; private set; }
@@ -160,6 +162,7 @@ namespace FMStudio.Lib
 
             Version = migrationInfo.Version;
             Description = migrationInfo.Description;
+            IsUsingTransaction = migrationInfo.TransactionBehavior == TransactionBehavior.Default;
 
             var tagsAttributes = _typeInfo.GetCustomAttributes<TagsAttribute>().ToList();
 
@@ -194,7 +197,8 @@ namespace FMStudio.Lib
                 var context = _migrationsRepository.GetRunnerContext(_project.Profile, _project.Tags, false);
                 using (var processor = _migrationsRepository.GetMigrationProcessor(_project.DatabaseType.Value, _project.ConnectionString, context))
                 {
-                    processor.BeginTransaction();
+                    if (IsUsingTransaction)
+                        processor.BeginTransaction();
 
                     try
                     {
@@ -210,13 +214,15 @@ namespace FMStudio.Lib
 
                         runner.ApplyMigrationUp(info.Value, true);
 
-                        processor.CommitTransaction();
+                        if (IsUsingTransaction)
+                            processor.CommitTransaction();
 
                         _log.Info("Successfully applied migration {0}: '{1}'", Version, Description);
                     }
                     catch (Exception e)
                     {
-                        processor.RollbackTransaction();
+                        if (IsUsingTransaction)
+                            processor.RollbackTransaction();
 
                         throw new MigrationException("Could not apply migration", e, this);
                     }

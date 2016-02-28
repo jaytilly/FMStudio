@@ -123,7 +123,7 @@ namespace FMStudio.App.ViewModels
             BrowsePathToMigrationsFileCommand = new RelayCommand(param => BrowsePathToMigrationsDll());
             InitializeProjectCommand = new RelayCommand(async param => await InitializeAsync());
             CloneProjectCommand = new RelayCommand(param => Clone());
-            RecreateDatabaseCommand = new RelayCommand(async param => await RecreateDatabaseAsync());
+            RecreateDatabaseCommand = new RelayCommand(async param => await RecreateDatabaseAsync(), param => !IsReadOnly.Value && IsInitialized.Value);
             DeleteProjectCommand = new RelayCommand(async param => await DeleteAsync(), param => !IsReadOnly.Value);
 
             ProjectInfo = new ProjectInfo(null, null, null, RootVM.OutputVM);

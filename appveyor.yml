@@ -26,3 +26,11 @@ build:
 
 artifacts:
   - path: FMStudio.App\bin\package
+
+deploy:
+  tag: 'dev'
+  release: 'dev'
+  description: 'Dev build'
+  provider: GitHub
+  auth_token:
+    secure: CGwvwmQSDLr9PoSwKckZc7FlGL3TGhhdbPVGcWiVSLLofpEJU9UintF4j9lfEQXN

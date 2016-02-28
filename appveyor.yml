@@ -1,0 +1,28 @@
+version: 1.0.{build}-{branch}
+
+branches:
+  only:
+    - master
+    - appveyor
+
+os: Windows Server 2012
+
+init:
+  - git config --global core.autocrlf input
+
+shallow_clone: true
+
+services:
+  - mssql2014
+
+platform: Any CPU
+
+configuration: Release
+
+build:
+  parallel: true
+  project: FMStudio.sln
+  verbosity: normal
+
+artifacts:
+  - path: FMStudio.App\bin\package

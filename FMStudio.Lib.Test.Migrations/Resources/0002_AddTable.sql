@@ -1,1 +1,0 @@
-﻿-- 0002_AddTable.sql

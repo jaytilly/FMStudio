@@ -70,32 +70,6 @@
     <Compile Include="Profiles\DEV.cs" />
     <Compile Include="Profiles\TST.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\MigrationSql.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MigrationSql.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\MigrationSql.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>MigrationSql.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Resources\0001_ExecuteSql.sql" />
-    <Content Include="Resources\0002_AddTable.sql" />
-    <Content Include="Resources\0003_AddStoredProcedure.sql" />
-    <Content Include="Resources\0004_AlterTable.sql" />
-    <Content Include="Resources\0005_AlterStoredProcedure.sql" />
-    <Content Include="Resources\0006_InsertData.sql" />
-    <Content Include="Resources\0007_MigrationWithAReallyReallyLoooonngggName.sql" />
-    <Content Include="Resources\0008_SlowMigration1.sql" />
-    <Content Include="Resources\0009_SlowMigration2.sql" />
-    <Content Include="Resources\0010_NoTransaction.sql" />
-    <Content Include="Resources\0011_RequireTransaction.sql" />
-    <Content Include="Resources\Profile_DEV.sql" />
-    <Content Include="Resources\Profile_TST.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

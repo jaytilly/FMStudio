@@ -1,14 +1,13 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Xunit;
 
 namespace FMStudio.Lib.Test.ProjectInfoTest
 {
-    [TestClass]
     public class RunAllRelevantMigrationsTest
     {
-        [TestMethod]
-        public void ProjectInfo_RunAllRelevantMigrations()
+        [Theory(Skip = "TODO")]
+        [ClassData(typeof(ContextProvider))]
+        public void RunAllRelevantMigrations()
         {
-            Assert.Inconclusive();
         }
     }
 }

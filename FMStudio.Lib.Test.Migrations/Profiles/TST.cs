@@ -1,5 +1,4 @@
 ﻿using FluentMigrator;
-using FMStudio.Lib.Test.Migrations.Resources;
 using System;
 
 namespace FMStudio.Lib.Test.Migrations.Profiles
@@ -9,7 +8,9 @@ namespace FMStudio.Lib.Test.Migrations.Profiles
     {
         public override void Up()
         {
-            Execute.Sql(MigrationSql.Profile_TST);
+            Execute.Sql(@"
+-- Profile_TST.sql
+");
         }
 
         public override void Down()

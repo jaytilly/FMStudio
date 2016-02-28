@@ -1,5 +1,4 @@
 ﻿using FluentMigrator;
-using FMStudio.Lib.Test.Migrations.Resources;
 using System;
 
 namespace FMStudio.Lib.Test.Migrations.Migrations
@@ -10,7 +9,9 @@ namespace FMStudio.Lib.Test.Migrations.Migrations
     {
         public override void Up()
         {
-            Execute.Sql(MigrationSql._0006_InsertData);
+            Execute.Sql(@"
+-- 0006_InsertData.sql
+");
         }
 
         public override void Down()

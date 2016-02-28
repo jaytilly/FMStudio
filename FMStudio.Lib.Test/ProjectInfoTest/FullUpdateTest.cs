@@ -1,32 +1,31 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Xunit;
 
 namespace FMStudio.Lib.Test.ProjectInfoTest
 {
-    [TestClass]
     public class FullUpdateTest
     {
-        [TestMethod]
-        public void ProjectInfo_FullUpdate_NoTags_NoProfile()
+        [Theory(Skip = "TODO")]
+        [ClassData(typeof(ContextProvider))]
+        public void NoTags_NoProfile()
         {
-            Assert.Inconclusive();
         }
 
-        [TestMethod]
-        public void ProjectInfo_FullUpdate_Tags_NoProfile()
+        [Theory(Skip = "TODO")]
+        [ClassData(typeof(ContextProvider))]
+        public void Tags_NoProfile()
         {
-            Assert.Inconclusive();
         }
 
-        [TestMethod]
-        public void ProjectInfo_FullUpdate_NoTags_Profile()
+        [Theory(Skip = "TODO")]
+        [ClassData(typeof(ContextProvider))]
+        public void NoTags_Profile()
         {
-            Assert.Inconclusive();
         }
 
-        [TestMethod]
-        public void ProjectInfo_FullUpdate_Tags_Profile()
+        [Theory(Skip = "TODO")]
+        [ClassData(typeof(ContextProvider))]
+        public void Tags_Profile()
         {
-            Assert.Inconclusive();
         }
     }
 }

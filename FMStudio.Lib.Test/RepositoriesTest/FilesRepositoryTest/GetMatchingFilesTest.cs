@@ -1,15 +1,14 @@
 ﻿using FMStudio.Lib.Repositories;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System.Linq;
+using Xunit;
 
 namespace FMStudio.Lib.Test.RepositoriesTest.FilesRepositoryTest
 {
-    [TestClass]
     public class GetMatchingFilesTest
     {
-        [TestMethod]
-        public void FilesRepository_GetMatchingFiles()
+        [Fact]
+        public void GetMatchingFiles()
         {
             var repository = new FilesRepository();
 
@@ -19,8 +18,8 @@ namespace FMStudio.Lib.Test.RepositoriesTest.FilesRepositoryTest
 
             var files = repository.GetMatchingFiles(pattern).Result;
 
-            Assert.IsNotNull(files);
-            Assert.IsTrue(files.Any(f => f.FullName.Equals(Path.Combine(root, "FluentMigrator.dll"))));
+            Assert.NotNull(files);
+            Assert.True(files.Any(f => f.FullName.Equals(Path.Combine(root, "FluentMigrator.dll"))));
         }
     }
 }

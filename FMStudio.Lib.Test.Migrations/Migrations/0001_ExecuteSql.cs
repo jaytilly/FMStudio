@@ -1,5 +1,4 @@
 ﻿using FluentMigrator;
-using FMStudio.Lib.Test.Migrations.Resources;
 using System;
 
 namespace FMStudio.Lib.Test.Migrations.Migrations
@@ -11,7 +10,51 @@ namespace FMStudio.Lib.Test.Migrations.Migrations
 
         public override void Up()
         {
-            Execute.Sql(MigrationSql._0001_ExecuteSql);
+            Execute.Sql(
+@"-- 0001_ExecuteSql.sql
+
+--CREATE TABLE Table1
+--(
+--	Id		INTEGER		PRIMARY KEY ASC,
+--	Name	VARCHAR(100)
+--)
+
+--CREATE TABLE Table1
+--(
+--	Id		INTEGER		PRIMARY KEY ASC,
+--	Name	VARCHAR(100)
+--)
+
+--CREATE TABLE Table1
+--(
+--	Id		INTEGER		PRIMARY KEY ASC,
+--	Name	VARCHAR(100)
+--)
+
+--CREATE TABLE Table1
+--(
+--	Id		INTEGER		PRIMARY KEY ASC,
+--	Name	VARCHAR(100)
+--)
+
+--CREATE TABLE Table1
+--(
+--	Id		INTEGER		PRIMARY KEY ASC,
+--	Name	VARCHAR(100)
+--)
+
+--CREATE TABLE Table1
+--(
+--	Id		INTEGER		PRIMARY KEY ASC,
+--	Name	VARCHAR(100)
+--)
+
+--CREATE TABLE Table1
+--(
+--	Id		INTEGER		PRIMARY KEY ASC,
+--	Name	VARCHAR(100)
+--)"
+);
         }
 
         public override void Down()

@@ -1,20 +1,19 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Xunit;
 
 namespace FMStudio.Lib.Test.MigrationInfoTest
 {
-    [TestClass]
     public class DownTest
     {
-        [TestMethod]
-        public void MigrationInfo_Down_Success()
+        [Theory(Skip = "TODO")]
+        [ClassData(typeof(ContextProvider))]
+        public void Success()
         {
-            Assert.Inconclusive();
         }
 
-        [TestMethod]
-        public void MigrationInfo_Down_AlreadyRan()
+        [Theory(Skip = "TODO")]
+        [ClassData(typeof(ContextProvider))]
+        public void AlreadyRan()
         {
-            Assert.Inconclusive();
         }
     }
 }

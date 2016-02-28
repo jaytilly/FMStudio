@@ -1,20 +1,19 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Xunit;
 
 namespace FMStudio.Lib.Test.MigrationInfoTest
 {
-    [TestClass]
     public class DeleteVersionFromInfoTableTest
     {
-        [TestMethod]
-        public void MigrationInfo_DeleteVersionFromInfoTable_DoesExist()
+        [Theory(Skip = "TODO")]
+        [ClassData(typeof(ContextProvider))]
+        public void DoesExist()
         {
-            Assert.Inconclusive();
         }
 
-        [TestMethod]
-        public void MigrationInfo_DeleteVersionFromInfoTable_DoesNotExist()
+        [Theory(Skip = "TODO")]
+        [ClassData(typeof(ContextProvider))]
+        public void DoesNotExist()
         {
-            Assert.Inconclusive();
         }
     }
 }

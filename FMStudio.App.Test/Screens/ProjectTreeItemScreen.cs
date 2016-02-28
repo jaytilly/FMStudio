@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Xunit;
 using System.Linq;
 using TestStack.White;
 using TestStack.White.UIItems.Finders;
@@ -40,7 +40,7 @@ namespace FMStudio.App.Test.Screens
                 }
             }
 
-            Assert.Fail("Could not find project named '" + _projectName + "'");
+            Assert.True(false, "Could not find project named '" + _projectName + "'");
 
             return null;
         }

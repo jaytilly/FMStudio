@@ -1,5 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
+using Xunit;
 
 namespace FMStudio.Lib.Test
 {
@@ -30,7 +30,7 @@ namespace FMStudio.Lib.Test
 
                 if (expected != actual)
                 {
-                    Assert.Fail("Expected exception of type '" + expected + "', but got exception of type '" + actual + "'");
+                    Assert.True(false, "Expected exception of type '" + expected + "', but got exception of type '" + actual + "'");
                 }
 
                 if (onException != null)

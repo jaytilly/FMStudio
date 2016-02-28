@@ -1,29 +1,28 @@
 ﻿using FMStudio.Lib.Repositories;
 using Ionic.Zip;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
+using Xunit;
 
 namespace FMStudio.Lib.Test.RepositoriesTest.AssemblyRepositoryTest
 {
-    [TestClass]
     public class LoadFromArchiveTest
     {
         private AssemblyRepository _sut;
 
-        [TestInitialize]
-        public void Initialize()
+        public LoadFromArchiveTest()
         {
             _sut = new AssemblyRepository();
         }
 
-        [TestMethod]
-        public void AssemblyRepository_LoadFromArchive_SingleFileInRoot()
+        [Theory]
+        [ClassData(typeof(ContextProvider))]
+        public void SingleFileInRoot(Context context)
         {
             // Arrange
             using (var zipFile = new ZipFile())
             using (var stream = new MemoryStream())
             {
-                zipFile.AddFile(Constants.FMTestMigrationsPath);
+                zipFile.AddFile(context.FMTestMigrationsPath);
                 zipFile.Save(stream);
 
                 var bytes = stream.ToArray();
@@ -32,13 +31,14 @@ namespace FMStudio.Lib.Test.RepositoriesTest.AssemblyRepositoryTest
                 var result = _sut.LoadFromArchive(bytes).Result;
 
                 // Assert
-                Assert.IsNotNull(result);
-                Assert.AreEqual(Constants.FMTestMigrationsFullName, result.FullName);
+                Assert.NotNull(result);
+                Assert.Equal(context.FMTestMigrationsFullName, result.FullName);
             }
         }
 
-        [TestMethod]
-        public void AssemblyRepository_LoadFromArchive_SingleFileInSubdirectory()
+        [Theory]
+        [ClassData(typeof(ContextProvider))]
+        public void SingleFileInSubdirectory(Context context)
         {
             // Arrange
             var subdirectoryName = "Subdirectory";
@@ -47,7 +47,7 @@ namespace FMStudio.Lib.Test.RepositoriesTest.AssemblyRepositoryTest
             using (var stream = new MemoryStream())
             {
                 zipFile.AddDirectoryByName(subdirectoryName);
-                zipFile.AddFile(Constants.FMTestMigrationsPath, subdirectoryName);
+                zipFile.AddFile(context.FMTestMigrationsPath, subdirectoryName);
                 zipFile.Save(stream);
 
                 var bytes = stream.ToArray();
@@ -56,20 +56,21 @@ namespace FMStudio.Lib.Test.RepositoriesTest.AssemblyRepositoryTest
                 var result = _sut.LoadFromArchive(bytes).Result;
 
                 // Assert
-                Assert.IsNotNull(result);
-                Assert.AreEqual(Constants.FMTestMigrationsFullName, result.FullName);
+                Assert.NotNull(result);
+                Assert.Equal(context.FMTestMigrationsFullName, result.FullName);
             }
         }
 
-        [TestMethod]
-        public void AssemblyRepository_LoadFromArchive_IncludingFluentMigratorDll()
+        [Theory]
+        [ClassData(typeof(ContextProvider))]
+        public void IncludingFluentMigratorDll(Context context)
         {
             // Arrange
             using (var zipFile = new ZipFile())
             using (var stream = new MemoryStream())
             {
-                zipFile.AddFile(Constants.FMDllPath);
-                zipFile.AddFile(Constants.FMTestMigrationsPath);
+                zipFile.AddFile(context.FMDllPath);
+                zipFile.AddFile(context.FMTestMigrationsPath);
                 zipFile.Save(stream);
 
                 var bytes = stream.ToArray();
@@ -78,19 +79,20 @@ namespace FMStudio.Lib.Test.RepositoriesTest.AssemblyRepositoryTest
                 var result = _sut.LoadFromArchive(bytes).Result;
 
                 // Assert
-                Assert.IsNotNull(result);
-                Assert.AreEqual(Constants.FMTestMigrationsFullName, result.FullName);
+                Assert.NotNull(result);
+                Assert.Equal(context.FMTestMigrationsFullName, result.FullName);
             }
         }
 
-        [TestMethod]
-        public void AssemblyRepository_LoadFromArchive_OnlyIncludingFluentMigratorDll()
+        [Theory]
+        [ClassData(typeof(ContextProvider))]
+        public void OnlyIncludingFluentMigratorDll(Context context)
         {
             // Arrange
             using (var zipFile = new ZipFile())
             using (var stream = new MemoryStream())
             {
-                zipFile.AddFile(Constants.FMDllPath);
+                zipFile.AddFile(context.FMDllPath);
                 zipFile.Save(stream);
 
                 var bytes = stream.ToArray();
@@ -99,19 +101,20 @@ namespace FMStudio.Lib.Test.RepositoriesTest.AssemblyRepositoryTest
                 var result = _sut.LoadFromArchive(bytes).Result;
 
                 // Assert
-                Assert.IsNull(result);
+                Assert.Null(result);
             }
         }
 
-        [TestMethod]
-        public void AssemblyRepository_LoadFromArchive_IncludingFluentMigratorRunnerDll()
+        [Theory]
+        [ClassData(typeof(ContextProvider))]
+        public void IncludingFluentMigratorRunnerDll(Context context)
         {
             // Arrange
             using (var zipFile = new ZipFile())
             using (var stream = new MemoryStream())
             {
-                zipFile.AddFile(Constants.FMRunnerDllPath);
-                zipFile.AddFile(Constants.FMTestMigrationsPath);
+                zipFile.AddFile(context.FMRunnerDllPath);
+                zipFile.AddFile(context.FMTestMigrationsPath);
                 zipFile.Save(stream);
 
                 var bytes = stream.ToArray();
@@ -120,19 +123,20 @@ namespace FMStudio.Lib.Test.RepositoriesTest.AssemblyRepositoryTest
                 var result = _sut.LoadFromArchive(bytes).Result;
 
                 // Assert
-                Assert.IsNotNull(result);
-                Assert.AreEqual(Constants.FMTestMigrationsFullName, result.FullName);
+                Assert.NotNull(result);
+                Assert.Equal(context.FMTestMigrationsFullName, result.FullName);
             }
         }
 
-        [TestMethod]
-        public void AssemblyRepository_LoadFromArchive_OnlyIncludingFluentMigratorRunnerDll()
+        [Theory]
+        [ClassData(typeof(ContextProvider))]
+        public void OnlyIncludingFluentMigratorRunnerDll(Context context)
         {
             // Arrange
             using (var zipFile = new ZipFile())
             using (var stream = new MemoryStream())
             {
-                zipFile.AddFile(Constants.FMRunnerDllPath);
+                zipFile.AddFile(context.FMRunnerDllPath);
                 zipFile.Save(stream);
 
                 var bytes = stream.ToArray();
@@ -141,18 +145,19 @@ namespace FMStudio.Lib.Test.RepositoriesTest.AssemblyRepositoryTest
                 var result = _sut.LoadFromArchive(bytes).Result;
 
                 // Assert
-                Assert.IsNull(result);
+                Assert.Null(result);
             }
         }
 
-        [TestMethod]
-        public void AssemblyRepository_LoadFromArchive_NotReferencingFluentMigratorDll()
+        [Theory]
+        [ClassData(typeof(ContextProvider))]
+        public void NotReferencingFluentMigratorDll(Context context)
         {
             // Arrange
             using (var zipFile = new ZipFile())
             using (var stream = new MemoryStream())
             {
-                zipFile.AddFile(Constants.FMUtilityDllPath);
+                zipFile.AddFile(context.FMUtilityDllPath);
                 zipFile.Save(stream);
 
                 var bytes = stream.ToArray();
@@ -161,21 +166,22 @@ namespace FMStudio.Lib.Test.RepositoriesTest.AssemblyRepositoryTest
                 var result = _sut.LoadFromArchive(bytes).Result;
 
                 // Assert
-                Assert.IsNull(result);
+                Assert.Null(result);
             }
         }
 
-        [TestMethod]
-        public void AssemblyRepository_LoadFromArchive_NotAZipFile()
+        [Theory]
+        [ClassData(typeof(ContextProvider))]
+        public void NotAZipFile(Context context)
         {
             // Arrange
-            var bytes = File.ReadAllBytes(Constants.FMUtilityDllPath);
+            var bytes = File.ReadAllBytes(context.FMUtilityDllPath);
 
             // Act
             var result = _sut.LoadFromArchive(bytes).Result;
 
             // Assert
-            Assert.IsNull(result);
+            Assert.Null(result);
         }
     }
 }

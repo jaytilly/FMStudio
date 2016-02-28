@@ -1,1 +1,0 @@
-﻿-- 0001 Initial Migration Up

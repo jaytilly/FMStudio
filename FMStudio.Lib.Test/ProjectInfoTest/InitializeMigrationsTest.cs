@@ -1,56 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
+﻿using Xunit;
 
 namespace FMStudio.Lib.Test.ProjectInfoTest
 {
-    [TestClass]
-    public class InitializeTest
+    public class InitializeMigrationsTest
     {
-        [TestMethod]
-        public void Project_Initialize_MigrationsOnly()
-        {
-            var pathToMigrations = Constants.FMTestMigrationsPath;
-
-            var projectInfo = new ProjectInfo();
-            projectInfo.InitializeMigrationsAsync(pathToMigrations).Wait();
-
-            var migration1 = projectInfo.Migrations.FirstOrDefault(m => m.Version == 1);
-            Assert.IsNotNull(migration1);
-            Assert.AreEqual("Execute Sql", migration1.Description);
-        }
-
-        [TestMethod]
-        public void Project_Initialize_MigrationsAndDatabase()
-        {
-            //    var pathToMigrations = Constants.FMTestMigrationsPath;
-            //    var databaseType = DatabaseType.Sqlite;
-            //    var connectionString = _db.ConnectionString;
-
-            //    var projectInfo = new ProjectInfo(pathToMigrations, databaseType, connectionString);
-
-            Assert.Inconclusive();
-        }
-
-        //#region hide this for me
-
-        //private Database _db;
-
-        //[TestInitialize]
-        //public void Initialize()
-        //{
-        //    _db = new Database();
-        //}
-
-        //[TestCleanup]
-        //public void Cleanup()
-        //{
-        //    _db.Dispose();
-        //}
-
-        //#endregion
-
-        [TestMethod]
-        public void Project_Initialize_NoMigrationsRan()
+        [Theory(Skip = "TODO")]
+        [ClassData(typeof(ContextProvider))]
+        public void NoMigrationsRan()
         {
             //    using (var db = new Database())
             //    {
@@ -76,12 +32,11 @@ namespace FMStudio.Lib.Test.ProjectInfoTest
             //        AssertProfile(project.Profiles, "DEV", "-- Profile_DEV.sql");
             //        AssertProfile(project.Profiles, "TST", "-- Profile_TST.sql");
             //    }
-
-            Assert.Inconclusive();
         }
 
-        [TestMethod]
-        public void Project_Initialize_OneMigrationRan()
+        [Theory(Skip = "TODO")]
+        [ClassData(typeof(ContextProvider))]
+        public void OneMigrationRan()
         {
             //    using (var db = new Database())
             //    {
@@ -110,31 +65,29 @@ namespace FMStudio.Lib.Test.ProjectInfoTest
             //        AssertProfile(project.Profiles, "DEV", "-- Profile_DEV.sql");
             //        AssertProfile(project.Profiles, "TST", "-- Profile_TST.sql");
             //    }
-
-            Assert.Inconclusive();
         }
 
-        [TestMethod]
-        public void Project_Initialize_PathToMigrationsDllNotFound()
+        [Theory(Skip = "TODO")]
+        [ClassData(typeof(ContextProvider))]
+        public void PathToMigrationsDllNotFound()
         {
             //    var project = new ProjectInfo(@"no/such/file", _db.ConnectionString, DatabaseType.Sqlite);
 
             //    TestUtility.AssertExceptionThrown<InitializeProjectException>(() => project.InitializeAsync().Wait());
-            Assert.Inconclusive();
         }
 
-        [TestMethod]
+        [Theory(Skip = "TODO")]
+        [ClassData(typeof(ContextProvider))]
         public void Project_Initialize_CouldNotConnectToDatabase()
         {
             //    var project = new ProjectInfo(Constants.FMTestMigrationsPath, @"no/such/connection", DatabaseType.Sqlite);
 
             //    TestUtility.AssertExceptionThrown<InitializeProjectException>(() => project.InitializeAsync().Wait());
-
-            Assert.Inconclusive();
         }
 
-        [TestMethod]
-        public void Project_Initialize_DllIsNotAMigrationsDll()
+        [Theory(Skip = "TODO")]
+        [ClassData(typeof(ContextProvider))]
+        public void DllIsNotAMigrationsDll()
         {
             //    var project = new ProjectInfo(Constants.FMUtilityDllPath, _db.ConnectionString, DatabaseType.Sqlite);
 
@@ -142,14 +95,12 @@ namespace FMStudio.Lib.Test.ProjectInfoTest
             //        () => project.InitializeAsync().Wait(),
             //        (e) => Assert.AreEqual(ExceptionType.CouldNotFindFluentMigratorDllReference, e.ExceptionType)
             //    );
-
-            Assert.Inconclusive();
         }
 
-        [TestMethod]
-        public void Project_Initialize_PathToMigrationsDllIsNotADll()
+        [Theory(Skip = "TODO")]
+        [ClassData(typeof(ContextProvider))]
+        public void PathToMigrationsDllIsNotADll()
         {
-            Assert.Inconclusive();
         }
 
         #region Utility

@@ -9,6 +9,9 @@ namespace FMStudio.Lib.Test.Migrations.Migrations
     {
         public override void Up()
         {
+            Execute.Sql(@"
+-- 0007_MigrationWithAReallyReallyLoooonngggName.sql
+");
         }
 
         public override void Down()

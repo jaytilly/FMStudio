@@ -1,12 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Xunit;
 
 namespace FMStudio.Configuration.Test
 {
-    [TestClass]
     public class FMConfigurationTest
     {
-        [TestMethod]
-        public void FMConfiguration_Serialization()
+        [Fact(Skip = "TODO")]
+        public void Serialization()
         {
             //var project1 = new ProjectConfiguration()
             //{
@@ -72,8 +71,6 @@ namespace FMStudio.Configuration.Test
             //Assert.AreEqual(project2.Tags.Count, p2.Tags.Count);
             //Assert.IsTrue(p2.Tags.Any(t => t == project2.Tags[0]));
             //Assert.IsTrue(p2.Tags.Any(t => t == project2.Tags[1]));
-
-            Assert.Inconclusive();
         }
     }
 }

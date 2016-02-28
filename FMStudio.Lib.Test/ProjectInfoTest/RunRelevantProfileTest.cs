@@ -1,14 +1,13 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Xunit;
 
 namespace FMStudio.Lib.Test.ProjectInfoTest
 {
-    [TestClass]
     public class RunRelevantProfileTest
     {
-        [TestMethod]
-        public void ProjectInfo_RunRelevantProfile()
+        [Theory(Skip = "TODO")]
+        [ClassData(typeof(ContextProvider))]
+        public void RunRelevantProfile()
         {
-            Assert.Inconclusive();
         }
     }
 }

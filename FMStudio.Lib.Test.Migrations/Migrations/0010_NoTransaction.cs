@@ -1,5 +1,4 @@
 ﻿using FluentMigrator;
-using FMStudio.Lib.Test.Migrations.Resources;
 using System;
 
 namespace FMStudio.Lib.Test.Migrations.Migrations
@@ -9,7 +8,12 @@ namespace FMStudio.Lib.Test.Migrations.Migrations
     {
         public override void Up()
         {
-            Execute.Sql(MigrationSql._0010_NoTransaction);
+            Execute.Sql(@"
+IF XACT_STATE() = 1
+BEGIN
+	RAISERROR('This migration cannot be run in a transaction', 18, 1)
+END
+");
         }
 
         public override void Down()

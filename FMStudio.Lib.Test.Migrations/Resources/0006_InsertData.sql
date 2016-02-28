@@ -1,1 +1,0 @@
-﻿-- 0006_InsertData.sql

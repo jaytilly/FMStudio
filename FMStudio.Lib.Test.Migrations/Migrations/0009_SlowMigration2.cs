@@ -1,5 +1,4 @@
 ﻿using FluentMigrator;
-using FMStudio.Lib.Test.Migrations.Resources;
 using System;
 using System.Threading;
 
@@ -12,7 +11,9 @@ namespace FMStudio.Lib.Test.Migrations.Migrations
         {
             Thread.Sleep(1000);
 
-            Execute.Sql(MigrationSql._0009_SlowMigration2);
+            Execute.Sql(@"
+-- Slow migration 2
+");
         }
 
         public override void Down()

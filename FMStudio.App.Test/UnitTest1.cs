@@ -1,5 +1,5 @@
 ﻿using FMStudio.App.Test.Screens;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,24 +8,23 @@ using TestStack.White.UIItems.Finders;
 
 namespace FMStudio.App.Test
 {
-    [TestClass]
+    
     public class UnitTest1
     {
         public MainWindowScreen MainWindow { get; private set; }
-
-        [TestInitialize]
-        public void Initialize()
+        
+        public UnitTest1()
         {
             MainWindow = new MainWindowScreen();
         }
 
-        [TestMethod]
+        //[Fact]
         public void Cleanup()
         {
             MainWindow.Dispose();
         }
 
-        [TestMethod]
+        //[Fact]
         public void AddProject()
         {
             MainWindow
@@ -38,7 +37,7 @@ namespace FMStudio.App.Test
 
         //#region Proto
 
-        //[TestMethod]
+        //[Fact]
         //public void TestMethod1()
         //{
         //    var path = Path.GetFullPath("../../FMStudio.App/bin/FMStudio.exe");

@@ -1,20 +1,19 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Xunit;
 
 namespace FMStudio.Lib.Test.MigrationInfoTest
 {
-    [TestClass]
     public class AddVersionToInfoTableTest
     {
-        [TestMethod]
-        public void MigrationInfo_AddVersionToInfoTable_DoesNotExistYet()
+        [Theory(Skip = "TODO")]
+        [ClassData(typeof(ContextProvider))]
+        public void DoesNotExistYet(Context context)
         {
-            Assert.Inconclusive();
         }
 
-        [TestMethod]
-        public void MigrationInfo_AddVersionToInfoTable_AlreadyExists()
+        [Theory(Skip = "TODO")]
+        [ClassData(typeof(ContextProvider))]
+        public void AlreadyExists(Context context)
         {
-            Assert.Inconclusive();
         }
     }
 }

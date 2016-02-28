@@ -64,7 +64,7 @@ CREATE DATABASE FMStudioTestDb
             {
                 new Context("FM160 SQL2014")
                 {
-                    DBConnectionString = @"server=.\SQL2014;database=FMStudioTestDb;integrated security=true;pooling=false;",
+                    DBConnectionString = @"server=.\SQL2014;database=FMStudioTestDb;user=sa;password=Password12!;pooling=false;",
 
                     FMTestMigrationsPath = Path.GetFullPath(@"FMStudio.Lib.Test.Migrations.dll"),
                     FMUtilityDllPath = Path.GetFullPath(@"FMStudio.Utility.dll"),
@@ -77,7 +77,7 @@ CREATE DATABASE FMStudioTestDb
             {
                 new Context("FM130 SQL2014")
                 {
-                    DBConnectionString = @"server=.\SQL2014;database=FMStudioTestDb;integrated security=true;pooling=false;",
+                    DBConnectionString = @"server=.\SQL2014;database=FMStudioTestDb;user=sa;password=Password12!;pooling=false;",
 
                     FMTestMigrationsPath = Path.GetFullPath(@"../../FMStudio.Lib.Test.Migrations.FM130/bin/FMStudio.Lib.Test.Migrations.FM130.dll"),
                     FMUtilityDllPath = Path.GetFullPath(@"FMStudio.Utility.dll"),

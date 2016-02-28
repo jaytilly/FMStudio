@@ -29,7 +29,10 @@ namespace FMStudio.Lib.Test
 
         public Context Initialize()
         {
-            using (var conn = new SqlConnection(DBConnectionString))
+            var connStr = new SqlConnectionStringBuilder(DBConnectionString);
+            connStr.InitialCatalog = "master";
+
+            using (var conn = new SqlConnection(connStr.ConnectionString))
             {
                 conn.Open();
 

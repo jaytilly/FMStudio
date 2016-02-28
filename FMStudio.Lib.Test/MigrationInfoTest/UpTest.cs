@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 
 namespace FMStudio.Lib.Test.MigrationInfoTest
 {
@@ -53,5 +54,45 @@ namespace FMStudio.Lib.Test.MigrationInfoTest
         //        Assert.IsTrue(migration1.HasRun);
         //    }
         //}
+
+        [TestMethod]
+        public void MigrationInfo_Up_NoTransaction()
+        {
+            var connectionString = @"server=.\SQL2014;database=FMStudioTestDb;integrated security=true;";
+
+            var project = new ProjectInfo();
+
+            project.InitializeMigrationsAsync(Constants.FMTestMigrationsPath).Wait();
+            project.InitializeDatabase(DatabaseType.SqlServer2014, connectionString).Wait();
+
+            var migration = project.Migrations.FirstOrDefault(m => m.Version == 10);
+            Assert.IsNotNull(migration, "Cannot find migration number 10");
+
+            Assert.IsFalse(migration.HasRun);
+
+            migration.UpAsync(false).Wait();
+
+            Assert.IsTrue(migration.HasRun);
+        }
+
+        [TestMethod]
+        public void MigrationInfo_Up_RequireTransaction()
+        {
+            var connectionString = @"server=.\SQL2014;database=FMStudioTestDb;integrated security=true;";
+
+            var project = new ProjectInfo();
+
+            project.InitializeMigrationsAsync(Constants.FMTestMigrationsPath).Wait();
+            project.InitializeDatabase(DatabaseType.SqlServer2014, connectionString).Wait();
+
+            var migration = project.Migrations.FirstOrDefault(m => m.Version == 11);
+            Assert.IsNotNull(migration, "Cannot find migration number 11");
+
+            Assert.IsFalse(migration.HasRun);
+
+            migration.UpAsync(false).Wait();
+
+            Assert.IsTrue(migration.HasRun);
+        }
     }
 }

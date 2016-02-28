@@ -148,4 +148,10 @@
   <data name="_0009_SlowMigration2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>0009_slowmigration2.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="_0010_NoTransaction" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>0010_notransaction.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="_0011_RequireTransaction" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>0011_requiretransaction.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

@@ -203,9 +203,6 @@ namespace FMStudio.Lib
                 var context = _migrationsRepository.GetRunnerContext(_project.Profile, _project.Tags, false);
                 using (var processor = _migrationsRepository.GetMigrationProcessor(_project.DatabaseType.Value, _project.ConnectionString, context))
                 {
-                    if (IsUsingTransaction)
-                        processor.BeginTransaction();
-
                     try
                     {
                         var runner = new MigrationRunner(_project.MigrationsAssembly, context, processor);
@@ -221,10 +218,7 @@ namespace FMStudio.Lib
                         var sw = new Stopwatch();
                         sw.Start();
 
-                        runner.ApplyMigrationUp(info.Value, true);
-
-                        if (IsUsingTransaction)
-                            processor.CommitTransaction();
+                        runner.ApplyMigrationUp(info.Value, IsUsingTransaction);
 
                         sw.Stop();
 
@@ -232,9 +226,6 @@ namespace FMStudio.Lib
                     }
                     catch (Exception e)
                     {
-                        if (IsUsingTransaction)
-                            processor.RollbackTransaction();
-
                         throw new MigrationException("Could not apply migration", e, this);
                     }
                 }

@@ -95,7 +95,8 @@ namespace FMStudio.Lib.Test.Migrations.Resources {
         ///
         ///--CREATE TABLE Table1
         ///--(
-        ///--	 [rest of string was truncated]&quot;;.
+        ///--	Id		INTEGER		PRIMARY KEY ASC,
+        ///--	N [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string _0001_ExecuteSql {
             get {
@@ -163,6 +164,30 @@ namespace FMStudio.Lib.Test.Migrations.Resources {
         internal static string _0009_SlowMigration2 {
             get {
                 return ResourceManager.GetString("_0009_SlowMigration2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IF XACT_STATE() = 1
+        ///BEGIN
+        ///	RAISERROR(&apos;This migration cannot be run in a transaction&apos;, 18, 1)
+        ///END.
+        /// </summary>
+        internal static string _0010_NoTransaction {
+            get {
+                return ResourceManager.GetString("_0010_NoTransaction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IF XACT_STATE() = 0
+        ///BEGIN
+        ///	RAISERROR(&apos;This migration must be run in a transaction&apos;, 18, 1)
+        ///END.
+        /// </summary>
+        internal static string _0011_RequireTransaction {
+            get {
+                return ResourceManager.GetString("_0011_RequireTransaction", resourceCulture);
             }
         }
         

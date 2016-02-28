@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
+using Xunit;
 
 [assembly: AssemblyTitle("FMStudio.Lib.Test")]
 [assembly: AssemblyDescription("")]
@@ -12,3 +13,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("1.0.0")]
 [assembly: AssemblyFileVersion("1.0.0")]
 [assembly: ComVisible(false)]
+[assembly: CollectionBehavior(DisableTestParallelization = true)]

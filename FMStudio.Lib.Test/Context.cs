@@ -34,8 +34,15 @@ namespace FMStudio.Lib.Test
                 conn.Open();
 
                 var comm = new SqlCommand(@"
-IF OBJECT_ID('dbo.VersionInfo', 'U') IS NOT NULL
-    DROP TABLE dbo.VersionInfo
+IF EXISTS(SELECT name FROM sys.databases WHERE name = 'FMStudioTestDb')
+BEGIN
+	ALTER DATABASE FMStudioTestDb SET OFFLINE WITH ROLLBACK IMMEDIATE
+	ALTER DATABASE FMStudioTestDb SET ONLINE
+
+	DROP DATABASE FMStudioTestDb
+END
+
+CREATE DATABASE FMStudioTestDb
 ", conn);
                 comm.ExecuteNonQuery();
             }
@@ -57,7 +64,7 @@ IF OBJECT_ID('dbo.VersionInfo', 'U') IS NOT NULL
             {
                 new Context("FM160 SQL2014")
                 {
-                    DBConnectionString = @"server=.\SQL2014;database=FMStudioTestDb;integrated security=true;",
+                    DBConnectionString = @"server=.\SQL2014;database=FMStudioTestDb;integrated security=true;pooling=false;",
 
                     FMTestMigrationsPath = Path.GetFullPath(@"FMStudio.Lib.Test.Migrations.dll"),
                     FMUtilityDllPath = Path.GetFullPath(@"FMStudio.Utility.dll"),
@@ -70,7 +77,7 @@ IF OBJECT_ID('dbo.VersionInfo', 'U') IS NOT NULL
             {
                 new Context("FM130 SQL2014")
                 {
-                    DBConnectionString = @"server=.\SQL2014;database=FMStudioTestDb;integrated security=true;",
+                    DBConnectionString = @"server=.\SQL2014;database=FMStudioTestDb;integrated security=true;pooling=false;",
 
                     FMTestMigrationsPath = Path.GetFullPath(@"../../FMStudio.Lib.Test.Migrations.FM130/bin/FMStudio.Lib.Test.Migrations.FM130.dll"),
                     FMUtilityDllPath = Path.GetFullPath(@"FMStudio.Utility.dll"),

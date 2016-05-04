@@ -1,4 +1,9 @@
+# Common configuration
 -
+  branches:
+    - master
+    - release
+
   version: 1.0.{build}-{branch}
 
   environment:

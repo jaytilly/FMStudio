@@ -10,7 +10,7 @@
     <projectUrl>https://infosupport.github.io/FMStudio</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/infosupport/FMStudio/master/FMStudio.App/fm-studio-icon.ico</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>The Fluent Migrator management tool</description>
+    <description>The Fluent Migrator management tool - preview release</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>FM Studio FMStudio Fluent Migrator UI</tags>

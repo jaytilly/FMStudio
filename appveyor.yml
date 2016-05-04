@@ -47,7 +47,7 @@ deploy:
     # Portable
   - provider: GitHub
     tag: preview
-    artifact: /.FMStudio-$(github_release_version)-preview-portable\.zip/
+    artifact: /.FMStudio-portable\.zip/
     draft: false
     release: preview
     description: 'Preview release'
@@ -72,7 +72,7 @@ deploy:
     # Portable
   - provider: GitHub
     tag: stable
-    artifact: /.FMStudio-$(github_release_version)-portable\.zip/
+    artifact: /.FMStudio-portable\.zip/
     draft: false
     release: stable
     description: 'Stable release'

@@ -33,13 +33,15 @@ assembly_info:
 
 artifacts:
   - path: FMStudio.App\bin\package
+    name: portable.zip
+
   - path: FMStudio.App\bin\installer\*
 
 deploy:
     # Portable
   - provider: GitHub
     tag: 'dev'
-    artifact: /.package\.zip/
+    artifact: /.portable\.zip/
     draft: false
     release: 'portable-dev'
     description: 'Portable executable - dev branch'

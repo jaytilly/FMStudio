@@ -33,7 +33,7 @@ assembly_info:
 
 artifacts:
   - path: FMStudio.App\bin\package
-  - path: FMStudio.App\bin\installer\*.*
+  - path: FMStudio.App\bin\installer\*
 
 deploy:
     # Portable
@@ -52,7 +52,7 @@ deploy:
     # Installer
   - provider: GitHub
     tag: 'dev'
-    artifact: /./installer/*\.*/           # upload all NuGet packages to release assets
+    artifact: /./installer/*/
     draft: false
     release: 'installer-dev'
     prerelease: true

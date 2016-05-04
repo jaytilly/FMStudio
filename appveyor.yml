@@ -40,6 +40,7 @@ artifacts:
 deploy:
     # Portable pre-release
   - provider: GitHub
+    tag: {version}
     artifact: /.portable\.zip/
     draft: true
     release: 'portable-master'
@@ -52,6 +53,7 @@ deploy:
 
     # Installer pre-release
   - provider: GitHub
+    tag: {version}
     artifact: /./installer/*/
     draft: true
     release: 'installer-master'

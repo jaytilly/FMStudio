@@ -43,10 +43,10 @@ artifacts:
 deploy:
     # Pre-release portable
   - provider: GitHub
-    tag: $(github_release_version)-preview
+    tag: preview
     artifact: /.FMStudio-$(github_release_version)-preview-portable\.zip/
     draft: false
-    release: $(github_release_version)-preview
+    release: preview
     description: 'Preview release'
     prerelease: true
     on:
@@ -56,10 +56,10 @@ deploy:
 
     # Pre-release installer
   - provider: GitHub
-    tag: $(github_release_version)-preview
+    tag: preview
     artifact: /./installer/*/
     draft: false
-    release: $(github_release_version)-preview
+    release: preview
     description: 'Preview release'
     prerelease: true
     on:
@@ -69,10 +69,10 @@ deploy:
       
     # Stable release portable
   - provider: GitHub
-    tag: $(github_release_version)
+    tag: stable
     artifact: /.FMStudio-$(github_release_version)-preview-portable\.zip/
     draft: false
-    release: $(github_release_version)
+    release: stable
     description: 'Stable release'
     prerelease: false
     on:
@@ -82,10 +82,10 @@ deploy:
 
     # Stable release installer
   - provider: GitHub
-    tag: $(github_release_version)
+    tag: stable
     artifact: /./installer/*/
     draft: false
-    release: $(github_release_version)
+    release: stable
     description: 'Stable release'
     prerelease: false
     on:

@@ -1,41 +1,42 @@
-version: 1.0.{build}-{branch}
+-
+  version: 1.0.{build}-{branch}
 
-environment:
-  github_api_key:
-    secure: CGwvwmQSDLr9PoSwKckZc7FlGL3TGhhdbPVGcWiVSLLofpEJU9UintF4j9lfEQXN
-  github_release_version: 1.0.$(APPVEYOR_BUILD_NUMBER)
+  environment:
+    github_api_key:
+      secure: CGwvwmQSDLr9PoSwKckZc7FlGL3TGhhdbPVGcWiVSLLofpEJU9UintF4j9lfEQXN
+    github_release_version: 1.0.$(APPVEYOR_BUILD_NUMBER)
 
-os: Windows Server 2012
+  os: Windows Server 2012
 
-init:
-  - git config --global core.autocrlf input
+  init:
+    - git config --global core.autocrlf input
 
-shallow_clone: true
+  shallow_clone: true
 
-services:
-  - mssql2014
-  
-platform: Any CPU
+  services:
+    - mssql2014
+    
+  platform: Any CPU
 
-configuration: Release
+  configuration: Release
 
-build:
-  parallel: true
-  project: FMStudio.sln
-  verbosity: normal
+  build:
+    parallel: true
+    project: FMStudio.sln
+    verbosity: normal
 
-assembly_info:
-  patch: true
-  file: AssemblyInfo.*
-  assembly_version: "1.0.{build}"
-  assembly_file_version: "{version}"
-  assembly_informational_version: "{version}"
+  assembly_info:
+    patch: true
+    file: AssemblyInfo.*
+    assembly_version: "1.0.{build}"
+    assembly_file_version: "{version}"
+    assembly_informational_version: "{version}"
 
-artifacts:
-  - path: FMStudio.App\bin\package
-    name: FMStudio-portable
+  artifacts:
+    - path: FMStudio.App\bin\package
+      name: FMStudio-portable
 
-  - path: FMStudio.App\bin\installer\*
+    - path: FMStudio.App\bin\installer\*
 
 # Master branch (preview)
 -

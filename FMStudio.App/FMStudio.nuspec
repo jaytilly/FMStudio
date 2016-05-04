@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>FMStudio</id>
+    <id>FMStudio - Preview</id>
     <version>0.4.0</version>
     <title>FM Studio</title>
     <authors>Marco van den Oever</authors>

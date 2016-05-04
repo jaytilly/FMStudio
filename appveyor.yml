@@ -38,25 +38,24 @@ artifacts:
   - path: FMStudio.App\bin\installer\*
 
 deploy:
-    # Portable
+    # Portable pre-release
   - provider: GitHub
-    tag: 'dev'
     artifact: /.portable\.zip/
-    draft: false
-    release: 'portable-dev'
-    description: 'Portable executable - dev branch'
+    draft: true
+    release: 'portable-master'
+    description: 'Portable executable - master branch'
     prerelease: true
     on:
       branch: master
     auth_token:
       secure: CGwvwmQSDLr9PoSwKckZc7FlGL3TGhhdbPVGcWiVSLLofpEJU9UintF4j9lfEQXN
 
-    # Installer
+    # Installer pre-release
   - provider: GitHub
-    tag: 'dev'
     artifact: /./installer/*/
-    draft: false
-    release: 'installer-dev'
+    draft: true
+    release: 'installer-master'
+    description: 'Installer - master branch'
     prerelease: true
     on:
       branch: master

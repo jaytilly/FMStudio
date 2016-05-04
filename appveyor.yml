@@ -1,8 +1,9 @@
 # Common configuration
 -
   branches:
-    - master
-    - release
+    only:
+      - master
+      - release
 
   version: 1.0.{build}-{branch}
 

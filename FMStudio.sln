@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FMStudio.Lib", "FMStudio.Lib\FMStudio.Lib.csproj", "{45EAF31F-EC41-4AAB-8A12-DECE5BF0F6FD}"
 EndProject
@@ -20,6 +20,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FMStudio.Lib.Test.Migrations.FM130", "FMStudio.Lib.Test.Migrations.FM130\FMStudio.Lib.Test.Migrations.FM130.csproj", "{E33EBEAE-A11D-4F44-9E46-CC8071CA58FF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FMStudio.App.Test", "FMStudio.App.Test\FMStudio.App.Test.csproj", "{CE9BEE72-49E8-46DC-8728-5E7147952F5B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VersionInfo", "VersionInfo\VersionInfo.csproj", "{6F8CCA7D-9E21-4549-85CF-82B3BDB5EB78}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{CE9BEE72-49E8-46DC-8728-5E7147952F5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE9BEE72-49E8-46DC-8728-5E7147952F5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE9BEE72-49E8-46DC-8728-5E7147952F5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F8CCA7D-9E21-4549-85CF-82B3BDB5EB78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F8CCA7D-9E21-4549-85CF-82B3BDB5EB78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F8CCA7D-9E21-4549-85CF-82B3BDB5EB78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F8CCA7D-9E21-4549-85CF-82B3BDB5EB78}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

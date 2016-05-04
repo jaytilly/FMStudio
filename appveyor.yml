@@ -24,13 +24,39 @@ build:
   project: FMStudio.sln
   verbosity: normal
 
+assembly_info:
+  patch: true
+  file: AssemblyInfo.*
+  assembly_version: "1.0.{build}"
+  assembly_file_version: "{version}"
+  assembly_informational_version: "{version}"
+
 artifacts:
   - path: FMStudio.App\bin\package
+  - path: FMStudio.App\bin\installer\*.*
 
 deploy:
-  tag: 'dev'
-  release: 'dev'
-  description: 'Dev build'
-  provider: GitHub
-  auth_token:
-    secure: CGwvwmQSDLr9PoSwKckZc7FlGL3TGhhdbPVGcWiVSLLofpEJU9UintF4j9lfEQXN
+    # Portable
+  - provider: GitHub
+    tag: 'dev'
+    artifact: /.package\.zip/
+    draft: false
+    release: 'portable-dev'
+    description: 'Portable executable - dev branch'
+    prerelease: true
+    on:
+      branch: master
+    auth_token:
+      secure: CGwvwmQSDLr9PoSwKckZc7FlGL3TGhhdbPVGcWiVSLLofpEJU9UintF4j9lfEQXN
+
+    # Installer
+  - provider: GitHub
+    tag: 'dev'
+    artifact: /./installer/*\.*/           # upload all NuGet packages to release assets
+    draft: false
+    release: 'installer-dev'
+    prerelease: true
+    on:
+      branch: master
+    auth_token:
+      secure: CGwvwmQSDLr9PoSwKckZc7FlGL3TGhhdbPVGcWiVSLLofpEJU9UintF4j9lfEQXN

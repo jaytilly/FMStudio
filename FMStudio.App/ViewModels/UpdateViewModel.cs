@@ -9,7 +9,7 @@ namespace FMStudio.App.ViewModels
 {
     public class UpdateViewModel : BaseViewModel
     {
-        public const string UpdateUrl = @"http://builds.flyingpie.nl/fm-studio/squirrel/dev/";
+        public const string UpdateUrl = @"https://github.com/infosupport/FMStudio";
 
         public RootViewModel RootVM { get; private set; }
 
@@ -56,9 +56,9 @@ namespace FMStudio.App.ViewModels
         {
             try
             {
-                using (var updateManager = new UpdateManager(UpdateUrl))
+                using(var updateManager = UpdateManager.GitHubUpdateManager(UpdateUrl, prerelease: true))
                 {
-                    var result = await updateManager.CheckForUpdate();
+                    var result = await updateManager.Result.CheckForUpdate();
 
                     CurrentVersion.Value = result.CurrentlyInstalledVersion.Version.ToString();
                     LatestVersion.Value = result.FutureReleaseEntry.Version.ToString();
@@ -77,11 +77,11 @@ namespace FMStudio.App.ViewModels
         {
             try
             {
-                using (var updateManager = new UpdateManager(UpdateUrl))
+                using (var updateManager = UpdateManager.GitHubUpdateManager(UpdateUrl, prerelease: true))
                 {
                     IsUpdating.Value = true;
 
-                    var result = await updateManager.UpdateApp(progress => UpdateProgress.Value = progress);
+                    var result = await updateManager.Result.UpdateApp(progress => UpdateProgress.Value = progress);
 
                     IsUpdating.Value = false;
                     IsUpdateComplete.Value = true;

@@ -16,6 +16,6 @@
     <tags>FM Studio FMStudio Fluent Migrator UI</tags>
   </metadata>
   <files>
-    <file src="FMStudio.App\bin\package\**\*.*" target="lib\net45" />
+    <file src="package\**\*.*" target="lib\net45" />
   </files>
 </package>

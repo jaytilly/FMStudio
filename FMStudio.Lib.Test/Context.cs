@@ -73,7 +73,7 @@ CREATE DATABASE FMStudioTestDb
                     FMUtilityDllPath = Path.GetFullPath(@"FMStudio.Utility.dll"),
                     FMDllPath = Path.GetFullPath(@"FluentMigrator.dll"),
                     FMRunnerDllPath = Path.GetFullPath(@"FluentMigrator.Runner.dll"),
-                    FMTestMigrationsFullName = "FMStudio.Lib.Test.Migrations, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+                    FMTestMigrationsFullName = "FMStudio.Lib.Test.Migrations, Version="
                 }.Initialize()
             };
             yield return new[]
@@ -86,7 +86,7 @@ CREATE DATABASE FMStudioTestDb
                     FMUtilityDllPath = Path.GetFullPath(@"FMStudio.Utility.dll"),
                     FMDllPath = Path.GetFullPath(@"FluentMigrator.dll"),
                     FMRunnerDllPath = Path.GetFullPath(@"FluentMigrator.Runner.dll"),
-                    FMTestMigrationsFullName = "FMStudio.Lib.Test.Migrations.FM130, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+                    FMTestMigrationsFullName = "FMStudio.Lib.Test.Migrations.FM130, Version="
                 }.Initialize()
             };
         }

@@ -1,7 +1,7 @@
 version: 1.0.{build}-{branch}
 
 environment:
-  github_release_version: 1.0.$(APPVEYOR_BUILD_NUMBER)
+  github_release_version: 1.0.{build}
   
 branches:
   only:

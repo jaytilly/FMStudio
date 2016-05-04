@@ -1,7 +1,5 @@
 FMStudio
 ===
-[![Build status](https://ci.appveyor.com/api/projects/status/82xlb90mxt1to6g7?svg=true)](https://ci.appveyor.com/project/FlyingPie/fmstudio)
-
 Graphical frontend for use with the [Fluent Migrator](https://github.com/schambers/fluentmigrator/) library.
 
 ## Stable release

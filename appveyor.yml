@@ -36,15 +36,15 @@ assembly_info:
 
 artifacts:
   - path: FMStudio.App\bin\package
-    name: portable
+    name: FMStudio-portable
 
   - path: FMStudio.App\bin\installer\*
 
 deploy:
-    # Portable pre-release
+    # Pre-release portable
   - provider: GitHub
     tag: $(github_release_version)-preview
-    artifact: /.portable\.zip/
+    artifact: /.FMStudio-$(github_release_version)-preview-portable\.zip/
     draft: false
     release: $(github_release_version)-preview
     description: 'Preview release'
@@ -54,7 +54,7 @@ deploy:
     auth_token:
       secure: CGwvwmQSDLr9PoSwKckZc7FlGL3TGhhdbPVGcWiVSLLofpEJU9UintF4j9lfEQXN
 
-    # Installer pre-release
+    # Pre-release installer
   - provider: GitHub
     tag: $(github_release_version)-preview
     artifact: /./installer/*/
@@ -67,10 +67,10 @@ deploy:
     auth_token:
       secure: CGwvwmQSDLr9PoSwKckZc7FlGL3TGhhdbPVGcWiVSLLofpEJU9UintF4j9lfEQXN
       
-    # Portable release
+    # Stable release portable
   - provider: GitHub
     tag: $(github_release_version)
-    artifact: /.portable\.zip/
+    artifact: /.FMStudio-$(github_release_version)-preview-portable\.zip/
     draft: false
     release: $(github_release_version)
     description: 'Stable release'
@@ -80,7 +80,7 @@ deploy:
     auth_token:
       secure: CGwvwmQSDLr9PoSwKckZc7FlGL3TGhhdbPVGcWiVSLLofpEJU9UintF4j9lfEQXN
 
-    # Installer release
+    # Stable release installer
   - provider: GitHub
     tag: $(github_release_version)
     artifact: /./installer/*/

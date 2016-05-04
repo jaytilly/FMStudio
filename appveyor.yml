@@ -1,7 +1,7 @@
 version: 1.0.{build}-{branch}
 
 environment:
-  version: 1.0.{build}
+  github_release_version: 1.0.{build}
   
 branches:
   only:
@@ -43,10 +43,10 @@ artifacts:
 deploy:
     # Portable pre-release
   - provider: GitHub
-    tag: $(version)
+    tag: $(github_release_version)
     artifact: /.portable\.zip/
     draft: true
-    release: $(version)
+    release: $(github_release_version)
     description: 'Pre-release'
     prerelease: true
     on:
@@ -56,10 +56,10 @@ deploy:
 
     # Installer pre-release
   - provider: GitHub
-    tag: $(version)
+    tag: $(github_release_version)
     artifact: /./installer/*/
     draft: true
-    release: $(version)
+    release: $(github_release_version)
     description: 'Pre-release'
     prerelease: true
     on:

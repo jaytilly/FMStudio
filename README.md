@@ -4,10 +4,16 @@ FMStudio
 
 Graphical frontend for use with the [Fluent Migrator](https://github.com/schambers/fluentmigrator/) library.
 
-## Self-updating installer
+## Stable release
+[![Build status](https://ci.appveyor.com/api/projects/status/82xlb90mxt1to6g7/branch/release?svg=true)](https://ci.appveyor.com/project/FlyingPie/fmstudio/branch/release)
 
-**[Dev-channel](http://builds.flyingpie.nl/fm-studio/squirrel/dev/Setup.exe)** ![alt text](http://mbuild.cloudapp.net/app/rest/builds/buildType:InfoSupportFMStudio_ReleaseDev/statusIcon "Build Status") nightly build with all committed changes
+[Self-updating installer](https://github.com/infosupport/FMStudio/releases/download/stable/Setup.exe)
 
-## Portable executable
+[Portable executable](https://github.com/infosupport/FMStudio/releases/download/stable/FMStudio-portable.zip)
 
-**[Dev-branch](http://builds.flyingpie.nl/fm-studio/fmstudio-latest.zip)** ![alt text](http://mbuild.cloudapp.net/app/rest/builds/buildType:InfoSupportFMStudio_Nightly/statusIcon "Nightly Build Status") nightly build with all committed changes
+## Preview release
+[![Build status](https://ci.appveyor.com/api/projects/status/82xlb90mxt1to6g7/branch/master?svg=true)](https://ci.appveyor.com/project/FlyingPie/fmstudio/branch/master)
+
+[Self-updating installer](https://github.com/infosupport/FMStudio/releases/download/preview/Setup.exe)
+
+[Portable executable](https://github.com/infosupport/FMStudio/releases/download/preview/FMStudio-portable.zip)

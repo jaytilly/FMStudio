@@ -45,7 +45,7 @@ deploy:
   - provider: GitHub
     tag: $(github_release_version)-preview
     artifact: /.portable\.zip/
-    draft: true
+    draft: false
     release: $(github_release_version)-preview
     description: 'Preview release'
     prerelease: true
@@ -58,7 +58,7 @@ deploy:
   - provider: GitHub
     tag: $(github_release_version)-preview
     artifact: /./installer/*/
-    draft: true
+    draft: false
     release: $(github_release_version)-preview
     description: 'Preview release'
     prerelease: true
@@ -71,10 +71,10 @@ deploy:
   - provider: GitHub
     tag: $(github_release_version)
     artifact: /.portable\.zip/
-    draft: true
+    draft: false
     release: $(github_release_version)
     description: 'Stable release'
-    prerelease: true
+    prerelease: false
     on:
       branch: release
     auth_token:
@@ -84,10 +84,10 @@ deploy:
   - provider: GitHub
     tag: $(github_release_version)
     artifact: /./installer/*/
-    draft: true
+    draft: false
     release: $(github_release_version)
     description: 'Stable release'
-    prerelease: true
+    prerelease: false
     on:
       branch: release
     auth_token:

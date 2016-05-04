@@ -43,11 +43,11 @@ artifacts:
 deploy:
     # Portable pre-release
   - provider: GitHub
-    tag: $(github_release_version)
+    tag: $(github_release_version)-preview
     artifact: /.portable\.zip/
     draft: true
-    release: $(github_release_version)
-    description: 'Pre-release'
+    release: $(github_release_version)-preview
+    description: 'Preview release'
     prerelease: true
     on:
       branch: master
@@ -56,13 +56,39 @@ deploy:
 
     # Installer pre-release
   - provider: GitHub
+    tag: $(github_release_version)-preview
+    artifact: /./installer/*/
+    draft: true
+    release: $(github_release_version)-preview
+    description: 'Preview release'
+    prerelease: true
+    on:
+      branch: master
+    auth_token:
+      secure: CGwvwmQSDLr9PoSwKckZc7FlGL3TGhhdbPVGcWiVSLLofpEJU9UintF4j9lfEQXN
+      
+    # Portable release
+  - provider: GitHub
+    tag: $(github_release_version)
+    artifact: /.portable\.zip/
+    draft: true
+    release: $(github_release_version)
+    description: 'Stable release'
+    prerelease: true
+    on:
+      branch: release
+    auth_token:
+      secure: CGwvwmQSDLr9PoSwKckZc7FlGL3TGhhdbPVGcWiVSLLofpEJU9UintF4j9lfEQXN
+
+    # Installer release
+  - provider: GitHub
     tag: $(github_release_version)
     artifact: /./installer/*/
     draft: true
     release: $(github_release_version)
-    description: 'Pre-release'
+    description: 'Stable release'
     prerelease: true
     on:
-      branch: master
+      branch: release
     auth_token:
       secure: CGwvwmQSDLr9PoSwKckZc7FlGL3TGhhdbPVGcWiVSLLofpEJU9UintF4j9lfEQXN

@@ -10,4 +10,4 @@ VersionInfo.exe FMStudio.exe > VERSION.txt
 set /P VERSION=<VERSION.txt
 
 nuget pack FMStudio.nuspec -Version %VERSION% -Properties Configuration=Release -OutputDirectory . -BasePath .
-squirrel --releasify FMStudio.%VERSION%.nupkg -r installer
+..\..\packages\squirrel.windows.1.4.0\tools\squirrel --releasify FMStudio.%VERSION%.nupkg -r installer

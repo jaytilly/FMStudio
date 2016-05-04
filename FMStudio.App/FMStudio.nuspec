@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>FMStudio - Preview</id>
+    <id>FMStudio_Preview</id>
     <version>0.4.0</version>
-    <title>FM Studio</title>
+    <title>FM Studio - Preview</title>
     <authors>Marco van den Oever</authors>
     <owners>Info Support</owners>
     <licenseUrl>https://github.com/infosupport/FMStudio/blob/master/LICENSE</licenseUrl>

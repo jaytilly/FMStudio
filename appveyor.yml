@@ -43,7 +43,7 @@ deploy:
     tag: $(appveyor_build_version)
     artifact: /.portable\.zip/
     draft: true
-    release: 'portable-master'
+    release: $(appveyor_build_version)
     description: 'Portable executable - master branch'
     prerelease: true
     on:
@@ -56,7 +56,7 @@ deploy:
     tag: $(appveyor_build_version)
     artifact: /./installer/*/
     draft: true
-    release: 'installer-master'
+    release: $(appveyor_build_version)
     description: 'Installer - master branch'
     prerelease: true
     on:

@@ -5,7 +5,7 @@ xcopy /I /Y *.exe package
 xcopy /I /Y *.dll package
 xcopy /I /Y /S x64 "package\x64"
 xcopy /I /Y /S x86 "package\x86"
-rm ".\package\VersionInfo.exe"
+del ".\package\VersionInfo.exe"
 
 VersionInfo.exe FMStudio.exe > VERSION.txt
 set /P VERSION=<VERSION.txt

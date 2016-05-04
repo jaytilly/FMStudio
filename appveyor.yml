@@ -33,7 +33,7 @@ assembly_info:
 
 artifacts:
   - path: FMStudio.App\bin\package
-    name: portable.zip
+    name: portable
 
   - path: FMStudio.App\bin\installer\*
 

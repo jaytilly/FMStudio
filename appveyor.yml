@@ -46,7 +46,7 @@ deploy:
     tag: $(version)
     artifact: /.portable\.zip/
     draft: true
-    release: $(appveyor_build_version)
+    release: $(version)
     description: 'Pre-release'
     prerelease: true
     on:
@@ -59,7 +59,7 @@ deploy:
     tag: $(version)
     artifact: /./installer/*/
     draft: true
-    release: $(appveyor_build_version)
+    release: $(version)
     description: 'Pre-release'
     prerelease: true
     on:

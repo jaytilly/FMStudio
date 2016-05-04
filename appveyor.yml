@@ -6,7 +6,7 @@ environment:
 branches:
   only:
     - master
-    - appveyor
+    - release
 
 os: Windows Server 2012
 

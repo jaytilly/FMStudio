@@ -1,5 +1,8 @@
 version: 1.0.{build}-{branch}
 
+environment:
+  github_release_version: 1.0.$(APPVEYOR_BUILD_NUMBER)
+  
 branches:
   only:
     - master
@@ -33,28 +36,31 @@ assembly_info:
 
 artifacts:
   - path: FMStudio.App\bin\package
-  - path: FMStudio.App\bin\installer\*.*
+    name: portable
+
+  - path: FMStudio.App\bin\installer\*
 
 deploy:
-    # Portable
+    # Portable pre-release
   - provider: GitHub
-    tag: 'dev'
-    artifact: /.package\.zip/
-    draft: false
-    release: 'portable-dev'
-    description: 'Portable executable - dev branch'
+    tag: $(github_release_version)
+    artifact: /.portable\.zip/
+    draft: true
+    release: $(github_release_version)
+    description: 'Pre-release'
     prerelease: true
     on:
       branch: master
     auth_token:
       secure: CGwvwmQSDLr9PoSwKckZc7FlGL3TGhhdbPVGcWiVSLLofpEJU9UintF4j9lfEQXN
 
-    # Installer
+    # Installer pre-release
   - provider: GitHub
-    tag: 'dev'
-    artifact: /./installer/*\.*/           # upload all NuGet packages to release assets
-    draft: false
-    release: 'installer-dev'
+    tag: $(github_release_version)
+    artifact: /./installer/*/
+    draft: true
+    release: $(github_release_version)
+    description: 'Pre-release'
     prerelease: true
     on:
       branch: master

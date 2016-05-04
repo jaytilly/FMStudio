@@ -32,7 +32,7 @@ namespace FMStudio.Lib.Test.RepositoriesTest.AssemblyRepositoryTest
 
                 // Assert
                 Assert.NotNull(result);
-                Assert.Equal(context.FMTestMigrationsFullName, result.FullName);
+                Assert.StartsWith(context.FMTestMigrationsFullName, result.FullName);
             }
         }
 
@@ -57,7 +57,7 @@ namespace FMStudio.Lib.Test.RepositoriesTest.AssemblyRepositoryTest
 
                 // Assert
                 Assert.NotNull(result);
-                Assert.Equal(context.FMTestMigrationsFullName, result.FullName);
+                Assert.StartsWith(context.FMTestMigrationsFullName, result.FullName);
             }
         }
 
@@ -80,7 +80,7 @@ namespace FMStudio.Lib.Test.RepositoriesTest.AssemblyRepositoryTest
 
                 // Assert
                 Assert.NotNull(result);
-                Assert.Equal(context.FMTestMigrationsFullName, result.FullName);
+                Assert.StartsWith(context.FMTestMigrationsFullName, result.FullName);
             }
         }
 
@@ -124,7 +124,7 @@ namespace FMStudio.Lib.Test.RepositoriesTest.AssemblyRepositoryTest
 
                 // Assert
                 Assert.NotNull(result);
-                Assert.Equal(context.FMTestMigrationsFullName, result.FullName);
+                Assert.StartsWith(context.FMTestMigrationsFullName, result.FullName);
             }
         }
 

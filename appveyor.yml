@@ -1,5 +1,8 @@
 version: 1.0.{build}-{branch}
 
+environment:
+  version: {version}
+  
 branches:
   only:
     - master
@@ -40,11 +43,11 @@ artifacts:
 deploy:
     # Portable pre-release
   - provider: GitHub
-    tag: $(appveyor_build_version)
+    tag: $(version)
     artifact: /.portable\.zip/
     draft: true
     release: $(appveyor_build_version)
-    description: 'Portable executable - master branch'
+    description: 'Pre-release'
     prerelease: true
     on:
       branch: master
@@ -53,11 +56,11 @@ deploy:
 
     # Installer pre-release
   - provider: GitHub
-    tag: $(appveyor_build_version)
+    tag: $(version)
     artifact: /./installer/*/
     draft: true
     release: $(appveyor_build_version)
-    description: 'Installer - master branch'
+    description: 'Pre-release'
     prerelease: true
     on:
       branch: master

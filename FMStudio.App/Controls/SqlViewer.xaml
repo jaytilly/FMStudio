@@ -36,6 +36,7 @@
         
         <avalonedit:TextEditor
             Document="{Binding Path=Document}"
+            Foreground="{StaticResource SqlViewerDefault}"
             FontFamily="Consolas"
             FontSize="10pt"
             IsReadOnly="True"

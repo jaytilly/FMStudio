@@ -1,4 +1,5 @@
 ﻿using FMStudio.App.Utility;
+using FMStudio.App.ViewModels;
 using ICSharpCode.AvalonEdit.Document;
 using System;
 using System.ComponentModel;
@@ -32,7 +33,15 @@ namespace FMStudio.App.Controls
 
         private void InitializeSqlHighlighting()
         {
-            using (var stream = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("FMStudio.App.Resources.sql.xshd"))
+            var themeName = MainWindow.Instance.Root.Configuration.Preferences.Theme;
+            var theme = ThemeViewModel.GetThemesList().FirstOrDefault(t => t.Name == themeName);
+
+            if (theme == null)
+                theme = ThemeViewModel.GetThemesList()[0];
+
+            var xshd = "FMStudio.App.Themes.{0}.xshd".FormatInvariant(theme.SqlViewerResourceName);
+
+            using (var stream = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream(xshd))
             {
                 var reader = new XmlTextReader(stream);
 

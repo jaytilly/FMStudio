@@ -29,6 +29,9 @@
         <DataTemplate DataType="{x:Type vm:DefaultViewModel}">
             <viewers:DefaultViewer />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:PreferencesViewModel}">
+            <viewers:PreferencesViewer />
+        </DataTemplate>
         <DataTemplate DataType="{x:Type vm:UpdateViewModel}">
             <viewers:UpdateViewer />
         </DataTemplate>

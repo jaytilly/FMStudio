@@ -7,7 +7,7 @@
     <Grid Height="25" ToolTip="{Binding Description.Value}" Opacity="{Binding IsSkipped.Value, Converter={StaticResource BoolToOpacity}}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
-            <ColumnDefinition Width="30" />
+            <ColumnDefinition Width="40" />
             <ColumnDefinition Width="*" MinWidth="40" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>

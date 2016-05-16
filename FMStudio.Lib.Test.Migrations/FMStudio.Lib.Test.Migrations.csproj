@@ -67,6 +67,7 @@
     <Compile Include="Migrations\0009_SlowMigration2.cs" />
     <Compile Include="Migrations\0010_NoTransaction.cs" />
     <Compile Include="Migrations\0011_RequireTransaction.cs" />
+    <Compile Include="Migrations\9999_MigrationWith4Digits.cs" />
     <Compile Include="Profiles\DEV.cs" />
     <Compile Include="Profiles\TST.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

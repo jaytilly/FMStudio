@@ -6,6 +6,12 @@ body {
   font-family: "Source Sans Pro",Calibri,Candara,Arial,sans-serif !important;
   padding-bottom: 3rem;
   color: #5a5a5a;
+  /*visibility: hidden;*/
+  opacity: 0;
+  
+  transition-property: opacity;
+  transition-duration: 1s;
+  transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
 }
 
 .header {

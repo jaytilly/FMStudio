@@ -18,7 +18,7 @@ namespace FMStudio.Lib.Repositories
 
         IMigrationProcessor GetMigrationProcessor(DatabaseType databaseType, string connectionString, RunnerContext context);
 
-        Task<string> GetMigrationSql(Assembly migrationsAssembly, string typeName);
+        Task<string> GetMigrationSql(DatabaseType databaseType, Assembly migrationsAssembly, string typeName);
 
         Task<IEnumerable<TypeInfo>> GetMigrationTypes(Assembly assembly);
 

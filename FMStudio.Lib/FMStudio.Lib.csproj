@@ -91,6 +91,7 @@
     <Compile Include="Repositories\IFilesRepository.cs" />
     <Compile Include="Repositories\IMigrationsRepository.cs" />
     <Compile Include="Repositories\MigrationsRepository.cs" />
+    <Compile Include="Utility\InterceptingAnnouncer.cs" />
     <Compile Include="Utility\MigrationProcessorOptions.cs" />
     <Compile Include="Utility\References.cs" />
     <Compile Include="Utility\StubMigrationContext.cs" />

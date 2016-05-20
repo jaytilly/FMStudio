@@ -16,6 +16,25 @@ namespace FMStudio.Lib.Test.Migrations.Migrations
 --	Id		INTEGER		PRIMARY KEY ASC,
 --	Name	VARCHAR(100)
 --)");
+
+
+            Create.Table("SomeTable").InSchema("SomeSchema")
+                .WithColumn("ID")
+                .AsInt32()
+                .PrimaryKey()
+
+                .WithColumn("Name")
+                .AsString()
+            ;
+
+            Create.Table("SomeTable2").InSchema("SomeSchema")
+                .WithColumn("ID")
+                .AsInt32()
+                .PrimaryKey()
+
+                .WithColumn("Name")
+                .AsString()
+            ;
         }
 
         public override void Down()

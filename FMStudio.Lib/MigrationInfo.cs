@@ -157,7 +157,7 @@ namespace FMStudio.Lib
         public async Task<string> GetSqlAsync()
         {
             if (_sql == null)
-                _sql = await _migrationsRepository.GetMigrationSql(_project.MigrationsAssembly, _typeInfo.FullName);
+                _sql = await _migrationsRepository.GetMigrationSql(_project.DatabaseType.Value, _project.MigrationsAssembly, _typeInfo.FullName);
 
             return _sql;
         }

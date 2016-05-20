@@ -1,7 +1,7 @@
 ﻿using FluentMigrator;
-using FluentMigrator.Expressions;
 using FluentMigrator.Runner;
 using FluentMigrator.Runner.Announcers;
+using FluentMigrator.Runner.Generators.SqlServer;
 using FluentMigrator.Runner.Initialization;
 using FluentMigrator.Runner.Processors;
 using FluentMigrator.Runner.Processors.SQLite;
@@ -10,8 +10,10 @@ using FMStudio.Lib.Utility;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace FMStudio.Lib.Repositories
@@ -97,27 +99,30 @@ namespace FMStudio.Lib.Repositories
             return processor;
         }
 
-        public Task<string> GetMigrationSql(Assembly migrationsAssembly, string typeName)
+        public Task<string> GetMigrationSql(DatabaseType databaseType, Assembly migrationsAssembly, string typeName)
         {
             return Task.Run(() =>
             {
-                var inst = migrationsAssembly.CreateInstance(typeName) as Migration;
-
-                var context = new StubMigrationContext();
-
-                inst.SetFieldValue("_context", context);
-                inst.Up();
-
-                return string.Join(Environment.NewLine, context.Expressions.Select(e =>
+                using (var announcer = new InterceptingAnnouncer())
                 {
-                    var sqlStatementExpression = e as ExecuteSqlStatementExpression;
-                    if (sqlStatementExpression != null)
-                    {
-                        return sqlStatementExpression.SqlStatement;
-                    }
+                    var context = new StubMigrationContext();
+                    var generator = GetGenerator(databaseType);
 
-                    return e.ToString();
-                }).ToList());
+                    var runnerContext = new RunnerContext(announcer);
+                    var processor = new ConnectionlessProcessor(generator, runnerContext, new MigrationProcessorOptions(runnerContext));
+
+                    var inst = migrationsAssembly.CreateInstance(typeName) as Migration;
+                    inst.GetUpExpressions(context);
+                    context.Expressions.ToList().ForEach(e => e.ExecuteWith(processor));
+                    announcer.Flush();
+
+                    announcer.SqlStream.Position = 0;
+                    var length = Math.Min(20, (int)announcer.SqlStream.Length);
+                    var bytes = new byte[length];
+                    announcer.SqlStream.Read(bytes, 0, length);
+
+                    return Encoding.Default.GetString(bytes);
+                }
             });
         }
 
@@ -158,6 +163,30 @@ namespace FMStudio.Lib.Repositories
 
                 case DatabaseType.Sqlite:
                     return new SQLiteProcessorFactory();
+
+                default:
+                    throw new InvalidOperationException("Unknown database type: " + databaseType.ToString());
+            }
+        }
+
+        public IMigrationGenerator GetGenerator(DatabaseType databaseType)
+        {
+            switch (databaseType)
+            {
+                case DatabaseType.SqlServer2000:
+                    return new SqlServer2000Generator();
+
+                case DatabaseType.SqlServer2005:
+                    return new SqlServer2005Generator();
+
+                case DatabaseType.SqlServer2008:
+                    return new SqlServer2008Generator();
+
+                case DatabaseType.SqlServer2012:
+                    return new SqlServer2012Generator();
+
+                case DatabaseType.SqlServer2014:
+                    return new SqlServer2014Generator();
 
                 default:
                     throw new InvalidOperationException("Unknown database type: " + databaseType.ToString());

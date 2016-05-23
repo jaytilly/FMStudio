@@ -117,7 +117,7 @@ namespace FMStudio.Lib.Repositories
                     announcer.Flush();
 
                     announcer.SqlStream.Position = 0;
-                    var length = Math.Min(20, (int)announcer.SqlStream.Length);
+                    var length = Math.Min(1024 * 1024, (int)announcer.SqlStream.Length);
                     var bytes = new byte[length];
                     announcer.SqlStream.Read(bytes, 0, length);
 

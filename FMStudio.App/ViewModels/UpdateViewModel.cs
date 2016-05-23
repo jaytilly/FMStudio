@@ -56,7 +56,7 @@ namespace FMStudio.App.ViewModels
         {
             try
             {
-                using(var updateManager = await UpdateManager.GitHubUpdateManager(UpdateUrl, prerelease: true))
+                using(var updateManager = await UpdateManager.GitHubUpdateManager(UpdateUrl))
                 {
                     var result = await updateManager.CheckForUpdate();
 
@@ -77,7 +77,7 @@ namespace FMStudio.App.ViewModels
         {
             try
             {
-                using (var updateManager = await UpdateManager.GitHubUpdateManager(UpdateUrl, prerelease: true))
+                using (var updateManager = await UpdateManager.GitHubUpdateManager(UpdateUrl))
                 {
                     IsUpdating.Value = true;
 

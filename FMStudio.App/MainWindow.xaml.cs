@@ -2,19 +2,22 @@
 using FMStudio.App.ViewModels;
 using FMStudio.Configuration;
 using MahApps.Metro.Controls;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FMStudio.App
 {
     public partial class MainWindow : MetroWindow
     {
-        private RootViewModel _root;
+        public static MainWindow Instance { get; private set; }
+
+        public RootViewModel Root { get; private set; }
 
         public MainWindow(string pathToConfigFile)
         {
-            InitializeComponent();
+            Instance = this;
 
-            var dialogService = new DialogService(this);
             FMConfiguration config = null;
 
             if (!string.IsNullOrEmpty(pathToConfigFile))
@@ -22,18 +25,36 @@ namespace FMStudio.App
             else
                 config = FMConfiguration.Load();
 
-            _root = new RootViewModel(dialogService, config);
-            Task.Run(() => _root.InitializeAsync());
-
             LoadPreferences(config.Preferences);
 
-            DataContext = _root;
+            InitializeComponent();
 
-            Closing += (s, e) => _root.SaveConfiguration();
+            var dialogService = new DialogService(this);
+
+            Root = new RootViewModel(dialogService, config);
+            Task.Run(() => Root.InitializeAsync());
+
+            DataContext = Root;
+
+            Closing += (s, e) => Root.SaveConfiguration();
+        }
+
+        public void SetTheme(ThemeViewModel theme)
+        {
+            var rd = new System.Windows.ResourceDictionary() { Source = new Uri(@"/FMStudio;component/Themes/{0}.xaml".FormatInvariant(theme.ResourceName), UriKind.Relative) };
+            System.Windows.Application.Current.Resources.MergedDictionaries.Clear();
+            System.Windows.Application.Current.Resources.MergedDictionaries.Add(rd);
         }
 
         private void LoadPreferences(Preferences preferences)
         {
+            var theme = ThemeViewModel.GetThemesList().FirstOrDefault(t => t.Name == preferences.Theme);
+
+            if (theme == null)
+                theme = ThemeViewModel.GetThemesList()[0];
+
+            SetTheme(theme);
+
             if (preferences.StartMaximized)
             {
                 WindowState = System.Windows.WindowState.Maximized;

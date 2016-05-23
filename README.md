@@ -12,6 +12,4 @@ Graphical frontend for use with the [Fluent Migrator](https://github.com/schambe
 ## Preview release
 [![Build status](https://ci.appveyor.com/api/projects/status/82xlb90mxt1to6g7/branch/master?svg=true)](https://ci.appveyor.com/project/FlyingPie/fmstudio/branch/master)
 
-[Self-updating installer](https://github.com/infosupport/FMStudio/releases/download/preview/Setup.exe)
-
 [Portable executable](https://github.com/infosupport/FMStudio/releases/download/preview/FMStudio-portable.zip)

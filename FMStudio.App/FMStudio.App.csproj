@@ -167,6 +167,9 @@
     <Compile Include="Controls\Viewers\OutputViewer.xaml.cs">
       <DependentUpon>OutputViewer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Viewers\PreferencesViewer.xaml.cs">
+      <DependentUpon>PreferencesViewer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Viewers\ProfilesViewer.xaml.cs">
       <DependentUpon>ProfilesViewer.xaml</DependentUpon>
     </Compile>
@@ -210,6 +213,7 @@
     <Compile Include="ViewModels\ProjectViewModel.cs" />
     <Compile Include="ViewModels\RootViewModel.cs" />
     <Compile Include="ViewModels\TagViewModel.cs" />
+    <Compile Include="ViewModels\ThemeViewModel.cs" />
     <Compile Include="ViewModels\UpdateViewModel.cs" />
     <Page Include="AppResources.xaml">
       <SubType>Designer</SubType>
@@ -271,6 +275,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\Viewers\PreferencesViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Viewers\ProfilesViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -314,6 +322,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\Dark.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Light.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -333,7 +349,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\sql.xshd" />
+    <EmbeddedResource Include="Themes\Dark_sql.xshd" />
+    <EmbeddedResource Include="Themes\Light_sql.xshd" />
     <Resource Include="Resources\Entypo.ttf" />
     <Resource Include="Fonts\FontAwesome.ttf" />
     <None Include="create-package.cmd">
@@ -393,7 +410,7 @@
     <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.101.0\build\net45\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.101.0\build\net45\System.Data.SQLite.Core.targets'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>call "$(TargetDir)create-package.cmd"</PostBuildEvent>
+    <PostBuildEvent>if $(ConfigurationName) == Release call "$(TargetDir)create-package.cmd"</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.101.0\build\net45\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.101.0\build\net45\System.Data.SQLite.Core.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

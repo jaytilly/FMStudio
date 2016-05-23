@@ -7,7 +7,7 @@ version: 1.0.{build}-{branch}
 
 environment:
   github_api_key:
-    secure: CGwvwmQSDLr9PoSwKckZc7FlGL3TGhhdbPVGcWiVSLLofpEJU9UintF4j9lfEQXN
+    secure: vGp4UpdFTIFGBLM2Y7SMr9G9AsWafYPWvTtvHZXfcOryP4+6YoIKmHEg7NbqL9Nq
   github_release_version: 1.0.$(APPVEYOR_BUILD_NUMBER)
 
 os: Windows Server 2012
@@ -48,18 +48,6 @@ deploy:
   - provider: GitHub
     tag: preview
     artifact: /.FMStudio-portable\.zip/
-    draft: false
-    release: preview
-    description: 'Preview release'
-    prerelease: true
-    on:
-      branch: master
-    auth_token: $(github_api_key)
-
-    # Installer
-  - provider: GitHub
-    tag: preview
-    artifact: /./installer/*/
     draft: false
     release: preview
     description: 'Preview release'

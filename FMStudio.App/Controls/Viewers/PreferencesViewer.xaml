@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="FMStudio.App.Controls.Viewers.PreferencesViewer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FMStudio.App.Controls.Viewers"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <!-- Header -->
+        <Border BorderBrush="Gray" BorderThickness="0,0,0,1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="&#xF013;" Style="{StaticResource IconBlue}" FontSize="20pt" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="Preferences" FontSize="20pt" />
+                </StackPanel>
+            </Grid>
+        </Border>
+        <!-- Content -->
+        <StackPanel Grid.Row="2" Orientation="Vertical" Margin="10">
+            <DockPanel Margin="0,0,0,10">
+                <TextBlock DockPanel.Dock="Left" Text="Database type" Width="200" />
+                <ComboBox DockPanel.Dock="Right" Margin="0,0,100,0" ItemsSource="{Binding Themes}" SelectedValue="{Binding Theme.Value}" DisplayMemberPath="Name" />
+            </DockPanel>
+
+            <DockPanel Margin="0,0,0,10">
+                <TextBlock DockPanel.Dock="Left" Text="Start maximized" Width="200" />
+                <CheckBox DockPanel.Dock="Right" Margin="0,0,100,0" IsChecked="{Binding StartMaximized.Value}" />
+            </DockPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -9,7 +9,7 @@ namespace FMStudio.Lib.Utility
 
         public string ProviderSwitches { get; set; }
 
-        public int Timeout { get; set; }
+        public int? Timeout { get; set; }
 
         public MigrationProcessorOptions(RunnerContext runnerContext)
         {

@@ -7,6 +7,7 @@
         SqlServer2008,
         SqlServer2012,
         SqlServer2014,
-        SQLite
+        SQLite,
+        Postgres
     }
 }

@@ -2,6 +2,7 @@
 {
     public enum DatabaseType
     {
+        Postgres,
         SqlServer2000,
         SqlServer2005,
         SqlServer2008,

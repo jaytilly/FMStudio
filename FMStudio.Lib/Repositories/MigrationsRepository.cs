@@ -1,9 +1,11 @@
 ﻿using FluentMigrator;
 using FluentMigrator.Runner;
 using FluentMigrator.Runner.Announcers;
+using FluentMigrator.Runner.Generators.Postgres;
 using FluentMigrator.Runner.Generators.SqlServer;
 using FluentMigrator.Runner.Initialization;
 using FluentMigrator.Runner.Processors;
+using FluentMigrator.Runner.Processors.Postgres;
 using FluentMigrator.Runner.Processors.SQLite;
 using FluentMigrator.Runner.Processors.SqlServer;
 using FMStudio.Lib.Utility;
@@ -164,6 +166,9 @@ namespace FMStudio.Lib.Repositories
                 case DatabaseType.Sqlite:
                     return new SQLiteProcessorFactory();
 
+                case DatabaseType.Postgres:
+                    return new PostgresProcessorFactory();
+
                 default:
                     throw new InvalidOperationException("Unknown database type: " + databaseType.ToString());
             }
@@ -187,6 +192,9 @@ namespace FMStudio.Lib.Repositories
 
                 case DatabaseType.SqlServer2014:
                     return new SqlServer2014Generator();
+
+                case DatabaseType.Postgres:
+                    return new PostgresGenerator(new PostgresQuoter(new PostgresOptions(){ ForceQuote = false }));
 
                 default:
                     throw new InvalidOperationException("Unknown database type: " + databaseType.ToString());

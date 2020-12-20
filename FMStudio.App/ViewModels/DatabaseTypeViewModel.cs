@@ -19,6 +19,7 @@ namespace FMStudio.App.ViewModels
         {
             return new List<DatabaseTypeViewModel>()
             {
+                new DatabaseTypeViewModel(DatabaseType.Postgres, "Postgres"),
                 new DatabaseTypeViewModel(DatabaseType.SQLite, "SQLite"),
                 new DatabaseTypeViewModel(DatabaseType.SqlServer2000, "SQL Server 2000"),
                 new DatabaseTypeViewModel(DatabaseType.SqlServer2005, "SQL Server 2005"),

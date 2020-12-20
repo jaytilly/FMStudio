@@ -50,7 +50,8 @@ namespace FMStudio.Lib
 
         public bool IsIncluded
         {
-            get { return !DefaultMigrationConventions.TypeHasTags(_typeInfo) || DefaultMigrationConventions.TypeHasMatchingTags(_typeInfo, _project.Tags); }
+            //get { return !DefaultMigrationConventions.TypeHasTags(_typeInfo) || DefaultMigrationConventions.TypeHasMatchingTags(_typeInfo, _project.Tags); }
+            get {return true; }
         }
 
         public bool IsToBeRun
@@ -164,7 +165,7 @@ namespace FMStudio.Lib
 
         public async Task InitializeAsync()
         {
-            var migrationInfo = DefaultMigrationConventions.GetMigrationInfoFor(_typeInfo.AsType());
+            var migrationInfo = new MigrationRunnerConventions().GetMigrationInfo(_typeInfo.AsType());
 
             Version = migrationInfo.Version;
             Description = migrationInfo.Description;

@@ -11,6 +11,9 @@ namespace FMStudio.App.Utility
                 case Lib.DatabaseType.Sqlite:
                     return Configuration.DatabaseType.SQLite;
 
+                case Lib.DatabaseType.Postgres:
+                    return Configuration.DatabaseType.Postgres;
+
                 case Lib.DatabaseType.SqlServer2000:
                     return Configuration.DatabaseType.SqlServer2000;
 
@@ -60,6 +63,9 @@ namespace FMStudio.App.Utility
 
                 case Configuration.DatabaseType.SQLite:
                     return Lib.DatabaseType.Sqlite;
+
+                case Configuration.DatabaseType.Postgres:
+                    return Lib.DatabaseType.Postgres;
 
                 default:
                     throw new InvalidOperationException("Unknown database type " + configDatabaseType.ToString());

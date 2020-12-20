@@ -1,6 +1,7 @@
 ﻿using FluentMigrator;
 using FluentMigrator.Expressions;
 using FluentMigrator.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -17,8 +18,6 @@ namespace FMStudio.Lib.Utility
 
         public string Connection { get; set; }
 
-        public IMigrationConventions Conventions { get; set; }
-
         public ICollection<IMigrationExpression> Expressions { get; set; }
 
         public Assembly MigrationAssembly { get; set; }
@@ -26,5 +25,7 @@ namespace FMStudio.Lib.Utility
         public IQuerySchema QuerySchema { get; set; }
 
         public IAssemblyCollection MigrationAssemblies { get; set; }
+
+        public IServiceProvider ServiceProvider {get; set; }
     }
 }

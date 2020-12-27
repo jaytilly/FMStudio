@@ -2,14 +2,13 @@ FMStudio
 ===
 Graphical frontend for use with the [Fluent Migrator](https://github.com/schambers/fluentmigrator/) library.
 
-## Stable release
-[![Build status](https://ci.appveyor.com/api/projects/status/82xlb90mxt1to6g7/branch/release?svg=true)](https://ci.appveyor.com/project/FlyingPie/fmstudio/branch/release)
 
-[Self-updating installer](https://github.com/infosupport/FMStudio/releases/download/stable/Setup.exe)
+This is a fork of the awesome original project found at: https://github.com/infosupport/FMStudio
 
-[Portable executable](https://github.com/infosupport/FMStudio/releases/download/stable/FMStudio-portable.zip)
+# Changes
 
-## Preview release
-[![Build status](https://ci.appveyor.com/api/projects/status/82xlb90mxt1to6g7/branch/master?svg=true)](https://ci.appveyor.com/project/FlyingPie/fmstudio/branch/master)
+## 1. Added Postgres
+This version has added support for Postgres by adding the Postgres target to the UI and wiring it up to the FluentMigrator Postgres package
 
-[Portable executable](https://github.com/infosupport/FMStudio/releases/download/preview/FMStudio-portable.zip)
+## 2. Updated all libs to the latest
+There were some out of date packages that made building on the latest .net a little more challenging. These were updated and some slight method signatures were changed.  
